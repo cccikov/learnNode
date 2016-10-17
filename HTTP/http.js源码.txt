@@ -1,0 +1,111 @@
+/*
+ *   http.js
+ */
+
+exports.createServer = function(requestListener) {
+  return new Server(requestListener);//返回一个Server的实例,把回调函数交给server的实例
+};
+
+
+const server = require('_http_server');//其实是加载了一个_http_server私有模块
+const Server = exports.Server = server.Server;
+
+
+
+/*
+ *   _http_server.js
+ */
+function Server(requestListener) {
+  if (!(this instanceof Server)) return new Server(requestListener);
+  net.Server.call(this, { allowHalfOpen: true });
+
+  if (requestListener) {
+    this.addListener('request', requestListener);//可以看到 , 如果有requestListener , 就会对当前实例添加一个事件的监听 , 监听request , 如果request触发的时候就会调用requestListener
+  }
+
+  /* eslint-disable max-len */
+  // Similar option to this. Too lazy to write my own docs.
+  // http://www.squid-cache.org/Doc/config/half_closed_clients/
+  // http://wiki.squid-cache.org/SquidFaq/InnerWorkings#What_is_a_half-closed_filedescriptor.3F
+  /* eslint-enable max-len */
+  this.httpAllowHalfOpen = false;
+
+  this.addListener('connection', connectionListener);
+
+  this.timeout = 2 * 60 * 1000;
+
+  this._pendingResponseData = 0;
+}
+
+// 发现request是在parserOnIncoming函数里面触发的
+self.emit('request', req, res);//触发的时候 , 会传入两个对象参数 , req , res
+
+
+// res
+var res = new ServerResponse(req);//res是new出来的
+util.inherits(ServerResponse, OutgoingMessage);//ServerResponse继承于OutgoingMessage
+// ****res是 ServerResponse 的实例 , 也是OutgoingMessage的实例
+
+
+
+
+// req
+function parserOnIncoming(req, shouldKeepAlive) {//req是在这里传入的
+    //...
+}
+parser.onIncoming = parserOnIncoming;
+
+var parser = parsers.alloc();
+
+const parsers = common.parsers;
+
+const common = require('_http_common');
+
+
+
+/*
+ *   _http_common.js
+ */
+skipBody = parser.onIncoming(parser.incoming, shouldKeepAlive);//可以猜测到第一个参数是 req , 第二个参数是shouldKeepAlive
+
+parser.incoming = new IncomingMessage(parser.socket);//是IncomingMessage的实例
+
+const IncomingMessage = incoming.IncomingMessage;
+
+const incoming = require('_http_incoming');
+
+// req是IncomingMessage的实例
+
+
+// 上面的parser.onIncoming 是在 函数connectionListener里面被定义的
+
+this.addListener('connection', connectionListener);//connectionListener在connection事件触发时运行
+
+/*
+ *  net.js里面
+ */
+
+self.emit('connection', socket);
+// 是在 onconnection 里面运行的
+
+this._handle.onconnection = onconnection;//赋值给了 Server.prototype._listen2函数里面 _handle.onconnection
+
+self._listen2(address, port, addressType, backlog, fd);//是在 listen函数里面执行的
+
+Server.prototype.listen//server的原型上有listen的方法
+
+// http.server又是继承net的
+
+// 所以http.createServer是有listen方法的
+
+
+exports.request = function(options, cb) {
+  return new ClientRequest(options, cb);
+};
+
+exports.get = function(options, cb) {
+  var req = exports.request(options, cb);
+  req.end();
+  return req;
+};
+//可以看出其实get就是对request进行再一步的封装
