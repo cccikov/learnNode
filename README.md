@@ -1,3 +1,3 @@
 # learnNode
 
-###这是用来学习nodejs的home
+###这是用来学习nodejs的
