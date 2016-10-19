@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+    * {
+        margin: 0;
+    }
+
+    .ball {
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
+    }
+
+    .ball1 {
+        background: hsla(0, 100%, 50%, 1);
+    }
+
+    .ball2 {
+        background: hsla(120, 100%, 50%, 1);
+    }
+
+    .ball3 {
+        background: hsla(240, 100%, 50%, 1);
+    }
+    </style>
+</head>
+
+<body>
+    <div class="ball ball1"></div>
+    <div class="ball ball2"></div>
+    <div class="ball ball3"></div>
+    <script type="text/javascript" src='./node_modules/bluebird/js/browser/bluebird.min.js'></script>
+    <script type="text/javascript">
+    var ball1 = document.querySelector('.ball1');
+    var ball2 = document.querySelector('.ball2');
+    var ball3 = document.querySelector('.ball3');
+
+
+    // 方法1
+    function fn1(){
+        function animate(ball, distance, cb) {
+            setTimeout(function(){
+                var marL = parseInt(ball.style.marginLeft,10) || 0;
+                if(marL === distance){
+                    console.log("cb");
+                    cb && cb();
+                }else{
+                    if(marL < distance){
+                        marL+=2;
+                    }else{
+                        marL-=2;
+                    }
+                    ball.style.marginLeft = marL + "px";
+
+                    // 动画持续执行
+                    animate(ball,distance,cb);
+                }
+            }, 16.7);
+        }
+
+        animate(ball1,100,function(){
+            animate(ball2,200,function(){
+                animate(ball3,300,function(){
+                    animate(ball3,150,function(){
+                        animate(ball2,150,function(){
+                            animate(ball1,150,function(){
+                                return;
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+    // fn1();
+
+
+    // 方法2
+    function fn2(){
+
+        function animate(ball, distance, cb) {
+            var marL = parseInt(ball.style.marginLeft,10) || 0;
+            if(marL === distance){
+                console.log("cb");
+                cb && cb();
+            }else{
+                if(marL < distance){
+                    marL+=2;
+                }else{
+                    marL-=2;
+                }
+                ball.style.marginLeft = marL + "px";
+
+                // 持续执行
+                setTimeout(function(){
+                    animate(ball, distance, cb);
+                },16.7);
+
+            }
+        }
+
+        animate(ball1,100,function(){
+            animate(ball2,200,function(){
+                animate(ball3,300,function(){
+                    animate(ball3,150,function(){
+                        animate(ball2,150,function(){
+                            animate(ball1,150,function(){
+                                return;
+                            });
+                        });
+                    });
+                });
+            });
+        });
+
+    }
+    // fn2();
+
+    // 方法三  promise
+    function fn3(){
+
+        function animate(ball, distance, cb) {
+            setTimeout(function(){
+                var marL = parseInt(ball.style.marginLeft,10) || 0;
+                if(marL === distance){
+                    console.log("cb");
+                    cb && cb();
+                }else{
+                    if(marL < distance){
+                        marL+=2;
+                    }else{
+                        marL-=2;
+                    }
+                    ball.style.marginLeft = marL + "px";
+
+                    // 动画持续执行
+                    animate(ball,distance,cb);
+                }
+            }, 16.7);
+        }
+
+        var Promise = window.Promise;
+        function promiseAnimate(ball,distance){
+            return new Promise(function(resolve,reject){
+                function _animate() {
+                    setTimeout(function(){
+                        var marL = parseInt(ball.style.marginLeft,10) || 0;
+                        if(marL === distance){
+                            console.dir(resolve);
+                           resolve();
+                        }else{
+                            if(marL < distance){
+                                marL+=2;
+                            }else{
+                                marL-=2;
+                            }
+                            ball.style.marginLeft = marL + "px";
+
+                            // 动画持续执行
+                            _animate();
+                        }
+                    }, 16.7);
+                }
+                _animate();//其实就变得和方法二差不多了
+            });
+        }
+        promiseAnimate(ball1,100)
+        .then(function(){
+            return promiseAnimate(ball2,200);
+        }).then(function(){
+            return promiseAnimate(ball3,300);
+        }).then(function(){
+            return promiseAnimate(ball3,150);
+        }).then(function(){
+            return promiseAnimate(ball2,150);
+        }).then(function(){
+            return promiseAnimate(ball1,150);
+        });
+
+        //promise 可以将这种异步操作写成链式 , 比上面的方法容易修改 , 阅读
+    }
+    fn3();
+    </script>
+</body>
+
+</html>
