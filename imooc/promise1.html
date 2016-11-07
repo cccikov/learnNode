@@ -146,12 +146,16 @@
         var Promise = window.Promise;
         function promiseAnimate(ball,distance){
             return new Promise(function(resolve,reject){
+
                 function _animate() {
                     setTimeout(function(){
                         var marL = parseInt(ball.style.marginLeft,10) || 0;
                         if(marL === distance){
                             console.dir(resolve);
-                           resolve();
+
+                            resolve();
+
+
                         }else{
                             if(marL < distance){
                                 marL+=2;
@@ -166,6 +170,7 @@
                     }, 16.7);
                 }
                 _animate();//其实就变得和方法二差不多了
+
             });
         }
         promiseAnimate(ball1,100)
@@ -182,6 +187,15 @@
         });
 
         //promise 可以将这种异步操作写成链式 , 比上面的方法容易修改 , 阅读
+
+        /*
+         * promiseAnimate(ball1,100)执行成功后,
+         * 就会调用than里面的操作成功的回调函数(then函数第一个参数),
+         * 回调函数里面必须返回一个新的Promise对象(promiseAnimate函数执行就会返回一个Promise对象,并且有动画操作)promiseAnimate(ball2,200),,就是说then函数执行后会返回一个Promise对象,
+         * 然后新的Promise对象可以执行than的方法这样一直下去
+         *
+         */
+
     }
     fn3();
     </script>

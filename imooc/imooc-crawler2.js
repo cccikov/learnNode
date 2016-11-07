@@ -2,6 +2,7 @@ var http = require('http');
 var Promise  = require('bluebird');
 var cheerio = require('cheerio');
 var url = 'http://www.imooc.com/learn/348';
+var baseUrl = 'http://www.imooc.com/learn/'
 
 function filterChapters(html){
     var $ = cheerio.load(html);
@@ -58,12 +59,29 @@ function getPageAsync(url){
                 html += data;
             });
             res.on('end',function(){
-                resolve(html);
+                resolve(html);//把html作为这个Promise的值传给下一个Promise
+
                 var courseData = filterChapters(html);
                 printCourseInfo(courseData);
             });
-        }).on('error',function(){
+        }).on('error',function(e){
+            reject(e);
             console.log('获取数据出错！');
         });
     });
 }
+
+var fetchCourseArray = [];
+videoIds.forEach(function(id){
+    fetchCourseArray.push(getPageAsync(baseUrl + id));
+})
+
+Promise
+    .all(fetchCourseArray)
+    .then(function(pages){
+        var courseData = [];
+        pages.forEach(function(html){
+            var courseData = filterChapters(html);
+            courseData.push(course);
+        });
+    });
