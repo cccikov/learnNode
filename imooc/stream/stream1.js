@@ -6,3 +6,4 @@ var fs = require('fs');
 var source = fs.readFileSync('../buffer/man.jpg');
 
 fs.writeFileSync('steam_copy_man.jpg',source);
+
