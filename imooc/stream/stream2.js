@@ -1,8 +1,7 @@
 var fs = require('fs');
-var readStream = fs.createReadStream('stream1.js');
+var readStream = fs.createReadStream('01bg.png');//要用一个比较大的文件
 
 var n = 0;//计数器
-
 
 readStream
     .on('data',function(chunk){
