@@ -1,5 +1,5 @@
 /**
- * 搭建 http 服务器
+ * Nodejs 入门 搭建 http 服务器
  */
 
 var http = require('http'); // 需要的模块
