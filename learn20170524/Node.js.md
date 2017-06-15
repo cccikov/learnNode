@@ -34,6 +34,8 @@
 
 Node.js采用的是CommonJS规范
 
+ps : 也有人说说是CMD规范 , CMD属于CommonJS的一种规范
+
 
 
 #### 版本
@@ -64,11 +66,14 @@ Node.js采用的是CommonJS规范
 node命令(cmd或者其他终端中执行)
 
     node [options] [ -e script | script.js ] [arguments]
+
     node debug script.js [arguments]
 
 * 运行 js文件
 
         node helloworld.js
+
+        node js/helloworld.js
 
 * 运行js代码
 
