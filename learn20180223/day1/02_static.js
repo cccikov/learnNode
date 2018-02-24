@@ -7,6 +7,8 @@ let http = require("http");
 let url = require("url");
 let fs = require("fs");
 let path = require("path");
+let contentType = require("./contentType").type;
+contentType = JSON.parse(contentType);
 
 
 
@@ -24,7 +26,7 @@ let server = http.createServer(function (req, res) {
         var file_pathname = path.normalize("./" + pathname); // 给 fs.readFile 的 path
     }
 
-    fs.readFile(file_pathname, function (err, data) {
+    fs.readFile(file_pathname, "utf8", function (err, data) {
         console.log(pathname, file_pathname);
         if (err) {
             console.error("readFile发生错误----" + err);
@@ -42,8 +44,16 @@ let server = http.createServer(function (req, res) {
         } else {
             if (isOrigin) {
                 res.writeHead(200, {
-                    "content-type": "text/plain;charset=utf8"
-                })
+                    "content-type": "text/plain;charset=utf8"// 不加;charset=utf8 css js中文会乱码
+                });
+            } else {
+                let extname = path.extname(file_pathname);
+                let type = contentType[extname];
+                if (type) {
+                    res.writeHead(200, {
+                        "content-type": type+";charset=utf8"
+                    });
+                }
             }
             res.write(data);
             res.end();
