@@ -12,7 +12,7 @@ exports.a = a;
 
 // exports 当等于一个新值的时候 , 就不在指向 module.exports , 就再也不能用于暴露接口
 
-exports = function(){
+exports = function(){ // 不导出，只在模块内有效
     console.log("exports");
 }
 

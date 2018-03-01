@@ -64,3 +64,15 @@ NODE_MODULES_PATHS(START)
 5. return DIRS
 ```
 
+就是说
+```javascript
+require("bar");
+```
+
+由于没有`"./" "../" "/"` , 走加载加载Node模块 , 所以是在`/node_modules` 文件夹中找到`bar` ; 
+
+先走加载文件`bar.js` , 如果`bar`不是一个文件 ; 
+
+就走加载目录 , 如果`bar`里面有`package.json`文件 , 就找到文件里面的`main`属性 , 加载对应的文件 
+
+如果没有`package.json`文件 , 就走加载索引 , 即加载`bar`里面的`index.js`文件
