@@ -1,5 +1,4 @@
 var http = require("http");
-var url = require("url");
 
 var server = http.createServer(function(req, res) {
     var url = req.url; // 用户的请求url地址
