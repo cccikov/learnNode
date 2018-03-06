@@ -25,7 +25,7 @@
 
 ### [Chrome DevTools](https://github.com/ChromeDevTools/devtools-frontend)
 
-* **选项1**: Open `chrome://inspect`在基于Chromium的浏览器中打开。点击“打开专用的DevTools for Node”链接。
+* **选项1**: 在基于Chromium的浏览器中打开 `chrome://inspect` 。点击 `open dedicated DevTools for Node` 链接。
 * **选项2**: 安装Chrome扩展程序 NIM(Node.js 调试管理工具):
   https://chrome.google.com/webstore/detail/nim-node-inspector-manage/gnhhdgbaldcilmgcpfddgdbkhjohddkj
 
