@@ -31,7 +31,7 @@
 
 ### [VS Code](https://github.com/microsoft/vscode) 1.10+
 
-* 在“调试”面板中，单击要打开的设置图标 `.vscode/launch.json`.
+* 在“调试”面板中，单击设置图标来打开 `.vscode/launch.json`.
   选择“Node.js”进行初始设置。[设置文档](https://code.visualstudio.com/docs/editor/debugging#_launch-configurations)
 
 ### [Visual Studio](https://github.com/Microsoft/nodejstools)

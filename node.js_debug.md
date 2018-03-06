@@ -127,6 +127,7 @@
 demo
 
 ``` bash
+    # node 版本 v8.9.4
     node --inspect 02_static.js
     node --inspect= 02_static.js
     node --inspect=127.0.0.1 02_static.js
@@ -160,6 +161,25 @@ demo
 ---
 
 ## 三、vscode 
+
+在“调试”面板中，单击设置图标来打开 `.vscode/launch.json`.选择“Node.js”进行初始设置。[设置文档](https://code.visualstudio.com/docs/editor/debugging#_launch-configurations)
+
+
+
+
+
+支持以下预定义变量：
+
+* `${workspaceFolder}` - 在VS Code中打开的文件夹路径
+* `${workspaceFolderBasename}` - VS代码中打开的文件夹的名称，不带任何斜杠（/）
+* `${file}` - 当前打开的文件
+* `${relativeFile}` - 当前打开的文件相对于workspaceFolder
+* `${fileBasename}` - 当前打开的文件的基本名称
+* `${fileBasenameNoExtension}` - 当前打开的文件的基本名称，没有文件扩展名
+* `${fileDirname}` - 当前打开的文件的dirname
+* `${fileExtname}` - 当前打开的文件的扩展名
+* `${cwd}` - 启动时任务运行者的当前工作目录
+* `${lineNumber}` - 活动文件中当前选定的行号
     
     
 
