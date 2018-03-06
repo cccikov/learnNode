@@ -97,6 +97,15 @@
 * 进入调试 , 代码在最开始的地方就中断了
 
     ![inspect11](./md_img/inspect11.png)
+
+经发现 , 其实浏览器开发者工具(`F12`) , 就有快捷进入node调试的入口
+
+![inspect12](./md_img/inspect12.png)
+
+而且 , 原来进入调试的时候 , 终端有输出的 , 这也再一次证明 , node是先运行才可以进行调试的
+
+![inspect13](./md_img/inspect13.png)
+
     
     
 
