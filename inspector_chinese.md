@@ -62,7 +62,7 @@
         <ul>
             <li>启用检查代理</li>
             <li>绑定到地址或主机名 <i>host</i> (default: 127.0.0.1)    </li>
-            <li>监听端口 port <i>port</i> (default: 9229)</li>
+            <li>监听端口 <i>port</i> (default: 9229)</li>
         </ul>
         </td>
     </tr>

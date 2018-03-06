@@ -1,12 +1,12 @@
 # Node.js 调试
 
-## [debugger](https://nodejs.org/api/debugger.html)
+## 一、[debugger](https://nodejs.org/api/debugger.html)
 
 此方法感觉十分难用且不方便 , 暂时放弃了
 
 ---
 
-## [inspector](inspector_chinese.md)
+## 二、[inspector](inspector_chinese.md)
 
 此方式简单易用 , 就好像chrome调试js那样 , 就选它了
 
@@ -98,14 +98,68 @@
 
     ![inspect11](./md_img/inspect11.png)
 
-经发现 , 其实浏览器开发者工具(`F12`) , 就有快捷进入node调试的入口
+经发现 , 其实浏览器开发者工具(`F12`) , 就有快捷进入node调试的入口 ; 前提是在 `DevTools` 已经添加了监听 `--inspect` 的主机端口 , 否则是没有那个快捷入口按钮的
 
 ![inspect12](./md_img/inspect12.png)
+
+添加监听 `--inspect` 的主机端口
+
+![inspect12_02](./md_img/inspect12_02.png)
 
 而且 , 原来进入调试的时候 , 终端有输出的 , 这也再一次证明 , node是先运行才可以进行调试的
 
 ![inspect13](./md_img/inspect13.png)
 
+#### `--inspect` 命令选项的使用
+
+`--inspect`： 不会再第一行断掉（适合web程序或者有监听的程序调试）
+
+`--inspect-brk` ：是在第一行断点（适合函数类、工具类调试）
+
+还有有其他命令
+
+![inspect14](./md_img/inspect14.png)
+
+除了默认主机端口还可以自己设置地址和端口
+
+其中斜体 `[host:port]` 是用 `[]` 括住 , 代表是可以忽略的
+
+demo
+
+``` bash
+    node --inspect 02_static.js
+    node --inspect= 02_static.js
+    node --inspect=127.0.0.1 02_static.js
+    node --inspect=5000 02_static.js
+    node --inspect=127.0.0.1:5000 02_static.js
+```
+
+![inspect15](./md_img/inspect15.png)
+
+无论是`host` , `port` 都会忽略 , 还是只忽略任意一个 , 还是全写都可以 ; 而且终端会输出 , `--inspect` 监听的主机地址
+
+![inspect16](./md_img/inspect16.png)
+
+
+### 2. NIM(Node.js 调试管理工具)
+
+安装Chrome扩展程序 NIM(Node.js 调试管理工具) https://chrome.google.com/webstore/detail/nim-node-inspector-manage/gnhhdgbaldcilmgcpfddgdbkhjohddkj (需要翻墙)
+
+插件会自动监听`localhost:9229`端口 , 当监听到有调试代码执行的时候，会自动弹出调试框
+
+即一般用node运行js添加`--inspect`或者`--inspect-brk`时就会自动弹出
+
+上面的一个例子也表明默认只是监听`:9229`
+
+![inspect17](./md_img/inspect17.png)
+
+只有 `127.0.0.1:9229` 才会自动弹出( `127.0.0.1` 即本地地址 `localhost`) , 其实插件也是可以设置监听的端口号的(好像也要在翻墙的时候才可以设置)
+
+![inspect18](./md_img/inspect18.png)
+
+---
+
+## 三、vscode 
     
     
 
