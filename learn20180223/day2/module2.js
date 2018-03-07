@@ -14,5 +14,7 @@ exports.fn = function(){
     console.log("exports");
 }
 
+console.log("module2.js是否是直接执行的",require.main === module);
+
 
 
