@@ -8,6 +8,8 @@
 
 ## 二、[inspector](inspector_chinese.md)
 
+[英文原版网址](https://nodejs.org/en/docs/inspector/)
+
 此方式简单易用 , 就好像chrome调试js那样 , 就选它了
 
 这是利用 `--inspect` 在激活调试器并打印连接URL , 有以下两种方式 , 若想知道详细的命令行请查看[inspector](inspector_chinese.md)
@@ -162,13 +164,35 @@ demo
 
 ## 三、vscode 
 
+### 1. 配置 `launch.json`
+
 在“调试”面板中，单击设置图标来打开 `.vscode/launch.json`.选择“Node.js”进行初始设置。[设置文档](https://code.visualstudio.com/docs/editor/debugging#_launch-configurations)
 
+![debug](./md_img/debugicon.png)
 
+![vscode01](./md_img/vscode01.png)
 
+![vscode02](./md_img/vscode02.png)
 
+初始设置后 , vscode 会自动新建一个调试配置文件 `launch.json` , 并将放进 `.vscode` 文件夹里
 
-支持以下预定义变量：
+![vscode03](./md_img/vscode03.png)
+
+![vscode04](./md_img/vscode04.png)
+
+配置文件是一个json格式 , 其中灰色部分是选择“Node.js”进行初始设置时 , vscode自动配好 , 只要把鼠标光标指向属性名 , 就会出现这个属性的解释
+
+1. 启动配置文件必须选项
+
+    * `type` - 配置类型 , 启动配置的调试器类型: `node`、`chrome`、`php`、`go`……
+    * `request` - 此启动配置的请求类型。目前支持的是`launch`(启动)和`attach`(附加)。
+    * `name` - 出现在Debug启动配置下拉列表中的名称
+        ![vscode05](./md_img/vscode05.png)
+
+2. 许多调试器支持以下一些属性
+    * `program` - 启动调试器时运行的可执行文件或文件
+
+配置文件支持以下预定义变量：
 
 * `${workspaceFolder}` - 在VS Code中打开的文件夹路径
 * `${workspaceFolderBasename}` - VS代码中打开的文件夹的名称，不带任何斜杠（/）
@@ -180,7 +204,62 @@ demo
 * `${fileExtname}` - 当前打开的文件的扩展名
 * `${cwd}` - 启动时任务运行者的当前工作目录
 * `${lineNumber}` - 活动文件中当前选定的行号
+
+其实基本不用管这个配置文件 , 只要调试前有就可以 , 基本就是进行初始设置后就可以用了 , 并且需要新配的时候可以点击 "添加配置.." 来帮助配置
+
+![vscode06](./md_img/vscode06.png)
+
+### 2. 调试
+
+其实调试好简单 , vscode的编辑界面就相当于chrome的开发者工具 , 可以直接设置断点
+
+* 打开需要调试的文件() , 设置断点
+
+    ![vscode07](./md_img/vscode07.png)
+
+* 按 `F5` 开始调试 , 或者在“调试”面板中点击开始调试按钮
     
+    ![vscode08](./md_img/vscode08.png)
+
+* 调试就开始了
+
+    ![vscode09](./md_img/vscode09.png)
+
+* 通过点击按钮来逐步调试
+
+    ![vscode11](./md_img/vscode11.png)
+
+    和chrome的一样
+
+    ![chrome01](./md_img/chrome01.png)
+
+    ![chrome02](./md_img/chrome02.png)
+
+
+其实vscode的调试界面和chrome的是几乎一样的
+
+![vscode12](./md_img/vscode12.png)
+
+![chrome03](./md_img/chrome03.png)
+
+在代码编辑区 , 鼠标放在执行过的代码的变量上 , 出现变量的值
+
+![vscode13](./md_img/vscode13.png)
+
+编辑器的左边 , 相当于chrome开发者工具的Sources面板
+
+![vscode14](./md_img/vscode14.png)
+
+* `变量` 相当于 `Scope`
+    出现代码运行中涉及的变量 , 其中`Local`是局部作用域(js中函数作用域)包含的变量 , `Global` 是全局作用域中包含的变量
+* `监视` 相当于 `Watch`
+    用于添加需要监视的变量 , 变量值会随着应用程序的运行而改变
+* `调用堆栈` 相当于 `Call stack`
+    表示代码现在执行到哪里，它是如何到达这里的，接着调用什么函数 ， 是调试的一个重要因素。特别是有异步操作的时候 ， 对于理解代码的运行十分有用
+
+你会发现 , vscode是可以直接调试同步执行的代码的 , 就好像上面所说的相当于浏览器先打开开发者工具 , 在打开页面那样 。但是实际上vscode也是采用 `--inspect-brk` 命令进行调试的 , 看"调试控制台"   
+
+![vscode10](./md_img/vscode10.png)    
     
 
     
