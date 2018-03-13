@@ -36,7 +36,6 @@ http.createServer(function (req, res) {
         fs.readFile("./static/404.html", function (err, data) {
             if (err) {
                 throw err;
-                c
             } else {
                 res.writeHead(200, {
                     "content-type": "text/html;charset=utf8"
@@ -46,7 +45,7 @@ http.createServer(function (req, res) {
             }
         });
     } else {
-        res.end("地址错误");
+        res.end("");
     }
 }).listen(3000);
 
