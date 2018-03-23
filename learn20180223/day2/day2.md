@@ -1,8 +1,15 @@
 # day2
 
-express 相对于nodejs  
-就相当于 jquery相对于javascript  
-只是封装了好多东西 , 让nodejs使用起来更加简便  
+1. 复习
+2. npm 模块的require
+3. 路径
+4. 封装模块
+5. post请求 addListener
+6. formidable 文件上传 util.inspect
+
+express 相对于nodejs
+就相当于 jquery相对于javascript
+只是封装了好多东西 , 让nodejs使用起来更加简便
 
 * module 模块
 
@@ -69,10 +76,10 @@ NODE_MODULES_PATHS(START)
 require("bar");
 ```
 
-由于没有`"./" "../" "/"` , 走加载加载Node模块 , 所以是在`/node_modules` 文件夹中找到`bar` ; 
+由于没有`"./" "../" "/"` , 走加载加载Node模块 , 所以是在`/node_modules` 文件夹中找到`bar` ;
 
-先走加载文件`bar.js` , 如果`bar`不是一个文件 ; 
+先走加载文件`bar.js` , 如果`bar`不是一个文件 ;
 
-就走加载目录 , 如果`bar`里面有`package.json`文件 , 就找到文件里面的`main`属性 , 加载对应的文件 
+就走加载目录 , 如果`bar`里面有`package.json`文件 , 就找到文件里面的`main`属性 , 加载对应的文件
 
 如果没有`package.json`文件 , 就走加载索引 , 即加载`bar`里面的`index.js`文件
