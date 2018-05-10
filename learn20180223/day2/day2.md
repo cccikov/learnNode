@@ -2,9 +2,11 @@
 
 1. 复习
 2. npm 模块的require
-3. 路径
+3. 路径 path
+   path.resolve()
 4. 封装模块
 5. post请求 addListener
+   buf.toString() 将二进制内容转化为字符串
 6. formidable 文件上传 util.inspect
 
 express 相对于nodejs
