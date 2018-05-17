@@ -13,7 +13,9 @@ contentType = JSON.parse(contentType);
 
 
 
-let server = http.createServer(function (req, res) {
+let server = http.createServer(function(req, res) {
+
+    console.log(req.statusMessage);
 
     let pathname = url.parse(req.url, true).pathname;
 
@@ -32,7 +34,7 @@ let server = http.createServer(function (req, res) {
 
 
 
-    fs.readFile(file_pathname, "utf8", function (err, data) {
+    fs.readFile(file_pathname, "utf8", function(err, data) {
         console.log(pathname, file_pathname);
         if (err) {
             console.error("readFile发生错误----" + err);
@@ -47,8 +49,11 @@ let server = http.createServer(function (req, res) {
                 let type = contentType[extname];
                 console.log(type);
                 if (type) {
-                    res.writeHead(200, {
-                        "content-type": type + ";charset=utf8"
+                    // res.writeHead(200, {
+                    //     "content-type": type + ";charset=utf8"
+                    // });
+                    res.writeHead(302, {
+                        'Location': 'your/404/path.html'
                     });
                 }
             }
@@ -60,7 +65,7 @@ let server = http.createServer(function (req, res) {
 }).listen(3000);
 
 function showIndex(path, res) {
-    fs.readFile(path, function (err, data) {
+    fs.readFile(path, function(err, data) {
         if (err) {
             show404(res);
         } else {
@@ -74,7 +79,7 @@ function showIndex(path, res) {
 }
 
 function show404(res) {
-    fs.readFile("./static/404.html", function (err, data) {
+    fs.readFile("./static/404.html", function(err, data) {
         if (err) {
             throw err;
         } else {
