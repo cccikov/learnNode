@@ -49,11 +49,8 @@ let server = http.createServer(function(req, res) {
                 let type = contentType[extname];
                 console.log(type);
                 if (type) {
-                    // res.writeHead(200, {
-                    //     "content-type": type + ";charset=utf8"
-                    // });
-                    res.writeHead(302, {
-                        'Location': 'your/404/path.html'
+                    res.writeHead(200, {
+                        "content-type": type + ";charset=utf8"
                     });
                 }
             }
@@ -61,7 +58,7 @@ let server = http.createServer(function(req, res) {
             res.end();
         }
     });
-
+    
 }).listen(3000);
 
 function showIndex(path, res) {
@@ -83,9 +80,21 @@ function show404(res) {
         if (err) {
             throw err;
         } else {
-            res.writeHead(404, {
-                "content-type": "text/html;charset=utf8"
+
+            // res.writeHead(404, {
+            //     "content-type": "text/html;charset=utf8"
+            // });
+
+            // 重定向
+            // res.writeHead(302, {
+            //     'Location': '/static/404.html'
+            // });
+
+            res.writeHead(302, {
+                "content-type": "text/html;charset=utf8",
+                'location': '/static/404.html'
             });
+
             res.write(data);
             res.end();
         }
