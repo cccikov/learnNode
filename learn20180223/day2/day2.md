@@ -85,3 +85,19 @@ require("bar");
 就走加载目录 , 如果`bar`里面有`package.json`文件 , 就找到文件里面的`main`属性 , 加载对应的文件
 
 如果没有`package.json`文件 , 就走加载索引 , 即加载`bar`里面的`index.js`文件
+
+
+## post 请求
+
+* get请求就是普通url请求，参数都写在url上面，直接分析 `req.url` 的 `query` 部分就可以知道传回的信息；所以其实表单的get请求和直接在浏览器上输入网址是一样的。
+
+    get请求：
+    1. 浏览器输入网址的请求，
+    2. form表单的get提交，
+    3. ajax get请求
+
+* post请求，node会将数据拆分为众多小的数据块（chunk），然后通过特定的事件（“end”），见这些小数据块有序传递给回调函数
+
+    get请求：
+    1. form表单的post提交，
+    2. ajax post请求
