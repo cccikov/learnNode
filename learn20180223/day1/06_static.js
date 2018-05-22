@@ -61,19 +61,19 @@ let server = http.createServer(function(req, res) {
     
 }).listen(3000);
 
-function showIndex(path, res) {
-    fs.readFile(path, function(err, data) {
-        if (err) {
-            show404(res);
-        } else {
-            res.writeHead(200, {
-                "content-type": "text/html;charset=utf8"
-            });
-            res.write(data);
-            res.end();
-        }
-    });
-}
+// function showIndex(path, res) {
+//     fs.readFile(path, function(err, data) {
+//         if (err) {
+//             show404(res);
+//         } else {
+//             res.writeHead(200, {
+//                 "content-type": "text/html;charset=utf8"
+//             });
+//             res.write(data);
+//             res.end();
+//         }
+//     });
+// }
 
 function show404(res) {
     fs.readFile("./static/404.html", function(err, data) {
