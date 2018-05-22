@@ -1,5 +1,7 @@
 // 完整代码
 var http = require("http");
+var url = require("url");
+var static = require("./static");
 
 
 // 创建服务器
@@ -8,9 +10,16 @@ var server = http.createServer(function (req, res) {
     if (req.method.toLowerCase() == "get") { // get请求
         console.log("===== 这是get请求 =====");
 
-        if (req.url.toLowerCase() == "/static/success.html") {
+        var urlObj = url.parse(req.url, true);
+        var pathname = urlObj.pathname;
+        if (pathname == "/static/success.html") {
             responseSuccess(req, res);
+        } else if (pathname == "/jquery.js") { // 路由控制，请求jq的时候就找/public/jquery-1.11.3.min.js
+            static(req, res, "../public/jquery-1.11.3.min.js");
+        } else {
+            static(req, res);
         }
+
 
     } else if (req.method.toLowerCase() == "post") { // post请求
         console.log("===== 这是post请求 =====");
@@ -34,7 +43,6 @@ var server = http.createServer(function (req, res) {
 
 }).listen(8000);
 
-
 // 重定向到success页面
 function toSuccess(req, res) {
     res.writeHead(302, {
@@ -51,9 +59,4 @@ function responseSuccess(req, res) {
     });
     res.write("提交成功");
     res.end();
-}
-
-// 静态服务器
-function static(req, res){
-
 }
