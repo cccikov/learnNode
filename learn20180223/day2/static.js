@@ -1,28 +1,29 @@
-module.exports = static(req, res);
+let url = require("url");
+let path = require("path");
+let fs = require("fs");
+let contentType = require("../public/contentType").type;
+contentType = JSON.parse(contentType);
+
+module.exports = static;
 
 function static(req, res) {
+    let pathname = url.parse(req.url, true).pathname;
+    var file_pathname = path.resolve(__dirname, "./" + pathname);
+
     fs.readFile(file_pathname, "utf8", function (err, data) {
-        console.log(pathname, file_pathname);
         if (err) {
-            console.error("readFile发生错误----" + err);
-            show404(res);
+            console.error("error:readFile发生错误----" + err);
+            res.write(file_pathname + " 404 not found");
         } else {
-            if (isOrigin) { // 这里可以理解为路由控制
+            let extname = path.extname(file_pathname);
+            let type = contentType[extname];
+            if (type) {
                 res.writeHead(200, {
-                    "content-type": "text/plain;charset=utf8" // 不加;charset=utf8 css js中文会乱码
+                    "content-type": type + ";charset=utf8"
                 });
-            } else { // 这里才是真正的静态服务器
-                let extname = path.extname(file_pathname);
-                let type = contentType[extname];
-                console.log(type);
-                if (type) {
-                    res.writeHead(200, {
-                        "content-type": type + ";charset=utf8"
-                    });
-                }
             }
             res.write(data);
-            res.end();
         }
+        res.end();
     });
 }
