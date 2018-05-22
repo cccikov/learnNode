@@ -1,16 +1,8 @@
 var http = require("http");
+var querystring = require("querystring");
 
 // 创建服务器
 var server = http.createServer(function (req, res) {
-
-    if(req.url.toLowerCase()=="/static/404.html"){
-        res.writeHead(200,{
-            'content-type':"text/html;charset=utf8"
-        });
-        res.write("404");    
-        res.end();
-    }
-
 
     /**
      * post 请求关键代码
@@ -29,11 +21,7 @@ var server = http.createServer(function (req, res) {
         });
         req.addListener("end", function () { // stream 的'end'事件
             console.log(data);
-            res.writeHead(302, {
-                "content-type": "text/html;charset=utf8",
-                'location': '/static/404.html'
-            });
-            res.end();
+            console.log(querystring.parse(data)); // 解析 URL的query部分
         });
     }
 
