@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>get请求</title>
+</head>
+<body>
+    <!-- 直接本地打开就可以，因为不是ajax，所以不用服务器环境 -->
+    <div>
+        <h4>get请求系列</h4>
+        <form action="http://127.0.0.1:8000/get" method="get">
+            <p>
+                名字：
+                <label for="name">
+                    <input type="text" name="name" value="" placeholder="请输入名字">
+                </label>
+            </p>
+            <p>
+                年龄：
+                <label for="age">
+                    <input type="text" name="age" value="" placeholder="请输入年龄"> 岁
+                </label>
+            </p>
+            <p>
+                性别：
+                <label>
+                    <input type="radio" name="gender" value="male" checked=""> 男
+                </label>
+                <label>
+                    <input type="radio" name="gender" value="female"> 女
+                </label>
+            </p>
+            <button>提交</button>
+        </form>
+    </div>
+</body>
+</html>
