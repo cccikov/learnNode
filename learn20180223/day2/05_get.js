@@ -9,4 +9,5 @@ var server = http.createServer(function (req, res) {
     if (req.method.toLowerCase() == "get" && pathname == "/get") {
         console.log(urlObj.query);
     }
+    res.end("success");
 }).listen(8000);

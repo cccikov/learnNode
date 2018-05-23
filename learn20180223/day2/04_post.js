@@ -20,8 +20,7 @@ var server = http.createServer(function (req, res) {
             console.log(chunk.toString()); // 二进制转化为字符串
         });
         req.addListener("end", function () { // stream 的'end'事件
-            console.log(data);
-            console.log(querystring.parse(data)); // 解析 URL的query部分
+            res.end("haha");
         });
     }
 
