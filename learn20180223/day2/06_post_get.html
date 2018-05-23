@@ -1,40 +1,110 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>get请求</title>
+    <title>post和get请求</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            margin: 0;
+        }
+
+        .get,
+        .post {
+            padding: 12px;
+            flex: 1 1 auto;
+        }
+
+        section {
+            padding: 0 50px;
+        }
+
+        section h5 {
+            margin: 30px 0 10px -25px;
+        }
+    </style>
     <script src="jquery.js"></script>
 </head>
+
 <body>
-    <!-- 直接本地打开就可以，因为不是ajax，所以不用服务器环境 -->
-    <div>
+
+    <div class="get">
         <h4>get请求系列</h4>
-        <form action="http://127.0.0.1:3000/getData" method="get">
-            <p>
-                名字：
-                <label for="name">
-                    <input type="text" name="name" value="" placeholder="请输入名字">
-                </label>
-            </p>
-            <p>
-                年龄：
-                <label for="age">
-                    <input type="text" name="age" value="" placeholder="请输入年龄"> 岁
-                </label>
-            </p>
-            <p>
-                性别：
-                <label>
-                    <input type="radio" name="gender" value="male" checked=""> 男
-                </label>
-                <label>
-                    <input type="radio" name="gender" value="female"> 女
-                </label>
-            </p>
-            <button>提交</button>
-        </form>
+        <section>
+            <h5>表单请求</h5>
+            <form action="http://127.0.0.1:3000/getData" method="get">
+                <p>
+                    名字：
+                    <label for="name">
+                        <input type="text" name="name" value="" placeholder="请输入名字">
+                    </label>
+                </p>
+                <p>
+                    年龄：
+                    <label for="age">
+                        <input type="text" name="age" value="" placeholder="请输入年龄"> 岁
+                    </label>
+                </p>
+                <p>
+                    性别：
+                    <label>
+                        <input type="radio" name="gender" value="male" checked=""> 男
+                    </label>
+                    <label>
+                        <input type="radio" name="gender" value="female"> 女
+                    </label>
+                </p>
+                <button>提交</button>
+            </form>
+        </section>
+
+        <section>
+            <h5>url请求</h5>
+            <a href="getData?name=ccc&age=18&gender=male">url请求</a>
+        </section>
     </div>
+
+    <div class="post">
+        <h4>post请求系列</h4>
+        <section>
+            <h5>post表单请求</h5>
+            <form action="http://127.0.0.1:3000/postData" method="post">
+                <p>
+                    名字：
+                    <label for="name">
+                        <input type="text" name="name" value="" placeholder="请输入名字">
+                    </label>
+                </p>
+                <p>
+                    年龄：
+                    <label for="age">
+                        <input type="text" name="age" value="" placeholder="请输入年龄"> 岁
+                    </label>
+                </p>
+                <p>
+                    性别：
+                    <label>
+                        <input type="radio" name="gender" value="male" checked=""> 男
+                    </label>
+                    <label>
+                        <input type="radio" name="gender" value="female"> 女
+                    </label>
+                </p>
+                <button>提交</button>
+            </form>
+        </section>
+        
+        <section>
+            <h5>url请求</h5>
+            <a href="postData?name=ccc&age=18&gender=male">url请求</a>
+        </section>
+    </div>
+
 </body>
+
 </html>

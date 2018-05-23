@@ -18,11 +18,21 @@ var server = http.createServer(function (req, res) {
         if (pathname == "/getData") {
             methods = "get";
             data = urlObj.query;
-            toSuccess(req, res);
+            res.writeHead(200, {
+                'content-type': "text/html;charset=utf8"
+            });
+            res.end("提交成功 " + "，提交方式：" + methods + "，提交数据：" + JSON.stringify(data));
+
         } else if (pathname == "/static/success.html") {
-            responseSuccess(req, res);
+            // 处理重定向
+            res.writeHead(200, {
+                'content-type': "text/html;charset=utf8"
+            });
+            res.end("重定向成功");
+
         } else if (pathname == "/jquery.js") { // 路由控制，请求jq的时候就找/public/jquery-1.11.3.min.js
             static(req, res, "../public/jquery-1.11.3.min.js");
+
         } else {
             if (pathname == "/") { // "/" 访问 06_post_get.html
                 urlObj.pathname = "/06_post_get.html";
@@ -34,38 +44,52 @@ var server = http.createServer(function (req, res) {
     } else if (req.method.toLowerCase() == "post") { // post请求
         console.log("===== 这是post请求 =====");
 
-        data = ""; // 拼接前的数据
-        req.addListener("data", function (chunk) { // stream 的'data'事件
-            data += chunk; // 拼接数据
-            // 其实chunk是二进制数据
-            console.log(chunk);
-            console.log(chunk.toString()); // 二进制转化为字符串
-        });
-        req.addListener("end", function () { // stream 的'end'事件
-            console.log(data);
-            // 表单提交后，一般都会从定向
-            toSuccess(req, res);
-        });
+        if (pathname == "/postData") {
+            methods = "post";
+            data = ""; // 拼接前的数据
+            req.addListener("data", function (chunk) { // stream 的'data'事件
+                data += chunk; // 拼接数据
+            });
+            req.addListener("end", function () { // stream 的'end'事件
+                res.writeHead(200, {
+                    'content-type': "text/html;charset=utf8"
+                });
+                res.end("提交成功 " + "，提交方式：" + methods + "，提交数据：" + JSON.stringify(data));
+            });
 
+        } else {
+            res.end("");
+        }
+    } else {
+        // 在createServer代码中，如果有if判断，一定要在判断的最后补上剩下的可能，然后加上res.end();
+        res.end("");
     }
 
+    // 有时候会忘记res.end(); 但是直接在createServer最后直接写一个res.end();因为有些操作是异步的
 
 }).listen(3000);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // 重定向到success页面
-function toSuccess(req, res) {
+function redirect(req, res) {
     res.writeHead(302, {
         "content-type": "text/html;charset=utf8",
         'location': '/static/success.html'
     });
-    res.end();
-}
-
-// 当前请求时success.html是返回
-function responseSuccess(req, res) {
-    res.writeHead(200, {
-        'content-type': "text/html;charset=utf8"
-    });
-    res.write("提交成功 " + "，提交方式：" + methods + "，提交数据：" + JSON.stringify(data));
     res.end();
 }
