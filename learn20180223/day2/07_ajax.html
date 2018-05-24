@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>post和get请求</title>
+    <script src="jquery.js"></script>
+    <script>
+        $(function () {
+            $("#ajax").click(function () {
+                $.ajax({
+                    url: "getData",
+                    type: "post",
+                    data: {
+                        name: "ccc",
+                        age: 18,
+                        gender: "male",
+                        type: "ajax",
+                        by: "data-obj",
+                        time: new Date().getTime()
+                    },
+                    // data:"type=ajax&by=data-string&name=ccc&age=18&gender=male&time="+(new Date().getTime()),
+                    // url: "getData?type=ajax&by=url&name=ccc&age=18&gender=male&time="+(new Date().getTime()),
+                    success: function (result) {
+                        console.log(result);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(this);
+                        console.log(errorThrown);
+                    },
+                    async: true,
+                    dataType: "text",
+                    // dataType: "json", // 返回的json一定要是名和值都用双引号括住
+                });
+            });
+
+
+        });
+    </script>
+</head>
+
+<body>
+    <button id="ajax">ajax</button>
+
+
+</body>
+
+</html>
