@@ -58,13 +58,13 @@ var server = http.createServer(function (req, res) {
             });
             req.addListener("end", function () { // stream 的'end'事件
                 data = querystring.parse(data);
-
                 res.writeHead(200, {
                     'content-type': "text/html;charset=utf8"
                 });
                 res.end(`{
                     "msg":"success",
                     "method":"${methods}",
+                    "responseTime":${new Date().getTime()},
                     "data":${JSON.stringify(data)}
                 }`); // 字符串拼接成一个JSON字符串 
             });
