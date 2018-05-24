@@ -101,3 +101,5 @@ require("bar");
     get请求：
     1. form表单的post提交，
     2. ajax post请求
+
+[例子](./06_post_get.js)

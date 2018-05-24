@@ -105,3 +105,7 @@ function redirect(req, res) {
     });
     res.end();
 }
+
+/**
+ * 通过这个例子可以就可以看出 get请求实际上请求附带的数据都是在url上的
+ */
