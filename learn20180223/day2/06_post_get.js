@@ -2,6 +2,7 @@
 var http = require("http");
 var url = require("url");
 var static = require("./static");
+var querystring = require("querystring");
 
 var methods = "";
 var data = {};
@@ -21,7 +22,12 @@ var server = http.createServer(function (req, res) {
             res.writeHead(200, {
                 'content-type': "text/html;charset=utf8"
             });
-            res.end("提交成功 " + "，提交方式：" + methods + "，提交数据：" + JSON.stringify(data));
+            var write = {
+                msg: "success",
+                'method': methods,
+                "data": data
+            };
+            res.end(JSON.stringify(write)); // 先组成对象，然后再由JSON.stringify()转化为JSON字符串
 
         } else if (pathname == "/static/success.html") {
             // 处理重定向
@@ -51,10 +57,16 @@ var server = http.createServer(function (req, res) {
                 data += chunk; // 拼接数据
             });
             req.addListener("end", function () { // stream 的'end'事件
+                data = querystring.parse(data);
+
                 res.writeHead(200, {
                     'content-type': "text/html;charset=utf8"
                 });
-                res.end("提交成功 " + "，提交方式：" + methods + "，提交数据：" + JSON.stringify(data));
+                res.end(`{
+                    "msg":"success",
+                    "method":"${methods}",
+                    "data":${JSON.stringify(data)}
+                }`); // 字符串拼接成一个JSON字符串 
             });
 
         } else {

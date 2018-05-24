@@ -29,6 +29,69 @@
         }
     </style>
     <script src="jquery.js"></script>
+    <script>
+        $(function () {
+            $("#ajax-get").click(function () {
+                $.ajax({
+                    url: "getData",
+                    type: "get",
+                    data: {
+                        name: "ccc",
+                        age: 18,
+                        gender: "male",
+                        type: "ajax",
+                        by: "data-obj",
+                        time: new Date().getTime()
+                    },
+                    // data:"type=ajax&by=data-string&name=ccc&age=18&gender=male&time="+(new Date().getTime()),
+                    // url: "getData?type=ajax&by=url&name=ccc&age=18&gender=male&time="+(new Date().getTime()),
+                    success: function (result) {
+                        console.log(result);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(this);
+                        console.log(errorThrown);
+                    },
+                    async: true,
+                    // dataType: "text",
+                    dataType: "json", // 返回的json一定要是名和值都用双引号括住
+                });
+            });
+
+
+
+
+
+            $("#ajax-post").click(function () {
+                $.ajax({
+                    url: "postData",
+                    type: "post",
+                    data: {
+                        name: "ccc",
+                        age: 18,
+                        gender: "male",
+                        type: "ajax",
+                        by: "data-obj",
+                        time: new Date().getTime()
+                    },
+                    // data:"type=ajax&by=data-string&name=ccc&age=18&gender=male&time="+(new Date().getTime()),
+                    // url: "postData?type=ajax&by=url&name=ccc&age=18&gender=male&time="+(new Date().getTime()),
+                    success: function (result) {
+                        console.log(result);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(this);
+                        console.log(errorThrown);
+                    },
+                    async: true,
+                    // dataType: "text",
+                    dataType: "json", // 返回的json一定要是名和值都用双引号括住
+                });
+            });
+
+
+        });
+    </script>
 </head>
 
 <body>
@@ -67,6 +130,11 @@
             <h5>url请求</h5>
             <a href="getData?name=ccc&age=18&gender=male">url请求</a>
         </section>
+
+        <section>
+            <h5>ajax jq</h5>
+            <button id="ajax-get">ajax</button>
+        </section>
     </div>
 
     <div class="post">
@@ -98,10 +166,15 @@
                 <button>提交</button>
             </form>
         </section>
-        
+
         <section>
             <h5>url请求</h5>
             <a href="postData?name=ccc&age=18&gender=male">url请求</a>
+        </section>
+
+        <section>
+            <h5>ajax jq</h5>
+            <button id="ajax-post">ajax</button>
         </section>
     </div>
 
