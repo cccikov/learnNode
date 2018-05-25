@@ -66,7 +66,7 @@ var server = http.createServer(function (req, res) {
                     "method":"${methods}",
                     "responseTime":${new Date().getTime()},
                     "data":${JSON.stringify(data)}
-                }`); // 字符串拼接成一个JSON字符串 
+                }`); // 字符串拼接成一个JSON字符串
             });
 
         } else {

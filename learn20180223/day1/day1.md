@@ -6,20 +6,25 @@ module 学习
 
     `http.createServer([requestListener])`
 
-    返回一个新建的 `http.Server` 实例。创建了一个服务器
+    返回一个新建的 `http.Server` 实例。创建了一个服务器。
 
-    `requestListener` 是一个函数，会被自动添加到 `'request'` 事件。即系监听器，或者是这个事件的回调函数
+    * `http.Server`类 继承于 `net.Server`类
 
-    `'request'` 事件，每次接收到一个请求时触发。触发时会传递两个参数，分别是`http.IncomingMessage`和`http.ServerResponse`
+    * `requestListener` 是一个函数，会被自动添加到 `'request'` 事件。即系监听器，或者是这个事件的回调函数
 
+        * `'request'` 事件，每次接收到一个请求时触发。触发时会传递两个参数，分别是`http.IncomingMessage`和`http.ServerResponse`
+
+            * `http.IncomingMessage` 对象（实例）是由 `http.Server` 创建的，并作为第一个参数递给 'request' 事件。它可以用来访问响应状态、消息头、以及数据。它实现了 `可读流` 接口，还有以下额外的事件、方法、以及属性。
+
+            * `http.ServerResponse` 对象（实例）该对象在 HTTP 服务器内部被创建。 它作为第二个参数被传入 'request' 事件。这个类实现了（而不是继承自）`可写流` 接口。 它是一个有以下事件的 EventEmitter：
 
     ``` javascript
     http.createServer(function (request , response ){
     });
     ```
 
-    参数 *request* 即 `http.IncomingMessage` 类
-    参数 *response* 即 `http.ServerResponse` 类
+    * 参数 *request* 即 `http.IncomingMessage` 类的实例
+    * 参数 *response* 即 `http.ServerResponse` 类的实例
 
 
 
@@ -35,7 +40,7 @@ module 学习
         * stats.isSymbolicLink()	如果是软链接返回 true，否则返回 false。
         * stats.isFIFO()	如果是FIFO，返回true，否则返回 false。FIFO是UNIX中的一种特殊类型的命令管道。
         * stats.isSocket()	如果是 Socket 返回 true，否则返回 false。
-    
+
 
 
 * url
