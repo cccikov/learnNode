@@ -6,17 +6,29 @@ var querystring = require("querystring");
 
 // 创建服务器
 var server = http.createServer(function(req, res) {
-    var urlObj = url.parse(req.url, true);
+    var urlObj = url.parse(req.url);
     var pathname = urlObj.pathname;
     if (pathname == "/getData") {
-        var data = ""
-        req.addListener("data", function(chunk) {
-            data += chunk;
-        });
-        req.addListener("end",function(){
-            console.log(data);
-            res.end(data);
-        });
+        var method = req.method.toLowerCase();
+
+        if (method == "get") {
+            var data = urlObj.query;
+            data = querystring.parse(data);
+            data = JSON.stringify(data);
+            res.end(data); // 服务器 回应 的数据格式只能是 字符串 或者 二进制数据（fs读的数据），二进制数据在浏览器解释好像也是字符串
+        } else if (method == "post") {
+            var data = ""
+            req.addListener("data", function(chunk) {
+                data += chunk; // chunk 是一个二进制数据
+            });
+            req.addListener("end", function() {
+                data = querystring.parse(data);
+                data = JSON.stringify(data);
+                res.end(data);
+            });
+        } else {
+            res.end("什么鬼嘛，post get 都不是");
+        }
     } else if (pathname == "/jquery.js") { // 路由控制，请求jq的时候就找/public/jquery-1.11.3.min.js
         static(req, res, "../public/jquery-1.11.3.min.js");
     } else {

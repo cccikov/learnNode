@@ -8,43 +8,227 @@
     <title>post和get请求</title>
     <script src="jquery.js"></script>
     <script>
-        $(function () {
-            $("#ajax").click(function () {
-                $.ajax({
-                    url: "getData",
-                    type: "post",
-                    data: {
-                        name: "ccc",
-                        age: 18,
-                        gender: "male",
-                        type: "ajax",
-                        by: "data-obj",
-                        time: new Date().getTime()
-                    },
-                    // data:"type=ajax&by=data-string&name=ccc&age=18&gender=male&time="+(new Date().getTime()),
-                    // url: "getData?type=ajax&by=url&name=ccc&age=18&gender=male&time="+(new Date().getTime()),
-                    success: function (result) {
-                        console.log(result);
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        console.log(this);
-                        console.log(errorThrown);
-                    },
-                    async: true,
-                    dataType: "text",
-                    // dataType: "json", // 返回的json一定要是名和值都用双引号括住
-                });
-            });
+    $(function() {
 
+        // get请求的实质，附带的数据其实都是附在url的查询部分，
+        // data如果是对象，将自动转换为请求查询字符串格式。如果是GET请求中将附加在URL后
+
+        // jq 的 ajax get 方式1 data是对象格式
+        $("#jq-get1").click(function() {
+            $.ajax({
+                url: "getData",
+                type: "get",
+                data: {
+                    name: "ccc",
+                    age: 18,
+                    gender: "male",
+                    type: "ajax",
+                    by: "data-obj",
+                    time: new Date().getTime()
+                },
+                success: function(result) {
+                    console.log(result);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(this);
+                    console.log(errorThrown);
+                },
+                async: true, // 异步
+                dataType: "json" //将返回的字符串解释为json格式，ajax返回的只能是字符串，返回的json字符串一定要是名和值都用双引号括住
+            });
+        });
+
+        // jq 的 ajax get 方式2 data是查询字符串格式
+        $("#jq-get2").click(function() {
+            $.ajax({
+                url: "getData",
+                type: "get",
+                data: "type=ajax&by=data-string&name=ccc&age=18&gender=male&time=" + (new Date().getTime()),
+                success: function(result) {
+                    console.log(result);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(this);
+                    console.log(errorThrown);
+                },
+                async: true, // 异步
+                dataType: "json" //将返回的字符串解释为json格式，ajax返回的只能是字符串，返回的json字符串一定要是名和值都用双引号括住
+            });
+        });
+
+        // jq 的 ajax get 方式3 直接写在url上面
+        $("#jq-get3").click(function() {
+            $.ajax({
+                url: "getData?type=ajax&by=url&name=ccc&age=18&gender=male&time=" + (new Date().getTime()),
+                type: "get",
+                success: function(result) {
+                    console.log(result);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(this);
+                    console.log(errorThrown);
+                },
+                async: true, // 异步
+                dataType: "json" //将返回的字符串解释为json格式，ajax返回的只能是字符串，返回的json字符串一定要是名和值都用双引号括住
+            });
+        });
+
+        // jq 的 ajax get 方式4 url上有查询，又有data数据
+        $("#jq-get4").click(function() {
+            $.ajax({
+                type: "get",
+                url: "getData?type=ajax&by=url&name=ccc&age=18&gender=male&time=" + (new Date().getTime()),
+                data: {
+                    name: "ccc",
+                    age: 18,
+                    gender: "male",
+                    type: "ajax",
+                    by: "data-obj",
+                    time: new Date().getTime()
+                },
+                success: function(result) {
+                    console.log(result);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(this);
+                    console.log(errorThrown);
+                },
+                async: true, // 异步
+                dataType: "json" //将返回的字符串解释为json格式，ajax返回的只能是字符串，返回的json字符串一定要是名和值都用双引号括住
+            });
+        });
+
+
+
+
+
+        // jq 的 ajax post 方式1 data是对象格式
+        $("#jq-post1").click(function() {
+            $.ajax({
+                url: "getData",
+                type: "post",
+                data: {
+                    name: "ccc",
+                    age: 18,
+                    gender: "male",
+                    type: "ajax",
+                    by: "data-obj",
+                    time: new Date().getTime()
+                },
+                success: function(result) {
+                    console.log(result);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(this);
+                    console.log(errorThrown);
+                },
+                async: true, // 异步
+                dataType: "json" //将返回的字符串解释为json格式，ajax返回的只能是字符串，返回的json字符串一定要是名和值都用双引号括住
+            });
+        });
+
+        // jq 的 ajax post 方式2 data是查询字符串格式
+        $("#jq-post2").click(function() {
+            $.ajax({
+                url: "getData",
+                type: "post",
+                data: "type=ajax&by=data-string&name=ccc&age=18&gender=male&time=" + (new Date().getTime()),
+                success: function(result) {
+                    console.log(result);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(this);
+                    console.log(errorThrown);
+                },
+                async: true, // 异步
+                dataType: "json" //将返回的字符串解释为json格式，ajax返回的只能是字符串，返回的json字符串一定要是名和值都用双引号括住
+            });
+        });
+
+        // jq 的 ajax post 方式3 data直接写在url上面，但是没有data，由于是post请求，所以请求时没有附带任何数据的
+        $("#jq-post3").click(function() {
+            $.ajax({
+                url: "getData?type=ajax&by=url&name=ccc&age=18&gender=male&time=" + (new Date().getTime()),
+                type: "post",
+                success: function(result) {
+                    console.log(result);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(this);
+                    console.log(errorThrown);
+                },
+                async: true, // 异步
+                dataType: "json" //将返回的字符串解释为json格式，ajax返回的只能是字符串，返回的json字符串一定要是名和值都用双引号括住
+            });
+        });
+
+
+
+        ////////////
+        // 原生ajax //
+        ////////////
+
+
+        $("#javascript-get1").on("click", function() {
+
+            /*原生的ajax get 请求，发送到服务器的数据只能写在url的查询部分上*/
+
+            //步骤一:创建异步对象
+            var xhr = new XMLHttpRequest();
+            //步骤二:设置请求的url参数,参数一是请求的类型,参数二是请求的url,可以带参数,动态的传递参数starName到服务端，参数三表示异步
+            xhr.open("get", "getData?" + "type=ajax&by=data-url&name=ccc&age=18&gender=male&time=" + (new Date().getTime()), true);
+            //步骤三:发送请求 get 请求中 send()不需要传递任何数据，就算send()加上参数也是没用的
+            xhr.send();
+            //步骤四:注册事件 onreadystatechange 状态改变就会调用
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    //步骤五 如果能够进到这个判断 说明 数据 完美的回来了,并且请求的页面是存在的
+                    console.log(xhr.responseText); //输入相应的内容
+                }
+            }
 
         });
+
+
+        $("#javascript-post1").on("click", function() {
+
+            /*原生的ajax post 请求，发送到服务器的数据只能以查询字符串的格式写在send()的参数中*/
+
+            //步骤一:创建异步对象
+            var xhr = new XMLHttpRequest();
+            //步骤二:设置请求的url参数,参数一是请求的类型,参数二是请求的url,可以带参数,动态的传递参数starName到服务端，参数三表示异步
+            xhr.open("post", "getData", true);
+            //步骤三:post请求一定要添加请求头才行不然会报错
+            xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            //步骤四:发送请求 post 请求中 发送到服务器的数据只能以查询字符串的格式写在send()的参数中
+            xhr.send("type=ajax&by=data-send&name=ccc&age=18&gender=male&time=" + (new Date().getTime()));
+            //步骤五:注册事件 onreadystatechange 状态改变就会调用
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    //步骤六 如果能够进到这个判断 说明 数据 完美的回来了,并且请求的页面是存在的
+                    console.log(xhr.responseText); //输入相应的内容
+                }
+            }
+
+        });
+
+
+    });
     </script>
 </head>
 
 <body>
-    <button id="ajax">ajax</button>
-
-
+    <button id="jq-get1">jq-get1</button>
+    <button id="jq-get2">jq-get2</button>
+    <button id="jq-get3">jq-get3</button>
+    <button id="jq-get4">jq-get4</button>
+    <hr>
+    <button id="jq-post1">jq-post1</button>
+    <button id="jq-post2">jq-post2</button>
+    <button id="jq-post3">jq-post3</button>
+    <hr>
+    <button id="javascript-get1">javascript-get1</button>
+    <button id="javascript-post1">javascript-post1</button>
 </body>
 
 </html>

@@ -16,15 +16,27 @@ module 学习
 
             * `http.IncomingMessage` 对象（实例）是由 `http.Server` 创建的，并作为第一个参数递给 'request' 事件。它可以用来访问响应状态、消息头、以及数据。它实现了 `可读流` 接口，还有以下额外的事件、方法、以及属性。
 
+                一般在回调函数中用'req'保存这个变量
+
+                * req.url
+                * req.method
+
+
             * `http.ServerResponse` 对象（实例）该对象在 HTTP 服务器内部被创建。 它作为第二个参数被传入 'request' 事件。这个类实现了（而不是继承自）`可写流` 接口。 它是一个有以下事件的 EventEmitter：
 
+            一般在回调函数中用'res'保存这个变量
+
+            * res.write() 调用时，发送一块响应主体 响应主体只能二进制数据或者字符串（二进制数据在浏览器好像也会被解释为字符串）
+            * res.end() 如果有内容先调用res.write()
+
+
     ``` javascript
-    http.createServer(function (request , response ){
+    http.createServer(function (req , res ){
     });
     ```
 
-    * 参数 *request* 即 `http.IncomingMessage` 类的实例
-    * 参数 *response* 即 `http.ServerResponse` 类的实例
+    * 参数 *req* request 即 `http.IncomingMessage` 类的实例
+    * 参数 *res* response 即 `http.ServerResponse` 类的实例
 
 
 
