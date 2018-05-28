@@ -77,7 +77,7 @@ var server = http.createServer(function (req, res) {
         res.end("");
     }
 
-    // 有时候会忘记res.end(); 但是直接在createServer最后直接写一个res.end();因为有些操作是异步的
+    // 如果是在 createServer 最后补一句 res.end(""); 那么在if语句中的最后最好加上 return; 因为有些操作是异步的（比如读完文件再res.end()，还有上面的post操作）
 
 }).listen(3000);
 
