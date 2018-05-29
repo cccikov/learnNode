@@ -13,8 +13,11 @@ function static(req, res, filepath) {
 
     fs.readFile(file_pathname, "utf8", function (err, data) {
         if (err) {
+            if(err.code == "ENOENT" && pathname == "/favicon.ico"){
+                return;
+            }
             console.log(
-                "\n" + "error:readFile发生错误----" + 
+                "\n" + "error:readFile发生错误----" + file_pathname +
                 "\n      " + err.code + 
                 "\n      " + err.message + 
                 "\n      " + err.stack + 

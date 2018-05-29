@@ -22,39 +22,33 @@ http.createServer(function (req, res) {
             var time = new Date().getTime();
             var newPath = __dirname + dir + "/" + basename + "_" + time + extname;
 
-                fs.access(__dirname + dir, function (err) {
-                    if (!!err && err.code == 'ENOENT') { // 无此文件或目录
-                        fs.mkdir(__dirname + dir, function () {
-                            fs.rename(oldPath, newPath, function (err) {
-                                if (err) {
-                                    console.error(err);
-                                }
-                                res.writeHead(200, {
-                                    'content-type': 'text/plain'
-                                });
-                                res.write('received upload:\n\n');
-                                res.end(util.inspect({
-                                    fields: fields,
-                                    files: files
-                                }));
-                            });
-                        });
-                        return;
-                    };
-                    fs.rename(oldPath, newPath, function (err) {
-                        if (err) {
-                            console.error(err);
-                        }
-                        res.writeHead(200, {
-                            'content-type': 'text/plain'
-                        });
-                        res.write('received upload:\n\n');
-                        res.end(util.inspect({
-                            fields: fields,
-                            files: files
-                        }));
+            function rename(oldPath, newPath) {
+                fs.rename(oldPath, newPath, function (err) {
+                    if (err) {
+                        console.error(err);
+                    }
+                    res.writeHead(200, {
+                        'content-type': 'text/plain'
                     });
+                    res.write('received upload:\n\n');
+                    res.end(util.inspect({
+                        fields: fields,
+                        files: files
+                    }));
                 });
+            }
+
+            fs.access(__dirname + dir, function (err) {
+                if (!!err && err.code == 'ENOENT') { // 无此文件或目录
+                    fs.mkdir(__dirname + dir, function () {
+                        rename(oldPath, newPath);
+                    });
+                    return;
+                };
+                rename(oldPath, newPath);
+            });
+
+            
         });
 
     } else {
