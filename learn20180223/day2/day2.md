@@ -17,7 +17,7 @@
 * `path.basename`
 * `fs.access` `err.code == 'ENOENT'`
 
-    `err.code` 错误系列
+    `err.code` 错误系列 通常是大写字母 E+错误英文
 
     * `EACCES` (拒绝访问): 试图以被一个文件的访问权限禁止的方式访问一个文件。
     * `EADDRINUSE` (地址已被使用): 试图绑定一个服务器（net、http 或 https）到本地地址，但因另一个本地系统的服务器已占用了该地址而导致失败。
