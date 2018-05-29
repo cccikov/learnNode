@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/cccikov/learnNode#readme",
   "dependencies": {
+    "ejs": "^2.6.1",
     "formidable": "^1.2.1"
   }
 }
