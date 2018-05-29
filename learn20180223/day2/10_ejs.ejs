@@ -7,6 +7,14 @@
     <title>ejs</title>
 </head>
 <body>
-    
+    <div>
+        <ul>
+            <% for(var i = 0;i<list.length;i++){
+                if(list[i].num>3){
+            %>
+            <li><%= list[i].num %></li>
+            <% }} %>
+        </ul>
+    </div>
 </body>
 </html>
