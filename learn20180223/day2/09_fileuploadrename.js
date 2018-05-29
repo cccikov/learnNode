@@ -17,42 +17,44 @@ http.createServer(function (req, res) {
 
             var oldPath = __dirname + "/" + files.file.path;
             var extname = path.extname(files.file.name);
+            var basename = path.basename(files.file.name, extname);
             var dir = "/pic"
-            var newPath = __dirname + dir + "/" + files.file.path + extname;
+            var time = new Date().getTime();
+            var newPath = __dirname + dir + "/" + basename + "_" + time + extname;
 
-            fs.access(__dirname + dir, function (err) {
-                if (err) {
-                    console.error(err);
-                    fs.mkdir(__dirname + dir, function () {
-                        fs.rename(oldPath, newPath, function (err) {
-                            if (err) {
-                                console.error(err);
-                            }
-                            res.writeHead(200, {
-                                'content-type': 'text/plain'
+                fs.access(__dirname + dir, function (err) {
+                    if (!!err && err.code == 'ENOENT') { // 无此文件或目录
+                        fs.mkdir(__dirname + dir, function () {
+                            fs.rename(oldPath, newPath, function (err) {
+                                if (err) {
+                                    console.error(err);
+                                }
+                                res.writeHead(200, {
+                                    'content-type': 'text/plain'
+                                });
+                                res.write('received upload:\n\n');
+                                res.end(util.inspect({
+                                    fields: fields,
+                                    files: files
+                                }));
                             });
-                            res.write('received upload:\n\n');
-                            res.end(util.inspect({
-                                fields: fields,
-                                files: files
-                            }));
                         });
+                        return;
+                    };
+                    fs.rename(oldPath, newPath, function (err) {
+                        if (err) {
+                            console.error(err);
+                        }
+                        res.writeHead(200, {
+                            'content-type': 'text/plain'
+                        });
+                        res.write('received upload:\n\n');
+                        res.end(util.inspect({
+                            fields: fields,
+                            files: files
+                        }));
                     });
-                };
-                fs.rename(oldPath, newPath, function (err) {
-                    if (err) {
-                        console.error(err);
-                    }
-                    res.writeHead(200, {
-                        'content-type': 'text/plain'
-                    });
-                    res.write('received upload:\n\n');
-                    res.end(util.inspect({
-                        fields: fields,
-                        files: files
-                    }));
                 });
-            });
         });
 
     } else {
