@@ -13,7 +13,7 @@ function static(req, res, filepath) {
 
     fs.readFile(file_pathname, "utf8", function (err, data) {
         if (err) {
-            console.error("error:readFile发生错误----" + err);
+            console.log("\n" + "error:readFile发生错误----" + "\n      " + err.code + "\n      " + err.message + "\n");
             res.write(file_pathname + " 404 not found");
         } else {
             let extname = path.extname(file_pathname);
