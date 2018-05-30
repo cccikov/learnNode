@@ -5,10 +5,6 @@
 
 
 var pug = require('pug');
-var http = require('http');
-var fs = require('fs');
-var static = require('./static');
-
 
 
 /**
