@@ -74,7 +74,7 @@ var static = require('./static');
         var str = data.toString();
 
         // 方式1 主要代码
-        var template = ejs.compile(str);
+        var template = ejs.compile(str); // 可以将模板存起来，然后通过添加不同的数据，最终得到内容不一样的html
         var html = template(tplData);
 
         console.log(html);
