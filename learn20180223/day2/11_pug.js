@@ -13,6 +13,9 @@ var pug = require('pug');
  * var fn = pug.compile('string of pug', options);
  * var html = fn(data);
  *
+ * 可以将编译成功的模板存起来，然后通过添加不同的数据，最终渲染出内容不一样的html，如果是使用同一编译的模板，不同数据渲染，
+ * 使用方法1 性能是最佳的 因为会减少了编译过程
+ *
  *
  * 方法2
  * // render
@@ -28,7 +31,10 @@ var pug = require('pug');
  * // renderFile
  * var html = pug.renderFile('filename.pug', merge(options, data));
  */
+
+
 {
+    // 方法1 需要渲染不同的数据，推荐方法1
     let template = pug.compile('title=title', {});
     let html = template({
         title: "方法1"
@@ -44,6 +50,7 @@ var pug = require('pug');
 }
 
 {
+    // 只渲染一次，推荐方法3
     let html = pug.renderFile('./11_pug.pug', {
         title: "方法3"
     });

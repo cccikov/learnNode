@@ -8,23 +8,67 @@ html(lang="en")
                 console.log(i);
             }
     body
+        p 需要注意的是 pug语法里面 对空格十分敏感的 特别是 标签后面的空格 属性里面的空格
+        p 在默认情况下，在每行文本的开头（或者紧跟白字符的部分）书写这个 HTML 标签的名称。使用缩进来表示标签间的嵌套关系，这样可以构建一个 HTML 代码的树状结构。
+        a(href=next) 下一个
         div
-            a(href="http://www.baidu.com") 百度
-        div Lorem ipsum dolor sit amet.
+            h2 标签属性
+            a(data-val='100' href="http://www.baidu.com") 百度
+            a(data-val='100' , href="http://www.baidu.com") 百度
+            a#btn.btn(href="http://www.baidu.com") 百度
+            input(
+                type="text"
+                name="name"
+                value="多行属性也是可以的"
+            )
+
+            p 属性值应该使用引号括住来表示是字符串，否则将会当成是变量，实际上属性值就是可以当成是js语句了，可以采用拼接字符串
+            input(
+                type="text"
+                name=input_name
+                value="这是固定的字符串"+input_val
+            )
+
+            p 样式
+            span(style="color:red;background:green") haha
+            span(style={color: 'green', background: 'red'}) haha
+        div
+            h2 代码 用 - 开始一段不直接进行输出的代码
+            ul
+                - for(var i=0;i<3;i++)
+                    - if(i<2)
+                        li Lorem ipsum dolor sit amet #{i}.
+            - var str='<a href="http://www.baidu.com">baidu</a>'
+
+                p 用 = 开始一段带有输出的代码，它应该是可以被求值的一个 JavaScript 表达式。为安全起见，它将被 HTML 转义：
+                p=str
+
+                p 用 != 开始一段不转义的，带有输出的代码。这将不会做任何转义，所以用于执行用户的输入将会不安全：
+                p!=str
+
+                p 在 \#{} 里面的代码也会被求值，转义，并最终嵌入到模板的渲染输出中。
+                p #{str}
+
+                p \#[] 嵌入标签
+                p Lorem ipsum dolor sit amet, #[strong consectetur] adipisicing elit.
+        div
+            h2 纯文本
             p 短文本
+                span 哈哈
             p.
-                长文本
-                可以换行
-                换行
+                加了.后代表是文本块
+                可以在模板里面换行
+                而不会被识别为新标签
+                script 和 style 标签最好有.
+                因为这相当于只是在html文件的时候换行
+                所以在网页显示还是一个空格
             p
-                | foo bar baz
-                | rawr rawr
-                | super cool
-                | go jade go
+                | 另外一种向模板添加纯文本的方法就是在一行前面加一个管道符号（|）
+                | 管道符号总是在最开头， 不算前面的缩进。
 
         div
-            p This text belongs to the paragraph tag.
-            br
+            p 这是一段文字
+            span(style={color: 'red', background: 'green'}) 这是另外一段文字
             .
-                This text belongs to the div tag.
+                我想这段文字紧跟着span(ps:由于这个span不是在开头，所以不当做标签)标签后面，加个.就可以了
 
