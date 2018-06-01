@@ -10,7 +10,7 @@ module 学习
 
     * `http.Server`类 继承于 `net.Server`类
 
-    * `requestListener` 是一个函数，会被自动添加到 `'request'` 事件。即系监听器，或者是这个事件的回调函数
+    * `requestListener` 是一个函数，会被自动添加到 `'request'` 事件。即系监听器，或者是这个事件的回调函数(所以其实我们每次访问这个服务器的时候就是触发这个回调函数)
 
         * `'request'` 事件，每次接收到一个请求时触发。触发时会传递两个参数，分别是`http.IncomingMessage`和`http.ServerResponse`
 
