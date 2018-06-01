@@ -70,5 +70,5 @@ router 是一个路由系统
 有 /me/about   /me/detail   /me/setting
 如果用app.get()的话，需要一种种都写，因为页面肯定有其他路由的比如 控制/index/的 控制 /product/ 这样就会导致一个js控制太多的路由，代码会不直观，好乱
 
-这时候就可以使用router，分别匹配 /about /detail  /setting 的情况，写成一个模块 假如是me_router
+这时候就可以使用router，分别匹配 /about /detail  /setting 的情况，写成一个模块 假如就叫做me_router
 然后用app.use("/me",me_router); 当页面访问以"/me"开头的网址的时候，就交给me_router去处理
