@@ -38,6 +38,15 @@ app.use("/",function(){
 
 将匹配任何路径（因为任何路径都以"/"开头）
 
+所以使用 静态资源中间件
+app.use(express.static("public"));
+实际是 app.use("/",express.static("public"));
+就是浏览器访问"/"的时候，就读取public的根目录
+
+如果是app.use("/static",express.static("public"));
+就是浏览器访问"/static"的时候，就读取public的根目录
+
+
 其他都是要完全和 path参数值 一样才可以，才可以匹配上，才会执行该中间件
 
 小技巧，充当404判断，不再需要error判断返回404
@@ -85,4 +94,27 @@ router就像中间件，所以一般是app.use(router.use)里面使用，因为r
 
 
 
+<<<<<<< HEAD
 req.xhr 是否是ajax请求
+=======
+
+
+
+
+
+express.Router
+可使用 express.Router 类创建模块化、可挂载的路由句柄。Router 实例是一个完整的中间件和路由系统，因此常称其为一个 “mini-app”。
+
+Router 实例
+var router = express.Router();
+
+router 是一个路由系统
+
+比如页面有一个/me/下面的二级路由
+
+有 /me/about   /me/detail   /me/setting
+如果用app.get()的话，需要一种种都写，因为页面肯定有其他路由的比如 控制/index/的 控制 /product/ 这样就会导致一个js控制太多的路由，代码会不直观，好乱
+
+这时候就可以使用router，分别匹配 /about /detail  /setting 的情况，写成一个模块 假如就叫做me_router
+然后用app.use("/me",me_router); 当页面访问以"/me"开头的网址的时候，就交给me_router去处理
+>>>>>>> 066464105fba96bd6d665979219115f460f4bfcd
