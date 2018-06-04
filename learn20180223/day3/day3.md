@@ -94,9 +94,7 @@ router就像中间件，所以一般是app.use(router.use)里面使用，因为r
 
 
 
-<<<<<<< HEAD
 req.xhr 是否是ajax请求
-=======
 
 
 
@@ -117,4 +115,3 @@ router 是一个路由系统
 
 这时候就可以使用router，分别匹配 /about /detail  /setting 的情况，写成一个模块 假如就叫做me_router
 然后用app.use("/me",me_router); 当页面访问以"/me"开头的网址的时候，就交给me_router去处理
->>>>>>> 066464105fba96bd6d665979219115f460f4bfcd
