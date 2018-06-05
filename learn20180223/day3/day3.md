@@ -115,3 +115,191 @@ router 是一个路由系统
 
 这时候就可以使用router，分别匹配 /about /detail  /setting 的情况，写成一个模块 假如就叫做me_router
 然后用app.use("/me",me_router); 当页面访问以"/me"开头的网址的时候，就交给me_router去处理
+
+
+
+
+
+
+
+
+
+
+
+## API
+
+
+
+
+
+
+
+### 唯一中间件 express.static()
+
+``` javascript
+express.static(root, [options])
+```
+
+
+
+
+
+
+
+
+### app（Application）
+
+``` javascript
+var express = require('express');
+var app = express();
+```
+
+#### 属性（Properties）
+
+* app.locals
+* app.mountpath
+
+#### 方法（Methods）
+
+路由
+* app.all()
+* app.METHOD()
+    * app.get()
+    * app.post()
+    * app.put()
+* app.use()
+* app.route()
+* app.listen()
+
+设置配置
+* app.set()
+    * views
+    * view engine
+* app.get()
+* app.delete()
+* app.disable()
+* app.disabled()
+* app.enable()
+* app.enabled()
+
+其他
+* app.engine()
+* app.param()
+* app.path()
+* app.render()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### req （Request）
+
+#### 属性（Properties）
+
+* req.app
+* req.baseUrl
+* req.originalUrl
+* req.path
+* req.body
+* req.cookies
+* req.fresh
+* req.hostname
+* req.ip
+* req.ips
+* req.params
+* req.protocol
+* req.query
+* req.route
+* req.secure
+* req.signedCookies
+* req.stale
+* req.subdomains
+* req.xhr
+
+#### 方法（Methods）
+
+* req.accepts()
+* req.acceptsCharsets()
+* req.acceptsEncodings()
+* req.acceptsLanguages()
+* req.get()
+* req.is()
+* req.param()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### res（Response）
+
+#### 属性（Properties）
+
+* res.app
+* res.headersSent
+* res.locals
+
+#### 方法（Methods）
+
+* res.append()
+* res.attachment()
+* res.cookie()
+* res.clearCookie()
+* res.download()
+* res.end()
+* res.format()
+* res.get()
+* res.json()
+* res.jsonp()
+* res.links()
+* res.location()
+* res.redirect()
+* res.render()
+* res.send()
+* res.sendFile()
+* res.sendStatus()
+* res.set()
+* res.status()
+* res.type()
+* res.vary()
+
+
+
+
+
+
+
+
+## Router
+
+``` javascript
+var router = express.Router([options]);
+```
+
+#### 方法（Methods）
+
+* router.all()
+* router.METHOD()
+* router.param()
+* router.route()
+* router.use()
