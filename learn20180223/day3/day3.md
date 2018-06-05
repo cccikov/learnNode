@@ -1,5 +1,9 @@
 # day3
 
+Express 不对 Node.js 已有的特性进行二次抽象，我们只是在它之上扩展了 Web 应用所需的基本功能。
+就是原生node的api都可以使用，res.write()都可以使用；
+像jq就是进行了二次抽象，原生是innerHTML，在jq里面就抽象为html()，并且原生js的不能使用。
+
 
 Express 是一个自身功能极简，完全是由路由和中间件构成一个的 web 开发框架：从本质上来说，一个 Express 应用就是在调用各种中间件。
 

@@ -56,9 +56,15 @@ var app = express();
 * req.app
 * req.originalUrl
 
-    相当于原生node的`req.url`
+    相当于原生node的`req.url`，显示完整的请求url；但是express会重写`req.url`，会除去`req.url`的挂载路径。所以
+    ```
+    req.originalUrl = req.baseUrl + req.url
+    ```
 
 * req.baseUrl
+
+    显示的是挂载路径，和app.mountpath的一样
+
 * req.path
 * req.hostname
 * req.query
