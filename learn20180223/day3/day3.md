@@ -167,6 +167,7 @@ var app = express();
     * app.get()
     * app.post()
     * app.put()
+    * app.delete()
 * app.use()
 * app.route()
 * app.listen()
@@ -176,7 +177,6 @@ var app = express();
     * views
     * view engine
 * app.get()
-* app.delete()
 * app.disable()
 * app.disabled()
 * app.enable()
