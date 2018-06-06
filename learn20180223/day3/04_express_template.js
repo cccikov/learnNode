@@ -5,6 +5,7 @@ var express = require("express");
 var app = express();
 
 app.set("view engine", "pug");
+// app.set("views", "views"); // 设置模板所在目录，默认在views
 
 app.get("/", function (req, res) {
     res.render("pug.pug", {
