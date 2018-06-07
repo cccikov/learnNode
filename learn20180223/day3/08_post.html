@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>post提交表单</title>
+    <style>
+        a {
+            margin: 10px;
+        }
+
+        form {
+            margin: 10px;
+        }
+
+        form label {
+            display: block;
+        }
+
+        form div label {
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="/me/postData" method="post">
+        <label>
+            <span>姓名：</span>
+            <input type="text" name="name" value="haha">
+        </label>
+        <label>
+            <span>年龄：</span>
+            <input type="text" name="age" value="19">
+        </label>
+        <div>
+            <span>性别：</span>
+            <label>
+                <input type="radio" checked name="gender" value="male"> 男
+            </label>
+            <label>
+                <input type="radio" name="gender" value="female"> 女
+            </label>
+        </div>
+        <input type="submit" value="提交">
+    </form>
+
+</body>
+
+</html>
