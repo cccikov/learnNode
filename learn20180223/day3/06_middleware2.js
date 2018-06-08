@@ -51,11 +51,11 @@ var express = require("express");
 let app = express();
 app.get("/test", function (req, res, next) {
     res.write("1");
-    next();     
+    next();
 });
 app.get("/test", function (req, res, next) {
     res.write("2");
-    next();    
+    next();
 });
 app.get("/test", function (req, res, next) {
     res.end("3");
@@ -63,10 +63,10 @@ app.get("/test", function (req, res, next) {
 // 如果挂载的路径和方法是一样的，那么可以写在一起
 app.get("/test2", function (req, res, next) {
     res.write("1");
-    next();     
+    next();
 },function (req, res, next) {
     res.write("2");
-    next();     
+    next();
 },function (req, res, next) {
     res.end("3");
 });
