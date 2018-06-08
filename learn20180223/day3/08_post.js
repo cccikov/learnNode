@@ -6,6 +6,7 @@ app.use(express.static("./", {
     index: "08_post.html"
 }));
 
+// 根据请求头的Content-Type采用不同的中间件，可以全部都写，因为会将控制权交给下一个中间件
 /* app.use(bodyParser.json()); // for parsing application/json 但是好像angular的post请求是这个
 app.use(bodyParser.urlencoded({
     extended: true
