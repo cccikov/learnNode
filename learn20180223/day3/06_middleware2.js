@@ -43,3 +43,32 @@ var express = require("express");
 
     // "http://localhost:8000/admin/login" 现在页面显示的是 后台管理登录页面
 }
+
+
+
+
+
+let app = express();
+app.get("/test", function (req, res, next) {
+    res.write("1");
+    next();     
+});
+app.get("/test", function (req, res, next) {
+    res.write("2");
+    next();    
+});
+app.get("/test", function (req, res, next) {
+    res.end("3");
+});
+// 如果挂载的路径和方法是一样的，那么可以写在一起
+app.get("/test2", function (req, res, next) {
+    res.write("1");
+    next();     
+},function (req, res, next) {
+    res.write("2");
+    next();     
+},function (req, res, next) {
+    res.end("3");
+});
+
+app.listen(80);
