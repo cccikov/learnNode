@@ -24,7 +24,50 @@ var app = express();
 
 路由
 * app.all()
+
+    ``` javascript
+    app.all(path, callback [, callback ...])
+    ```
+
 * app.METHOD()
+
+    ``` javascript
+    app.METHOD（path，callback [，callback ...]）
+    ```
+
+    路由HTTP请求，其中METHOD是请求的HTTP方法，例如GET，PUT，POST等，小写。因此，实际的方法是app.get()，  app.post()，app.put()，等等。请参阅下面的完整列表。
+
+    * **get**
+    * **post**
+    * checkout
+    * connect
+    * copy
+    * delete
+    * head
+    * lock
+    * merge
+    * mkactivity
+    * mkcol
+    * move
+    * m-search
+    * notify
+    * options
+    * patch
+    * propfind
+    * proppatch
+    * purge
+    * put
+    * report
+    * search
+    * subscribe
+    * trace
+    * unlock
+    * unsubscribe
+
+    要路由转换为无效JavaScript变量名称的方法，请使用括号表示法。例如， ` app['m-search']('/', function ...`。
+
+    该API文档中有明确的项目只针对最流行的HTTP方法app.get()，  app.post()，app.put()，和app.delete()。但是，上面列出的其他方法的工作方式完全相同。
+
     * app.get()
     * app.post()
     * app.put()

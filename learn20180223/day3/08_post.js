@@ -1,3 +1,7 @@
+/**
+ * app.post() 去处理 post 请求，req.body来获得客户端传给服务器的数据
+ */
+
 var express = require("express");
 var app = express();
 var bodyParser = require('body-parser');

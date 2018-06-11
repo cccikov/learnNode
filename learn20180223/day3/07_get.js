@@ -1,3 +1,6 @@
+/**
+ * app.get() 去处理 post 请求，req.queryy来获得客户端传给服务器的数据
+ */
 var express = require("express");
 var app = express();
 

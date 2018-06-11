@@ -74,6 +74,9 @@ app.use(function(req, res, next) {
 `res.send` 自动分配Content-LengthHTTP响应头字段（除非先前已定义），并提供自动HEAD和HTTP缓存新鲜度支持。
 
 
+### 路由
+路由路径可以是字符串，可以是通配符，可以是正则表达式
+
 ### get
 
 `req.query` 不需要再通过url模块去分析参数部分，直接用req.query
