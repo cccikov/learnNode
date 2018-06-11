@@ -55,6 +55,7 @@ app.use(express.static("public"));
 
 小技巧，充当404判断，不再需要error判断返回404
 在 Express 中，404 并不是一个错误（error）。因此，错误处理器中间件并不捕获 404。这是因为 404 只是意味着某些功能没有实现。也就是说，Express 执行了所有中间件、路由之后还是没有获取到任何输出。你所需要做的就是在其所有他中间件的后面添加一个处理 404 的中间件。如下：
+
 ``` javascript
 app.use(function(req, res, next) {
     res.status(404).send('Sorry cant find that!');
@@ -81,31 +82,15 @@ app.use(function(req, res, next) {
 
 `req.query` 不需要再通过url模块去分析参数部分，直接用req.query
 
-
-
 ### post
 
 `req.body` 使用模块`body-parser`，但是如果有复杂的内容（非字符串的图片，视频等），也是需要使用`formidable`
 
-
+浏览器只能发出get post请求，但是程序可以发出其他请求，如put delete
 
 ### router
 
 router就像中间件，所以一般是app.use(router.use)里面使用，因为router里面有自己的路由规则
-
-浏览器只能发出get post请求，但是程序可以发出其他请求，如put delete
-
-
-
-
-
-
-
-req.xhr 是否是ajax请求
-
-
-
-
 
 express.Router
 可使用 express.Router 类创建模块化、可挂载的路由句柄。Router 实例是一个完整的中间件和路由系统，因此常称其为一个 “mini-app”。
@@ -122,6 +107,7 @@ router 是一个路由系统
 
 这时候就可以使用router，分别匹配 /about /detail  /setting 的情况，写成一个模块 假如就叫做me_router
 然后用app.use("/me",me_router); 当页面访问以"/me"开头的网址的时候，就交给me_router去处理
+
 
 
 
