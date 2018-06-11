@@ -77,6 +77,10 @@ var app = express();
 
     * app.post()
 
+        ``` javascript
+        app.post(path, callback [, callback ...])
+        ```
+
          创建处理http方法是get，路径是path的路由；使用callback去处理请求
 
     * app.put()
@@ -149,17 +153,58 @@ var app = express();
     绑定并侦听指定主机和端口上的连接。此方法与Node的http.Server.listen（）相同。
 
 设置配置
+
 * app.set()
-    * views
-    * view engine
+
+    `app.set(name, value)` 设置当前app的`name`属性值为`value`
+
+    * "view engine" 设置视图的目录或目录
+    * "view" 设置模板引擎
+
 * app.get()
+
+    `app.get(name)` 返回当前app属性名为`name`的属性值。与app.set()配合使用
+
+    这个方法写法和路由的`app.get`是一样的，当只有一个参数的时候，就是返回属性值，当有两个以上参数就是路由控制了
+
 * app.disable()
+
+    `app.disable(name)` 设置当前app属性名为`name`的属性值为（禁用）false。`app.disable('foo')` 等价于 `app.set('foo', false)`
+
 * app.disabled()
+
+    `app.disabled(name)` 返回当前app属性名为`name`的属性值是否为（禁用）false状态
+
 * app.enable()
+
+    `app.enable(name)` 设置当前app属性名为`name`的属性值为（启用）true。`app.enable('foo')` 等价于 `app.set('foo', true)`
+
 * app.enabled()
 
+    `app.enabled(name)` 返回当前app属性名为`name`的属性值是否为（启用）true状态
+
 其他
+
 * app.render()
+
+    ``` javascript
+    app.render(view, [locals], callback)
+    ```
+
+    只负责生成视图，无法把视图响应给客户端（浏览器）；`res.render` 内部也是调用了 `app.render`。
+
+    `view` 模板的文件名，忽略扩展名
+
+    `locals` 传给模板的数据
+
+    `callback` 生成成功的回调函数，第一个参数是 `error` 错误信息，第二参数是 `html` 生成好的视图
+
+    ``` javascript
+    app.render('email', { name: 'Tobi' }, function(err, html){
+        // ...
+    });
+    ```
+
 * app.engine()
 * app.param()
 * app.path()
