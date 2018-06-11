@@ -32,7 +32,9 @@ var app = express();
 
     path 是服务器上的路径（可以是字符串，可以是通配符，可以是正则表达式）， callback 是当路由匹配时要执行的函数，METHOD 是一个 HTTP 请求方法
 
-    路由HTTP请求，其中METHOD是请求的HTTP方法，例如GET，PUT，POST等，小写。因此，实际的方法是app.get()，  app.post()，app.put()，等等。请参阅下面的完整列表。
+    创建处理HTTP请求的路由，其中METHOD是请求的HTTP方法，例如GET，PUT，POST等，小写。因此，实际的方法是app.get()，  app.post()，app.put()，等等。请参阅下面的完整列表。
+
+    您可以提供多个回调函数，其行为与中间件类似，只是这些回调可以调用next('route')绕过剩余的路由回调。您可以使用此机制在路线上施加先决条件，并在没有理由继续使用当前路线时将控制权交给后续路线。
 
     * **get**
     * **post**
@@ -66,7 +68,17 @@ var app = express();
     该API文档中有明确的项目只针对最流行的HTTP方法app.get()，  app.post()，app.put()，和app.delete()。但是，上面列出的其他方法的工作方式完全相同。浏览器只能发出get post请求，但是程序可以发出其他请求，如put delete
 
     * app.get()
+
+        ``` javascript
+        app.get(path, callback [, callback ...])
+        ```
+
+        创建处理http方法是get，路径是path的路由；使用callback去处理请求
+
     * app.post()
+
+         创建处理http方法是get，路径是path的路由；使用callback去处理请求
+
     * app.put()
     * app.delete()
 
@@ -84,9 +96,9 @@ var app = express();
     app.use（[path，] function [，function ...]）
     ```
 
-    `app.use` 会匹配任何以 path参数值 作为开头的路径；如果path未指定，则默认为“/”。
+    `app.use` 会匹配任何以 path参数值 作为开头的路径；如果path未指定，则默认为“/”。不是精确匹配
 
-    对于`app.METHOD` 和 `app.all` 请求的路径完全符合`path` 才匹配成功。
+    对于`app.METHOD` 和 `app.all` 请求的路径完全符合`path` 才匹配成功。是精确匹配
 
     ```javascript
     // 匹配根路径的请求
@@ -109,6 +121,25 @@ var app = express();
     `app.use('/apple', ...)` 将匹配 `"/apple"`，`"/apple1"`，`"/applea"`，`"/apple/images"`，`"/ apple/images/news"`等。
 
 * app.route()
+
+    返回一个单例模式的路由的实例，之后你可以在其上施加各种HTTP动作的中间件。使用app.route()来避免重复路由名字(例如错字错误)--说的意思应该是使用app.router()这个单例方法来避免同一个路径多个路由实例。
+
+    用于客户端通过不同的http方法请求同一个路径的时候使用(实现 RESTful )。
+
+    ```javascript
+    app.route('/events')
+    .all(function(req, res, next) {
+        // runs for all HTTP verbs first
+        // think of it as route specific middleware!
+    })
+    .get(function(req, res, next) {
+        res.json(...);
+    })
+    .post(function(req, res, next) {
+        // maybe add a new event...
+    })
+    ```
+
 * app.listen()
 
     ``` javascript
