@@ -206,14 +206,83 @@ var app = express();
     ```
 
 * app.engine()
+
+    ``` javascript
+    app.engine(ext, callback)
+    ```
+
+    注册指定引擎的回调，用来渲染处理ext文件
+
+    Express默认使用jade模板。如果你尝试加载 "foo.jade" 文件，Express内部会调用如下操作。
+
+    ``` javascript
+    app.engine('jade', require('jade').__express);
+    ```
+
+    如果要使用其他模板引擎，如：将EJS模板映射至".html"文件：
+
+    ``` javascript
+    app.engine('html', require('ejs').__express);
+    ```
+
+    ``` javascript
+    var ejs = require('ejs');  //我是新引入的ejs插件
+    app.engine('html', ejs.__express);
+    app.set('view engine', 'html');
+    // 这样express就可以用ejs引擎去渲染文件后缀为html的模板
+    ```
+
 * app.param()
+
+    ``` javascript
+    app.param([name], callback)
+    ```
+
+    给路由参数添加回调触发器，这里的name是参数名或者参数数组，function是回调方法。
+
+    ```
+    // 当有 :id :page 参数（是路由参数，不是url参数）的路由被触发是，运行回调函数
+    app.param(['id', 'page'], function (req, res, next, value) {
+        console.log('CALLED ONLY ONCE with', value);
+        next();
+    })
+
+    app.get('/user/:id/:page', function (req, res, next) {
+        console.log('although this matches');
+        next();
+    });
+
+    app.get('/user/:id/:page', function (req, res) {
+        console.log('and this matches too');
+        res.end();
+    });
+    ```
+
 * app.path()
+
+    通过这个方法可以得到app典型的路径，其是一个string。
+
+    ``` javascript
+    var app = express()
+    , blog = express()
+    , blogAdmin = express();
+
+    app.use('/blog', blog);
+    blog.use('/admin', blogAdmin);
+
+    console.log(app.path()); // ''
+    console.log(blog.path()); // '/blog'
+    console.log(blogAdmin.path()); // '/blog/admin'
+    ```
 
 ### req （Request）
 
 #### 属性（Properties）
 
 * req.app
+
+    这个属性持有express程序实例的一个引用，其可以作为中间件使用。
+
 * req.originalUrl
 
     相当于原生node的`req.url`，显示完整的请求url；但是express会重写`req.url`，会除去`req.url`的挂载路径。所以
