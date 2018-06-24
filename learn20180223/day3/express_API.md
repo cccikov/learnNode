@@ -285,7 +285,10 @@ var app = express();
 
 * req.originalUrl
 
-    相当于原生node的`req.url`，显示完整的请求url；但是express会重写`req.url`，会除去`req.url`的挂载路径。所以
+    相当于原生node的`req.url`，显示完整的请求url。所以
+
+    但是当使用`app.use()`时，express会重写`req.url`，会除去`req.url`的挂载路径。`app.use()`的挂载功能将重写req.url以除去挂载地址。
+
     ```
     req.originalUrl = req.baseUrl + req.url
     ```
@@ -295,10 +298,41 @@ var app = express();
     显示的是挂载路径，和app.mountpath的一样
 
 * req.path
+
+    返回请求URL的`path`部分。
+
 * req.hostname
+
+    返回请求URL的`hostname`部分。
+
 * req.query
+
+    返回请求URL的`query`部分的对象。路由中每个查询字符串参数的属性的对象。如果没有查询字符串，它是空的对象，{}。
+
 * req.body
+
+    在请求的body中保存的是提交的一对对键值数据。默认情况下，它是undefined，当你使用比如body-parser和multer这类解析body数据的中间件时，才有对应请求body的值。只有请求的类型(method)时是post的时候才会有请求body
+
 * req.params
+
+    一个对象，其包含了一系列的属性，这些属性和在路由中命名的参数名是一一对应的。
+
+    1. 例如，如果你有`/user/:name`路由，`name`属性可作为`req.params.name`。这个对象默认值为{}。
+
+        ``` javascript
+        // GET /user/tj
+        req.params.name
+        // => "tj"
+        ```
+
+    2. 当你使用正则表达式来定义路由规则，捕获组的组合一般使用`req.params[n]`，这里的n是第几个捕获租。这个规则被施加在无名通配符匹配，比如`/file/*`的路由：
+
+        ``` javascript
+        // GET /file/javascripts/jquery.js
+        req.params[0]
+        // => "javascripts/jquery.js"
+        ```
+
 * req.ip
 * req.ips
 * req.fresh
