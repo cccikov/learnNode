@@ -336,6 +336,16 @@ var app = express();
 * req.ip
 * req.ips
 * req.fresh
+
+    指示这个请求是否是fresh(新的，是否是第一次这样的请求)。其和req.stale是相反的。 当cache-control请求头没有no-cache指示和下面中的任一一个条件为true，那么其就为true：
+
+    if-modified-since请求头被指定，和last-modified请求头等于或者早于modified响应头。
+    if-none-match请求头是*。
+
+* req.stale
+
+    指示这个请求是否是stale(陈旧的，是否之前就有过一次这样的请求)
+
 * req.xhr
 
     是否是ajax请求
@@ -345,7 +355,6 @@ var app = express();
 * req.route
 * req.secure
 * req.signedCookies
-* req.stale
 * req.subdomains
 
 #### 方法（Methods）
