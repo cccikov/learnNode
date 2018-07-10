@@ -334,7 +334,15 @@ var app = express();
         ```
 
 * req.ip
+
+    返回请求的IP地址。
+
+    如果trust proxy启用设置，则是上游地址
+
 * req.ips
+
+    当trust proxy设置项被设置为启用值，这个属性包含了一组在X-Forwarded-For请求头中指定的IP地址。不然，其就包含一个空的数组。这个头部可以被客户端或者代理设置。
+
 * req.fresh
 
     指示这个请求是否是fresh(新的，是否是第一次这样的请求)。其和req.stale是相反的。 当cache-control请求头没有no-cache指示和下面中的任一一个条件为true，那么其就为true：
