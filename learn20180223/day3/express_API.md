@@ -359,11 +359,28 @@ var app = express();
     是否是ajax请求
 
 * req.cookies
+
+    当使用cookie-parser中间件的时候，这个属性是一个对象，其包含了请求发送过来的cookies。如果请求没有带cookies，那么其值为{}。
+
 * req.protocol
+
+    请求的协议，一般为http，当启用TLS加密，则为https。
+
 * req.route
+
+    当前匹配的路由，其为一串字符。
+
 * req.secure
+
+    一个布尔值，如果建立的是TLS的连接（是否https协议），那么就为true。等价于`'https' == req.protocol;`
+
 * req.signedCookies
+
+    当使用cookie-parser中间件的时候，这个属性包含的是请求发过来的签名cookies，这个属性取得的是不含签名，可以直接使用的值。签名的cookies保存在不同的对象中来体现开发者的意图；不然，一个恶意攻击可以被施加在req.cookie值上(它是很容易被欺骗的)。记住，签名一个cookie不是把它藏起来或者加密；而是简单的防止篡改(因为签名使用的加密是私人的)。如果没有发送签名的cookie，那么这个属性默认为{}。
+
 * req.subdomains
+
+    请求中域名的子域名数组。
 
 #### 方法（Methods）
 
