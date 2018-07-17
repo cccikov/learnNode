@@ -70,7 +70,7 @@ console.log(path.resolve(__dirname, "./")); // 当前文件（模块）目录
 console.log(path.resolve(__dirname, "../")); // 当前文件（模块）的上一层目录
 console.log(path.resolve(__dirname, "../day1"));
 
-fs.readFile(path.resolve(__dirname, "../day2/") + "/module2.js", function(err, data) {
+fs.readFile(path.resolve(__dirname, "../day2/module2.js"), function(err, data) {
     if (err) {
         console.error("读取文件方式3", err);
     } else {

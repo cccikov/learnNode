@@ -468,6 +468,10 @@ var app = express();
 
     提示下载文件。
 
+    `res.download(path [, filename] [, fn])`传输path指定文件作为一个附件。通常，浏览器提示用户下载。默认情况下，Content-Disposition头部"filename="的参数为path(通常会出现在浏览器的对话框中)。通过指定filename参数来覆盖默认值。
+
+    当一个错误发生时或者传输完成，这个方法将调用fn指定的回调方法。这个方法使用res.sendFile()来传输文件。
+
 * res.end()
 
     终结响应处理流程。
@@ -489,6 +493,8 @@ var app = express();
     渲染视图模板。
 
 * res.send()
+
+    `res.send([body])`
 
     发送各种类型的响应。
 
