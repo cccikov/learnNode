@@ -385,12 +385,74 @@ var app = express();
 #### 方法（Methods）
 
 * req.accepts()
+
+    `req.accepts(types)`
+
+    检查这个指定的Content-type是否被接受，基于请求的Accept HTTP头部。这个方法返回最佳匹配，如果没有一个匹配，那么其返回undefined(在这个case下，服务器端应该返回406和"Not Acceptable")。
+
+    type值可以是一个单的MIME type字符串(比如application/json)，一个扩展名比如json，一个逗号分隔的列表，或者一个数组。对于一个列表或者数组，这个方法返回最佳项(如果有的话)。
+
+    就是客户端可以接受的Content-type，不是请求本身的Content-type
+
 * req.acceptsCharsets()
+
+    `req.acceptsCharsets(charset [, ...])`
+
+    返回指定的字符集集合中第一个的配置的字符集，基于请求的Accept-CharsetHTTP头。如果指定的字符集没有匹配的，那么就返回false。
+
 * req.acceptsEncodings()
+
+    `req.acceptsEncodings(encoding [, ...])`
+
+    返回指定的编码集合中第一个的配置的编码，基于请求的Accept-EncodingHTTP头。如果指定的编码集没有匹配的，那么就返回false。
+
 * req.acceptsLanguages()
+
+    `req.acceptsLanguages(lang [, ...])`
+
+    返回指定的语言集合中第一个的配置的语言，基于请求的Accept-LanguageHTTP头。如果指定的语言集没有匹配的，那么就返回false。
+
 * req.get()
+
+    `req.get(field)`
+
+    返回指定的请求HTTP头部的域内容(不区分大小写)
+
+    ``` javascript
+    req.get('Content-type');
+    // => "text/plain"
+    req.get('content-type');
+    // => "text/plain"
+    req.get('Something')
+    // => undefined
+    ```
+
 * req.is()
+
+    `req.is(type)`
+
+    如果进来的请求的Content-type头部域匹配参数type给定的MIME type，那么其返回true。否则返回false。
+
+    ``` javascript
+    // With Content-Type: text/html; charset=utf-8
+    req.is('html');
+    req.is('text/html');
+    req.is('text/*');
+    // => true
+    // When Content-Type is application/json
+    req.is('json');
+    req.is('application/json');
+    req.is('application/*');
+    // => true
+    req.is('html');
+    // => false
+    ```
+
 * req.param()
+
+    **已经不推荐使用了，用`req.params`,`req.body`, `req.query`代替**
+
+    `req.param(name)`
 
 ### res（Response）
 
