@@ -464,6 +464,178 @@ var app = express();
 
 #### 方法（Methods）
 
+
+* res.set()
+
+    `res.set(field [, value])`
+
+    设置响应对象的HTTP头部field为value。为了一次设置多个值，那么可以传递一个对象为参数。
+
+    设置响应头
+
+    ``` javascript
+    res.set('Content-Type', 'text/plain');
+    res.set({
+        'Content-Type':'text/plain',
+        'Content-Length':'123',
+        'ETag':'123456'
+    })
+    ```
+
+* res.status()
+
+    `res.status(code)`
+
+    使用此方法设置响应的HTTP状态。它是Node的response.statusCode的可链式别名。
+
+* res.sendStatus()
+
+    `res.sendStatus(statusCode)`
+
+    设置响应对象的HTTP status code为statusCode并且发送statusCode的相应的字符串形式作为响应的Body。
+
+    设置响应状态代码，并将其以字符串形式作为响应体的一部分发送。
+
+    ``` javascript
+    res.sendStatus(200); // 等价于 res.status(200).send('OK');
+    res.sendStatus(403); // 等价于 res.status(403).send('Forbidden');
+    res.sendStatus(404); // 等价于 res.status(404).send('Not Found');
+    res.sendStatus(500); // 等价于 res.status(500).send('Internal Server Error')
+    ```
+
+    如果指定了不受支持的状态代码，则HTTP状态仍设置为，statusCode并且代码的字符串版本将作为响应正文发送。
+
+    ``` javascript
+    res.sendStatus(2000); // 等价于 res.status(2000).send('2000')
+    ```
+
+* res.send()
+
+    `res.send([body])`
+
+    发送HTTP响应。body表示响应体，自动添加响应头。
+
+    body参数可以是一个Buffer对象，一个字符串，一个对象，或者一个数组。比如：
+
+    ``` javascript
+    res.send(new Buffer('whoop'));
+    res.send({some:'json'});
+    res.send('<p>some html</p>');
+    res.status(404).send('Sorry, we cannot find that!');
+    res.status(500).send({ error: 'something blew up' });
+    ```
+
+    对于一般的非流请求，这个方法可以执行许多有用的的任务：比如，它自动给Content-LengthHTTP响应头赋值(除非先前定义)，也支持自动的HEAD和HTTP缓存更新。
+
+    当参数是一个Buffer对象，这个方法设置Content-Type响应头为application/octet-stream，除非事先提供，如下所示:
+
+    ``` javascript
+    res.set('Content-Type', 'text/html');
+    res.send(new Buffer('<p>some html</p>'));
+    ```
+
+    当参数是一个字符串，这个方法自动设置Content-Type响应头为text/html：
+
+    ``` javascript
+    res.send('<p>some html</p>');
+    ```
+
+* res.render()
+
+    `res.render(view [, locals] [, callback])`
+
+    渲染一个视图，然后将渲染得到的HTML文档发送给客户端。可选的参数为:
+
+    locals，定义了视图本地参数属性的一个对象。
+
+    callback，一个回调方法。如果提供了这个参数，render方法将返回错误和渲染之后的模板，并且不自动发送响应。当有错误发生时，可以在这个回调内部，调用next(err)方法。
+
+    ``` javascript
+    // send the rendered view to the client
+    res.render('index');
+    // if a callback is specified, the render HTML string has to be sent explicitly
+    res.render('index', function(err, html) {
+        res.send(html);
+    });
+    // pass a local variable to  the view
+    res.render('user', {name:'Tobi'}, function(err, html) {
+        // ...
+    });
+    ```
+
+* res.redirect()
+
+    `res.redirect([status,] path)`
+
+    重定向请求。
+
+    重定向来源于指定path的URL，以及指定的HTTP status codestatus。如果你没有指定status，status code默认为"302 Found"。
+
+    ``` javascript
+    res.redirect('/foo/bar'); // 重定向可以相对于主机名的根目录。
+    res.redirect('../login'); 重定向可以相对于当前URL。
+    res.redirect('http://example.com'); // 重定向也可以是完整的URL，来重定向到不同的站点。
+    res.redirect(301, 'http://example.com');
+    ```
+
+    重定向可以相对于当前URL。
+
+    从http://example.com/blog/admin/（注意尾部斜杠），以下内容将重定向到URL http://example.com/blog/admin/post/new。
+
+    重定向到post/new的http://example.com/blog/admin（没有尾随斜线），会重定向到http://example.com/blog/post/new。
+
+    如果您发现上述行为令人困惑，请将路径段视为目录（带有斜杠）和文件，它将开始有意义。
+
+    ``` javascript
+    res.redirect('post/new');
+    ```
+
+    一个back重定向请求重定向回referer，referer丢失时默认为/。
+
+    ``` javascript
+    res.redirect('back');
+    ```
+
+
+* res.sendFile()
+
+    `res.sendFile(path [，options] [，fn])`
+
+    传输path指定的文件。根据文件的扩展名设置Content-TypeHTTP头部。除非在options中有关于root的设置，path一定是关于文件的绝对路径。 下面的表提供了options参数的细节
+
+    | 属性        | 描述                                                                    | 默认    |
+    |-------------|------------------------------------------------------------------------|---------|
+    | maxAge      | Cache-Control以毫秒为单位设置标头的max-age属性或以ms格式设置字符串         | 0       |
+    | root        | 相对文件名的根目录                                                       |         |
+    | lastModified| 设置Last-Modified头部为此文件在系统中的最后一次修改时间。设置false来禁用它   | Enable  |
+    | headers     | 一个对象，包含了文件相关的HTTP头部。                                       |         |
+    | dotfiles    | 是否支持点开头文件名的选项。可选的值"allow","deny","ignore"                | "ignore"|
+
+    当传输完成或者发生了什么错误，这个方法调用fn回调方法。如果这个回调参数指定了和一个错误发生，回调方法必须明确地通过结束请求-响应循环或者传递控制到下个路由来处理响应过程。
+
+    ``` javascript
+    app.get('/file/:name', function(req, res, next) {
+        var options = {
+            root:__dirname + '/public',
+            dotfile:'deny',
+            headers:{
+                'x-timestamp':Date.now(),
+                'x-sent':true
+            }
+        };
+        var fileName = req.params.name;
+        res.sendFile(fileName, options, function(err) {
+            if (err) {
+                console.log(err);
+                res.status(err.status).end();
+            }
+            else {
+                console.log('sent', fileName);
+            }
+        });
+    });
+    ```
+
 * res.download()
 
     提示下载文件。
@@ -484,27 +656,7 @@ var app = express();
 
     发送一个支持 JSONP 的 JSON 格式的响应。
 
-* res.redirect()
 
-    重定向请求。
-
-* res.render()
-
-    渲染视图模板。
-
-* res.send()
-
-    `res.send([body])`
-
-    发送各种类型的响应。
-
-* res.sendFile()
-
-    以八位字节流的形式发送文件。
-
-* res.sendStatus()
-
-    设置响应状态代码，并将其以字符串形式作为响应体的一部分发送。
 
 * res.append()
 * res.attachment()
@@ -514,8 +666,6 @@ var app = express();
 * res.get()
 * res.links()
 * res.location()
-* res.set()
-* res.status()
 * res.type()
 * res.vary()
 
