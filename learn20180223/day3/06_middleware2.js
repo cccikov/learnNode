@@ -21,8 +21,9 @@ var express = require("express");
 
     app.listen(3000);
 
-    // 当访问 "http://localhost:3000/admin/login"  页面会显示 用户名：admin，id：login
-    // 因为/admin/login也是符合第一个路由的格式，第一个路由已经终止了请求-响应循环，这个请求就已经结局了，不会再调用下一个中间件，除非调用next()
+    // 当访问 "http://localhost:3000/admin/login"
+    // 页面会显示 用户名：admin，id：login 而不是 后台管理登录页面
+    // 因为 /admin/login 也是符合第一个路由的格式，第一个路由已经终止了请求-响应循环，这个请求就已经结局了，不会再调用下一个中间件，除非调用next()
 }
 
 
@@ -42,6 +43,7 @@ var express = require("express");
     app.listen(8000);
 
     // "http://localhost:8000/admin/login" 现在页面显示的是 后台管理登录页面
+    // 所以中间件的顺序好重要
 }
 
 
