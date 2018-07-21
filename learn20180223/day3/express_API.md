@@ -656,7 +656,7 @@ var app = express();
 
     发送一个支持 JSONP 的 JSON 格式的响应。
 
-
+express 里面的 res.send() res.sendFile() res.download() res.json() res.jsonp() 都属于发送响应。都不能在res.end()之后调用（原生node也不可以end了之后再write）。任何一个响应后都不可以再调用别的响应。响应里面包含了res.end()，虽然可以再次调用res.end()，但是这时res.end()返回的已经是false了，没有任何效果（第一次调用res.end()的时候返回的是true）。
 
 * res.append()
 * res.attachment()
