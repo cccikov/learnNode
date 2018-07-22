@@ -5,19 +5,64 @@
     <meta charset="UTF-8">
     <title>res</title>
     <style>
-        a{
+        a {
             display: block;
         }
     </style>
+    <script>
+        function ajax(url) {
+            if (url.indexOf("?") != -1) {
+                url += ("&time=" + new Date().getTime());
+            } else {
+                url += ("?time=" + new Date().getTime());
+            }
+
+            /*原生的ajax get 请求，发送到服务器的数据只能写在url的查询部分上*/
+            //步骤一:创建异步对象
+            var xhr = new XMLHttpRequest();
+            //步骤二:设置请求的url参数,参数一是请求的类型,参数二是请求的url,可以带参数,动态的传递参数starName到服务端，参数三表示异步
+            xhr.open("get", url, true);
+            //步骤三:发送请求 get 请求中 send()不需要传递任何数据，就算send()加上参数也是没用的
+            xhr.send();
+            //步骤四:注册事件 onreadystatechange 状态改变就会调用
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    //步骤五 如果能够进到这个判断 说明 数据 完美的回来了,并且请求的页面是存在的
+                    console.log(xhr.responseText);
+                }
+            }
+        }
+
+        function jsonp(url) {
+            // 实际不是一个ajax，是一个普通的get请求，只是返回的javascript代码，只能用script装着才可以运行，所以直接生成一个新的script标签填入src去请求
+            var script = document.createElement("script");
+            script.src = url;
+            document.head.appendChild(script);
+        }
+
+        function jsonpCallback(data) {
+            console.log("jsonp传回的数据：");
+            console.log(data);
+        }
+    </script>
 </head>
 
 <body>
-    <a href="express/send">res.send</a>
-    <a href="express/sendFile">res.sendFile</a>
-    <a href="express/download">res.download</a>
-    <a href="express/json">res.json</a>
-    <a href="express/jsonp">res.jsonp</a>
+    <a href="/express/send">res.send</a>
+    <a href="/express/sendFile">res.sendFile</a>
+    <a href="/express/download">res.download</a>
+    <a href="/express/json">res.json</a>
+    <a href="/express/end">res.end</a>
 
+    <hr>
+
+    <a href="javascript:void(0)" onclick="jsonp('/express/jsonp?cb=jsonpCallback')">res.jsonp</a><!-- 相当于 <script src="/express/jsonp?cb=showData"></script> -->
+    <a href="/express/jsonp" >res.jsonp请求不带cb参数，直接返回json，可以用ajax请求</a><!-- 相当于 <script src="/express/jsonp?cb=showData"></script> -->
+    <a href="/express/jsonp?cb=jsonpCallback">res.jsonp带cb参数，返回javascript代码</a><!-- 相当于 <script src="/express/jsonp?cb=showData"></script> -->
+
+    <hr>
+
+    <a href="/error">error</a>
 </body>
 
 </html>

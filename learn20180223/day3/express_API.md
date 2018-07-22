@@ -652,6 +652,8 @@ var app = express();
 
     发送一个 JSON 格式的响应。
 
+    这个方法和将一个对象或者一个数组作为参数传递给res.send()方法的效果相同。不过，你可以使用这个方法来转换其他的值到json，例如null，undefined。(虽然这些都是技术上无效的JSON)。
+
 * res.jsonp()
 
     发送一个支持 JSONP 的 JSON 格式的响应。
