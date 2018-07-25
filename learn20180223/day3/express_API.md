@@ -18,7 +18,62 @@ var app = express();
 #### 属性（Properties）
 
 * app.locals
+
+    app.locals对象是一个javascript对象，它的属性就是程序本地的变量。
+
+    ``` javascript
+    app.locals.title
+    // => 'My App'
+    app.locals.email
+    // => 'me@myapp.com'
+    ```
+
+    一旦设定，app.locals的各属性值将贯穿程序的整个生命周期，与其相反的是 res.locals ，它只在这次请求的生命周期中有效。
+
+    在程序中，你可以在渲染模板时使用这些本地变量。它们是非常有用的，可以为模板提供一些有用的方法，以及app级别的数据。通过req.app.locals(具体查看req.app)，Locals可以在中间件中使用。
+
+    ``` javascript
+    app.locals.title = 'My App';
+    app.locals.strftime = require('strftime');
+    app.locals.email = 'me@myapp.com';
+    ```
+
 * app.mountpath
+
+    app.mountpath属性是子程序挂载的路径模式。
+
+    一个子程序是一个express的实例，其可以被用来作为路由句柄来处理请求。
+
+    ``` javascript
+    var express = require('express');
+    var app = express(); // the main app
+    var admin = express(); // the sub app
+    admin.get('/', function(req, res) {
+        console.log(admin.mountpath); // /admin
+        res.send('Admin Homepage');
+    });
+    app.use('/admin', admin); // mount the sub app
+    ```
+
+    它和req对象的req.baseUrl )属性比较相似，除了req.baseUrl是匹配的URL路径，而不是匹配的模式。如果一个子程序被挂载在多条路径模式，app.mountpath就是一个关于挂载路径模式项的列表，如下面例子所示。
+
+    ``` javascript
+    var admin = express();
+
+    admin.get('/', function (req, res) {
+    console.log(admin.mountpath); // [ '/adm*n', '/manager' ]
+    res.send('Admin Homepage');
+    });
+
+    var secret = express();
+    secret.get('/', function (req, res) {
+    console.log(secret.mountpath); // /secr*t
+    res.send('Admin Secret');
+    });
+
+    admin.use('/secr*t', secret); // load the 'secret' router on '/secr*t', on the 'admin' sub app
+    app.use(['/adm*n', '/manager'], admin); // load the 'admin' router on '/adm*n' and '/manager', on the parent app
+    ```
 
 #### 方法（Methods）
 
