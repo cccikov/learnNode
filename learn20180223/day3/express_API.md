@@ -104,7 +104,7 @@ var app = express();
 
     对于`app.METHOD` 和 `app.all` 请求的路径完全符合`path` 才匹配成功。是精确匹配
 
-    ```javascript
+    ``` javascript
     // 匹配根路径的请求
     app.get('/', function (req, res) {
         res.send('root');
@@ -459,8 +459,36 @@ var app = express();
 #### 属性（Properties）
 
 * res.app
+
+    这个属性持有express程序实例的一个引用，其可以在中间件中使用。
+
+    `res.app` 和请求对象中的 `req.app` 属性是相同的。
+
 * res.headersSent
+
+    布尔类型的属性，指示这个响应是否已经发送HTTP头部。
+
+    ``` javascript
+    app.get('/', function(req, res) {
+        console.log(res.headersSent); // false
+        res.send('OK'); // send之后就发送了头部
+        console.log(res.headersSent); // true
+    });
+    ```
+
 * res.locals
+
+    一个对象，其包含了本次请求的响应中的变量和因此它的变量只提供给本次请求响应的周期内视图渲染里使用(如果有视图的话)。 其他方面，其和app.locals是一样的。
+
+    这个参数在导出请求级别的信息是很有效的，这些信息比如请求路径，已认证的用户，用户设置等等。
+
+    ``` javascript
+    app.use(function(req, res, next) {
+        res.locals.user = req.user;
+        res.locals.authenticated = !req.user.anonymous;
+        next();
+    });
+    ```
 
 #### 方法（Methods）
 
@@ -765,8 +793,39 @@ express 里面的 res.send() res.sendFile() res.download() res.json() res.jsonp(
     ```
 
 * res.links()
+
+    `res.links(links)` 连接这些links，links是以传入参数的属性形式提供，连接之后的内容用来填充响应的Link HTTP头部。
+
+    ``` javascript
+    res.links({
+        next:'http://api.example.com/users?page=2',
+        last:'http://api.example.com/user?page=5'
+    });
+    ```
+
 * res.location()
+
+    `res.location(path)`
+
+    设置响应的LocationHTTP头部为指定的path参数。
+
+    ``` javascript
+    res.location('/foo/bar');
+    res.location('http://example.com');
+    res.location('back');
+    ```
+
+    当path参数为back时，其具有特殊的意义，其指定URL为请求对象的Referer头部指定的URL。如果请求中没有指定，那么其即为"/"。
+
+    Express传递指定的URL字符串作为回复给浏览器响应中的Location头部的值，不检测和操作，除了back这个参数。浏览器会将用户重定向到location设置的url或者Referer的url（back参数的情况）
+
 * res.vary()
+
+    `res.vary(field)`
+
+    在没有Vary应答头部时增加Vary应答头部。
+
+    ps：vary的意义在于告诉代理服务器/缓存/CDN，如何判断请求是否一样，vary中的组合就是服务器/缓存/CDN判断的依据，比如Vary中有User-Agent，那么即使相同的请求，如果用户使用IE打开了一个页面，再用Firefox打开这个页面的时候，CDN/代理会认为是不同的页面，如果Vary中没有User-Agent，那么CDN/代理会认为是相同的页面，直接给用户返回缓存的页面，而不会再去web服务器请求相应的页面。通俗的说就相当于field作为了一个缓存的key来判断是否命中缓存
 
 
 
