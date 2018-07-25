@@ -482,6 +482,57 @@ var app = express();
     })
     ```
 
+* res.get()
+
+    `res.get(field)` 返回field指定的HTTP响应的头部。匹配是区分大小写。
+
+* res.append()
+
+    `res.append(field [, value])`
+
+    res.append()方法在Expresxs4.11.0以上版本才支持。
+
+    在指定的field的HTTP头部追加特殊的值value。如果这个头部没有被设置，那么将用value新建这个头部。value可以是一个字符串或者数组。
+
+    注意：在res.append()之后调用app.set()函数将重置前面设置的值。
+
+
+    ``` javascript
+    res.append('Lind', ['<http://localhost>', '<http://localhost:3000>']);
+    res.append('Set-Cookie', 'foo=bar;Path=/;HttpOnly');
+    res.append('Warning', '199 Miscellaneous warning');
+    ```
+
+
+* res.attachment()
+
+    `res.attachment([filename])` 设置HTTP响应的Content-Disposition头内容为"attachment"。如果提供了filename，那么将通过res.type()获得扩展名来设置Content-Type，并且设置Content-Disposition"filename="参数。
+
+    ``` javascript
+    res.attachment();
+    // Content-Disposition: attachment
+
+    res.attachment('path/to/logo.png');
+    // Content-Disposition: attachment; filename="logo.png"
+    // Content-Type: image/png
+    ```
+
+    就是用于不是调用`res.download`来提示下载文件是。设置 "Content-Disposition" 为 "attachment"，并且设置 "filename" ，"filename" 会作为下载文件的名字
+
+    调用`res.download`是会自动设置了头部 "Content-Disposition" 为 "attachment"
+
+* res.type()
+
+    `res.type(type)` 程序将设置Content-TypeHTTP头部的MIME type，如果这个设置的type能够被mime.lookup解析成正确的Content-Type。如果type中包含了/字符，那么程序会直接设置Content-Type为type。
+
+    ``` javascript
+    res.type('.html');              // => 'text/html'
+    res.type('html');               // => 'text/html'
+    res.type('json');               // => 'application/json'
+    res.type('application/json');   // => 'application/json'
+    res.type('png');                // => image/png:
+    ```
+
 * res.status()
 
     `res.status(code)`
@@ -646,239 +697,76 @@ var app = express();
 
 * res.end()
 
+    `res.end([data] [, encoding])` 结束本响应的过程。这个方法实际上来自Node核心模块
+
     终结响应处理流程。
 
 * res.json()
 
+    `res.json([body])` 这个方法和将一个对象或者一个数组作为参数传递给res.send()方法的效果相同。不过，你可以使用这个方法来转换其他的值到json，例如null，undefined。(虽然这些都是技术上无效的JSON)。
+
     发送一个 JSON 格式的响应。
 
-    这个方法和将一个对象或者一个数组作为参数传递给res.send()方法的效果相同。不过，你可以使用这个方法来转换其他的值到json，例如null，undefined。(虽然这些都是技术上无效的JSON)。
-
 * res.jsonp()
+
+    `res.jsonp([body])` 发送一个json的响应，并且支持JSONP。这个方法和res.json()效果相同，除了其在选项中支持JSONP回调。
 
     发送一个支持 JSONP 的 JSON 格式的响应。
 
 express 里面的 res.send() res.sendFile() res.download() res.json() res.jsonp() 都属于发送响应。都不能在res.end()之后调用（原生node也不可以end了之后再write）。任何一个响应后都不可以再调用别的响应。响应里面包含了res.end()，虽然可以再次调用res.end()，但是这时res.end()返回的已经是false了，没有任何效果（第一次调用res.end()的时候返回的是true）。
 
-* res.append()
-* res.attachment()
 * res.cookie()
 * res.clearCookie()
+
+
+
+
 * res.format()
-* res.get()
+
+    `res.format(object)`
+
+    进行内容协商，根据请求的对象中AcceptHTTP头部指定的接受内容。它使用 req.accepts()来选择一个句柄来为请求服务，这些句柄按质量值进行排序。如果这个头部没有指定，那么第一个方法默认被调用。当不匹配时，服务器将返回406"Not Acceptable"，或者调用default回调。
+
+    Content-Type请求头被设置，当一个回调方法被选择。然而你可以改变他，在这个方法中使用这些方法，比如res.set()或者res.type()。
+
+    下面的例子，将回复{"message":"hey"}，当请求的对象中Accept头部设置成"application/json"或者"*/json"(不过如果是*/*，然后这个回复就是"hey")。
+
+    ``` javascript
+    res.format({
+        'text/plain':function() {
+            res.send('hey');
+        },
+        'text/html':function() {
+            res.send('<p>hey</p>');
+        },
+        'application/json':function() {
+            res.send({message:'hey'});
+        },
+        'default':function() {
+            res.status(406).send('Not Acceptable');
+        }
+    });
+    ```
+
+    除了规范化的MIME类型之外，你也可以使用拓展名来映射这些类型来避免冗长的实现：
+
+    ``` javascript
+    res.format({
+        text:function() {
+            res.send('hey');
+        },
+        html:function() {
+            res.send('<p>hey</p>');
+        },
+        json:function() {
+            res.send({message:'hey'});
+        }
+    });
+    ```
+
 * res.links()
 * res.location()
-* res.type()
 * res.vary()
-
-
-
-
-
-
-
-
-## Router
-
-``` javascript
-var router = express.Router([options]);
-```
-
-#### 方法（Methods）
-
-* router.all()
-* router.METHOD()
-* router.param()
-* router.route()
-* router.use()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## 目录
-
-### 唯一中间件 express.static()
-
-``` javascript
-express.static(root, [options])
-```
-
-### app（Application）
-
-``` javascript
-var express = require('express');
-var app = express();
-```
-
-#### 属性（Properties）
-
-* app.locals
-* app.mountpath
-
-#### 方法（Methods）
-
-路由
-* app.all()
-* app.METHOD()
-    * app.get()
-    * app.post()
-    * app.put()
-    * app.delete()
-* app.use()
-* app.route()
-* app.listen()
-
-设置配置
-* app.set()
-    * views
-    * view engine
-* app.get()
-* app.disable()
-* app.disabled()
-* app.enable()
-* app.enabled()
-
-其他
-* app.render()
-* app.engine()
-* app.param()
-* app.path()
-
-### req （Request）
-
-#### 属性（Properties）
-
-* req.app
-
-    返回app对象
-
-* req.originalUrl
-* req.baseUrl
-* req.path
-* req.hostname
-* req.query
-* req.body
-* req.params
-* req.ip
-* req.ips
-* req.fresh
-* req.xhr
-* req.cookies
-* req.protocol
-* req.route
-* req.secure
-* req.signedCookies
-* req.stale
-* req.subdomains
-
-#### 方法（Methods）
-
-* req.accepts()
-* req.acceptsCharsets()
-* req.acceptsEncodings()
-* req.acceptsLanguages()
-* req.get()
-* req.is()
-* req.param()
-
-### res（Response）
-
-#### 属性（Properties）
-
-* res.app
-* res.headersSent
-* res.locals
-
-#### 方法（Methods）
-
-* res.download()
-* res.end()
-* res.json()
-* res.jsonp()
-* res.redirect()
-* res.render()
-* res.send()
-* res.sendFile()
-* res.sendStatus()
-* res.append()
-* res.attachment()
-* res.cookie()
-* res.clearCookie()
-* res.format()
-* res.get()
-* res.links()
-* res.location()
-* res.set()
-* res.status()
-* res.type()
-* res.vary()
-
 
 
 
