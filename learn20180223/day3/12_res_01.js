@@ -78,6 +78,7 @@ app.get("/file/:name", function(req, res, next) {
             throw err;
         }
         // res.set("content-type", "application/octet-stream"); // buffer 没有声明content-type的情况下 类型是send方法将Content-Type 响应头字段设置为“application / octet-stream”
+        res.attachment("downloadName "+fileName); // 设置 Content-Disposition 为 attachment,并且设置filename ，filename会作为下载文件的名字
         res.send(data);
     });
 });
