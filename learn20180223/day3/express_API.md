@@ -610,6 +610,8 @@ var app = express();
 
     `res.type(type)` 程序将设置Content-TypeHTTP头部的MIME type，如果这个设置的type能够被mime.lookup解析成正确的Content-Type。如果type中包含了/字符，那么程序会直接设置Content-Type为type。
 
+    是直接设置不是返回content-type
+
     ``` javascript
     res.type('.html');              // => 'text/html'
     res.type('html');               // => 'text/html'
