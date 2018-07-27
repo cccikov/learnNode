@@ -19,7 +19,7 @@ var app = express();
 
 * app.locals
 
-    app.locals对象是一个javascript对象，它的属性就是程序本地的变量。
+    app.locals对象是一个javascript对象，它的属性就是程序本地的变量。就是应用程序设置的值，通过`app.set` 设定的应用程序设置。
 
     ``` javascript
     app.locals.title
@@ -55,7 +55,7 @@ var app = express();
     app.use('/admin', admin); // mount the sub app
     ```
 
-    它和req对象的req.baseUrl )属性比较相似，除了req.baseUrl是匹配的URL路径，而不是匹配的模式。如果一个子程序被挂载在多条路径模式，app.mountpath就是一个关于挂载路径模式项的列表，如下面例子所示。
+    它和req对象的 req.baseUrl 属性比较相似，除了req.baseUrl 是匹配的URL路径，而不是匹配的模式。如果一个子程序被挂载在多条路径模式，app.mountpath就是一个关于挂载路径模式项的列表，如下面例子所示。
 
     ``` javascript
     var admin = express();
@@ -211,7 +211,7 @@ var app = express();
 
 * app.set()
 
-    `app.set(name, value)` 设置当前app的`name`属性值为`value`
+    `app.set(name, value)` 设定应用程序设置，设置当前app的`name`属性值为`value`
 
     * "view engine" 设置视图的目录或目录
     * "view" 设置模板引擎
@@ -337,6 +337,8 @@ var app = express();
 * req.app
 
     这个属性持有express程序实例的一个引用，其可以作为中间件使用。
+
+    就是通过 `express()` 的应用
 
 * req.originalUrl
 
@@ -577,7 +579,7 @@ var app = express();
 
     在指定的field的HTTP头部追加特殊的值value。如果这个头部没有被设置，那么将用value新建这个头部。value可以是一个字符串或者数组。
 
-    注意：在res.append()之后调用app.set()函数将重置前面设置的值。
+    注意：在res.append()之后调用res.set()函数将重置前面设置的值。
 
 
     ``` javascript
