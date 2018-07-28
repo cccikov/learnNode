@@ -141,6 +141,20 @@ var app = express();
     * app.put()
     * app.delete()
 
+    express 使用路由功能时，路径匹配的时候会忽略最后面的斜杠，无论是浏览器请求的路径，还是路由方法path里面写的路径。
+
+    比如 /a/b/c/d/e 和 /a/b/c/d/e/
+
+    路径的每一部分可以看成是每一级的目录，从 a 开始一直往下找，由于是路由控制，所以是没有文件的，只有目录，无论 e 后面有无"/",最后的一级都是 e
+
+    "/" 叫做 路径分隔符 "/"后面没有东西了，分隔出来的东西其实都是一样的，所以就算后面有无加 "/" ，路径都是指向同一个位置
+
+    所以作为路由的时候，我们已经知道整个路径是怎么样了，已经确定了url了，就是这个信息的位置了，所以后面有无"/"都无所谓，而且一般我们输入url最后都不会有"/"
+
+    就算是静态资源服务器，一级一级往下走到了路径最后部分，如果不是文件而是文件夹，就算没有"/"作为结尾，也一般是显示该文件夹的index.html文件（一般的静态资源管理器都会重定向补回最后的"/"），但是资源管理器结尾有无"/"，还是区别挺大的，如果不是文件只是目录的话，路径末尾有无加"/"都无什么所谓，但是如果是文件路径，路径末尾加上"/"出错了
+
+    但是跳转的时候，最后有无 "/" , 还是挺重要的；一个路径以"/"结尾视为指向目录(directory)，否则视为指向文件(file)。
+
 * app.all()
 
     ``` javascript
@@ -155,29 +169,31 @@ var app = express();
     app.use（[path，] function [，function ...]）
     ```
 
-    `app.use` 会匹配任何以 path参数值 作为开头的路径；如果path未指定，则默认为“/”。不是精确匹配
+    `app.use` 会匹配任何以 `path`参数值 加上"/"作为开头的路径；如果path未指定，则默认为“/”。不是精确匹配
 
-    对于`app.METHOD` 和 `app.all` 请求的路径完全符合`path` 才匹配成功。是精确匹配
+    路由会匹配任何 path参数值 路径，这个路径
 
-    ``` javascript
-    // 匹配根路径的请求
-    app.get('/', function (req, res) {
-        res.send('root');
-    });
+    * 对于`app.METHOD` 和 `app.all` 请求的路径完全符合`path` 才匹配成功。是精确匹配
 
-    // 匹配 /about 路径的请求
-    app.get('/about', function (req, res) {
-        res.send('about');
-    });
+        ``` javascript
+        // 匹配根路径的请求
+        app.get('/', function (req, res) {
+            res.send('root');
+        });
 
-    // 匹配 /random.text 路径的请求
-    app.get('/random.text', function (req, res) {
-        res.send('random.text');
-    });
-    ```
+        // 匹配 /about 路径的请求
+        app.get('/about', function (req, res) {
+            res.send('about');
+        });
 
-    而对于 `app.use` ，请求的路径开头字符串符合 `path` 就可以了
-    `app.use('/apple', ...)` 将匹配 `"/apple"`，`"/apple1"`，`"/applea"`，`"/apple/images"`，`"/ apple/images/news"`等。
+        // 匹配 /random.txt 路径的请求
+        app.get('/random.txt', function (req, res) {
+            res.send('random.txt');
+        });
+        ```
+
+    * 而对于 `app.use` ，请求的路径开头字符串符合 `path`加"/" 就可以了
+    `app.use('/apple', ...)` 将匹配 `"/apple"`，`"/apple/images"`，`"/ apple/images/news"`等。
 
 * app.route()
 
@@ -722,7 +738,7 @@ var app = express();
 
     重定向到post/new的http://example.com/blog/admin（没有尾随斜线），会重定向到http://example.com/blog/post/new。
 
-    如果您发现上述行为令人困惑，请将路径段视为目录（带有斜杠）和文件，它将开始有意义。
+    如果您发现上述行为令人困惑，请将路径段视为目录（带有尾部斜杠）和文件，它将开始有意义。
 
     ``` javascript
     res.redirect('post/new');
