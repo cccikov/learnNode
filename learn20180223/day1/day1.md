@@ -2,6 +2,17 @@
 
 module 学习
 
+客户端请求（Request）
+服务器响应（Response）
+
+* HTTP Headers -- HTTP 头部（全部，复数）
+    * HTTP header -- 头部字段，单个http头部
+
+    其中按照请求和响应
+    * Request Headers -- 请求头（全部，复数）
+        * Request header -- 请求头字段，单个请求头
+    * Response Headers -- 响应头（全部，复数）
+        * Response header -- 响应头字段，单个响应头
 * http
 
     `http.createServer([requestListener])`

@@ -461,7 +461,7 @@ var app = express();
 
     `req.accepts(types)`
 
-    检查这个指定的Content-type是否被接受，基于请求的Accept HTTP头部。这个方法返回最佳匹配，如果没有一个匹配，那么其返回undefined(在这个case下，服务器端应该返回406和"Not Acceptable")。
+    检查这个指定的Content-type是否被接受，基于HTTP请求头部的Accept字段 。这个方法返回最佳匹配，如果没有一个匹配，那么其返回undefined(在这个case下，服务器端应该返回406和"Not Acceptable")。
 
     type值可以是一个单的MIME type字符串(比如application/json)，一个扩展名比如json，一个逗号分隔的列表，或者一个数组。对于一个列表或者数组，这个方法返回最佳项(如果有的话)。
 
@@ -471,25 +471,25 @@ var app = express();
 
     `req.acceptsCharsets(charset [, ...])`
 
-    返回指定的字符集集合中第一个的配置的字符集，基于请求的Accept-CharsetHTTP头。如果指定的字符集没有匹配的，那么就返回false。
+    返回指定的字符集集合中第一个的配置的字符集，基于请求的 Accept-Charset HTTP头。如果指定的字符集没有匹配的，那么就返回false。
 
 * req.acceptsEncodings()
 
     `req.acceptsEncodings(encoding [, ...])`
 
-    返回指定的编码集合中第一个的配置的编码，基于请求的Accept-EncodingHTTP头。如果指定的编码集没有匹配的，那么就返回false。
+    返回指定的编码集合中第一个的配置的编码，基于请求的 Accept-Encoding HTTP头。如果指定的编码集没有匹配的，那么就返回false。
 
 * req.acceptsLanguages()
 
     `req.acceptsLanguages(lang [, ...])`
 
-    返回指定的语言集合中第一个的配置的语言，基于请求的Accept-LanguageHTTP头。如果指定的语言集没有匹配的，那么就返回false。
+    返回指定的语言集合中第一个的配置的语言，基于请求的 Accept-Language HTTP头。如果指定的语言集没有匹配的，那么就返回false。
 
 * req.get()
 
     `req.get(field)`
 
-    返回指定的请求HTTP头部的域内容(不区分大小写)
+    返回指定的HTTP请求头部的值(不区分大小写)
 
     ``` javascript
     req.get('Content-type');
@@ -504,7 +504,7 @@ var app = express();
 
     `req.is(type)`
 
-    如果进来的请求的Content-type头部域匹配参数type给定的MIME type，那么其返回true。否则返回false。
+    如果进来的请求的 Content-type 头部值匹配参数 type 给定的 MIME type，那么其返回true。否则返回false。
 
     ``` javascript
     // With Content-Type: text/html; charset=utf-8
@@ -539,7 +539,7 @@ var app = express();
 
 * res.headersSent
 
-    布尔类型的属性，指示这个响应是否已经发送HTTP头部。
+    布尔类型的属性，指示这个响应是否已经发送 HTTP头部（响应头）。
 
     ``` javascript
     app.get('/', function(req, res) {
@@ -570,7 +570,7 @@ var app = express();
 
     `res.set(field [, value])`
 
-    设置响应对象的HTTP头部field为value。为了一次设置多个值，那么可以传递一个对象为参数。
+    设置响应对象的HTTP头部的 "field" 字段为 "value"。为了一次设置多个值，那么可以传递一个对象为参数。
 
     设置响应头
 
@@ -585,7 +585,7 @@ var app = express();
 
 * res.get()
 
-    `res.get(field)` 返回field指定的HTTP响应的头部。匹配是区分大小写。
+    `res.get(field)` 返回HTTP响应头指定字段 "field" 的值。匹配是区分大小写。
 
 * res.append()
 
@@ -593,7 +593,7 @@ var app = express();
 
     res.append()方法在Expresxs4.11.0以上版本才支持。
 
-    在指定的field的HTTP头部追加特殊的值value。如果这个头部没有被设置，那么将用value新建这个头部。value可以是一个字符串或者数组。
+    在HTTP响应头部的 "field" 字段追加特殊的值value。如果这个字段没有被设置，那么将用value新建这个字段。value可以是一个字符串或者数组。
 
     注意：在res.append()之后调用res.set()函数将重置前面设置的值。
 
@@ -607,7 +607,7 @@ var app = express();
 
 * res.attachment()
 
-    `res.attachment([filename])` 设置HTTP响应的Content-Disposition头内容为"attachment"。如果提供了filename，那么将通过res.type()获得扩展名来设置Content-Type，并且设置Content-Disposition"filename="参数。
+    `res.attachment([filename])` 设置 HTTP响应头 Content-Disposition 内容为 "attachment"。如果提供了filename，那么将通过res.type()获得扩展名来设置Content-Type，并且设置Content-Disposition 中的"filename="参数。
 
     ``` javascript
     res.attachment();
@@ -624,7 +624,7 @@ var app = express();
 
 * res.type()
 
-    `res.type(type)` 程序将设置Content-TypeHTTP头部的MIME type，如果这个设置的type能够被mime.lookup解析成正确的Content-Type。如果type中包含了/字符，那么程序会直接设置Content-Type为type。
+    `res.type(type)` 程序将设置HTTP头部 Content-Type 的MIME type，如果这个设置的type能够被mime.lookup解析成正确的Content-Type。如果type中包含了/字符，那么程序会直接设置Content-Type为type。
 
     是直接设置不是返回content-type
 
@@ -679,16 +679,16 @@ var app = express();
     res.status(500).send({ error: 'something blew up' });
     ```
 
-    对于一般的非流请求，这个方法可以执行许多有用的的任务：比如，它自动给Content-LengthHTTP响应头赋值(除非先前定义)，也支持自动的HEAD和HTTP缓存更新。
+    对于一般的非流请求，这个方法可以执行许多有用的的任务：比如，它自动给 Content-Length HTTP响应头赋值(除非先前定义)，也支持自动的HEAD和HTTP缓存更新。
 
-    当参数是一个Buffer对象，这个方法设置Content-Type响应头为application/octet-stream，除非事先提供，如下所示:
+    当参数是一个Buffer对象，这个方法设置 Content-Type 响应头为 application/octet-stream，除非事先提供，如下所示:
 
     ``` javascript
     res.set('Content-Type', 'text/html');
     res.send(new Buffer('<p>some html</p>'));
     ```
 
-    当参数是一个字符串，这个方法自动设置Content-Type响应头为text/html：
+    当参数是一个字符串，这个方法自动设置 Content-Type 响应头为 text/html：
 
     ``` javascript
     res.send('<p>some html</p>');
@@ -744,7 +744,7 @@ var app = express();
     res.redirect('post/new');
     ```
 
-    一个back重定向请求重定向回referer，referer丢失时默认为/。
+    重定向到请求头的 referer，当没有 referer 请求头的情况下，默认为‘/’
 
     ``` javascript
     res.redirect('back');
@@ -755,14 +755,14 @@ var app = express();
 
     `res.sendFile(path [，options] [，fn])`
 
-    传输path指定的文件。根据文件的扩展名设置Content-TypeHTTP头部。除非在options中有关于root的设置，path一定是关于文件的绝对路径。 下面的表提供了options参数的细节
+    传输path指定的文件。根据文件的扩展名设置 Content-Type HTTP头部。除非在options中有关于root的设置，path一定是关于文件的绝对路径。 下面的表提供了options参数的细节
 
     | 属性        | 描述                                                                    | 默认    |
     |-------------|------------------------------------------------------------------------|---------|
     | maxAge      | Cache-Control以毫秒为单位设置标头的max-age属性或以ms格式设置字符串         | 0       |
     | root        | 相对文件名的根目录                                                       |         |
-    | lastModified| 设置Last-Modified头部为此文件在系统中的最后一次修改时间。设置false来禁用它   | Enable  |
-    | headers     | 一个对象，包含了文件相关的HTTP头部。                                       |         |
+    | lastModified| 设置 Last-Modified 头部为此文件在系统中的最后一次修改时间。设置false来禁用它   | Enable  |
+    | headers     | 一个对象，包含了文件相关的 HTTP头部。                                       |         |
     | dotfiles    | 是否支持点开头文件名的选项。可选的值"allow","deny","ignore"                | "ignore"|
 
     当传输完成或者发生了什么错误，这个方法调用fn回调方法。如果这个回调参数指定了和一个错误发生，回调方法必须明确地通过结束请求-响应循环或者传递控制到下个路由来处理响应过程。
@@ -794,7 +794,7 @@ var app = express();
 
     提示下载文件。
 
-    `res.download(path [, filename] [, fn])`传输path指定文件作为一个附件。通常，浏览器提示用户下载。默认情况下，Content-Disposition头部"filename="的参数为path(通常会出现在浏览器的对话框中)。通过指定filename参数来覆盖默认值。
+    `res.download(path [, filename] [, fn])`传输path指定文件作为一个附件。通常，浏览器提示用户下载。默认情况下，http头部 Content-Disposition 中的 "filename=" 的值为path(通常会出现在浏览器的对话框中)。通过指定filename参数来覆盖默认值。
 
     当一个错误发生时或者传输完成，这个方法将调用fn指定的回调方法。这个方法使用res.sendFile()来传输文件。
 
@@ -828,11 +828,11 @@ express 里面的 res.send() res.sendFile() res.download() res.json() res.jsonp(
 
     `res.format(object)`
 
-    进行内容协商，根据请求的对象中AcceptHTTP头部指定的接受内容。它使用 req.accepts()来选择一个句柄来为请求服务，这些句柄按质量值进行排序。如果这个头部没有指定，那么第一个方法默认被调用。当不匹配时，服务器将返回406"Not Acceptable"，或者调用default回调。
+    进行内容协商，根据请求的对象中 Accept HTTP头部指定的接受内容。它使用 req.accepts()来选择一个句柄来为请求服务，这些句柄按质量值进行排序。如果这个头部没有指定，那么第一个方法默认被调用。当不匹配时，服务器将返回406"Not Acceptable"，或者调用default回调。
 
-    Content-Type请求头被设置，当一个回调方法被选择。然而你可以改变他，在这个方法中使用这些方法，比如res.set()或者res.type()。
+    Content-Type 请求头被设置，当一个回调方法被选择。然而你可以改变他，在这个方法中使用这些方法，比如res.set()或者res.type()。
 
-    下面的例子，将回复{"message":"hey"}，当请求的对象中Accept头部设置成"application/json"或者"*/json"(不过如果是*/*，然后这个回复就是"hey")。
+    下面的例子，将回复{"message":"hey"}，当请求的对象中 Accept 头部设置成 "application/json" 或者 "*/json" (不过如果是*/*，然后这个回复就是"hey")。
 
     ``` javascript
     res.format({
@@ -869,7 +869,7 @@ express 里面的 res.send() res.sendFile() res.download() res.json() res.jsonp(
 
 * res.links()
 
-    `res.links(links)` 连接这些links，links是以传入参数的属性形式提供，连接之后的内容用来填充响应的Link HTTP头部。
+    `res.links(links)` 连接这些links，links是以传入参数的属性形式提供，连接之后的内容用来填充响应的 Link HTTP头部。
 
     ``` javascript
     res.links({
@@ -882,7 +882,7 @@ express 里面的 res.send() res.sendFile() res.download() res.json() res.jsonp(
 
     `res.location(path)`
 
-    设置响应的LocationHTTP头部为指定的path参数。
+    设置响应的HTTP头部 Location 为指定的path参数。
 
     ``` javascript
     res.location('/foo/bar');
@@ -890,9 +890,11 @@ express 里面的 res.send() res.sendFile() res.download() res.json() res.jsonp(
     res.location('back');
     ```
 
-    当path参数为back时，其具有特殊的意义，其指定URL为请求对象的Referer头部指定的URL。如果请求中没有指定，那么其即为"/"。
+    当path参数为back时，其具有特殊的意义，其指定URL为请求对象的 Referer 头部指定的URL。如果请求中没有指定，那么其即为"/"。
 
-    Express传递指定的URL字符串作为回复给浏览器响应中的Location头部的值，不检测和操作，除了back这个参数。浏览器会将用户重定向到location设置的url或者Referer的url（back参数的情况）
+    Express传递指定的URL字符串作为回复给浏览器响应中的 Location 头部的值，不检测和操作，除了back这个参数。浏览器会将用户重定向到 location 设置的url或者 Referer 的url（back参数的情况）
+
+    要设置对应的状态码才会重定向，res.redirect 会自动设置状态码和 Location 头部，以及res.end()。
 
 * res.vary()
 

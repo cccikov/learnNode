@@ -101,7 +101,7 @@ app.get("/redirect/a/b/c/d/e", function (req, res, next) {
 // http://localhost:3000/redirect/a/b/c/d/e
 // http://localhost:3000/redirect/a/b/c/d/e/
 
-// back重定向
+// back重定向，重定向到请求头的 referer，当没有 referer 请求头的情况下，默认为‘/’
 app.get("/redirect/back/a/b/c/d/e", function (req, res, next) {
     res.locals.before = req.originalUrl;
     app.locals.before = req.originalUrl;
@@ -110,6 +110,19 @@ app.get("/redirect/back/a/b/c/d/e", function (req, res, next) {
 // http://localhost:3000/redirect/back/a/b/c/d/e
 // http://localhost:3000/redirect/back/a/b/c/d/e/
 
+
+
+/**
+ * redirect 重定向
+ */
+app.get("/location/first",function(req,res,next){
+    res.locals.before = req.originalUrl;
+    app.locals.before = req.originalUrl;
+    res.status(302); // 要设置状态码
+    res.location('/haha');
+    res.end(); // 还要调用结束响应
+});
+// http://localhost:3000/location/first
 
 app.use("/", function (req, res, next) {
     res.locals.after = req.originalUrl;

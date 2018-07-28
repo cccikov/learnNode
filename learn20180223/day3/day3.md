@@ -72,7 +72,7 @@ app.use(function(req, res, next) {
 `app.set("views","fold")`
 
 
-`res.send` 自动分配Content-LengthHTTP响应头字段（除非先前已定义），并提供自动HEAD和HTTP缓存新鲜度支持。
+`res.send` 自动分配HTTP响应头 Content-Length 头部（除非先前已定义），并提供自动HEAD和HTTP缓存新鲜度支持。
 
 
 ### 路由
