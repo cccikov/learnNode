@@ -717,40 +717,6 @@ var app = express();
     });
     ```
 
-* res.redirect()
-
-    `res.redirect([status,] path)`
-
-    重定向请求。
-
-    重定向来源于指定path的URL，以及指定的HTTP status codestatus。如果你没有指定status，status code默认为"302 Found"。
-
-    ``` javascript
-    res.redirect('/foo/bar'); // 重定向可以相对于主机名的根目录。
-    res.redirect('../login'); 重定向可以相对于当前URL。
-    res.redirect('http://example.com'); // 重定向也可以是完整的URL，来重定向到不同的站点。
-    res.redirect(301, 'http://example.com');
-    ```
-
-    重定向可以相对于当前URL。
-
-    从http://example.com/blog/admin/（注意尾部斜杠），以下内容将重定向到URL http://example.com/blog/admin/post/new。
-
-    重定向到post/new的http://example.com/blog/admin（没有尾随斜线），会重定向到http://example.com/blog/post/new。
-
-    如果您发现上述行为令人困惑，请将路径段视为目录（带有尾部斜杠）和文件，它将开始有意义。
-
-    ``` javascript
-    res.redirect('post/new');
-    ```
-
-    重定向到请求头的 referer，当没有 referer 请求头的情况下，默认为‘/’
-
-    ``` javascript
-    res.redirect('back');
-    ```
-
-
 * res.sendFile()
 
     `res.sendFile(path [，options] [，fn])`
@@ -798,12 +764,6 @@ var app = express();
 
     当一个错误发生时或者传输完成，这个方法将调用fn指定的回调方法。这个方法使用res.sendFile()来传输文件。
 
-* res.end()
-
-    `res.end([data] [, encoding])` 结束本响应的过程。这个方法实际上来自Node核心模块
-
-    终结响应处理流程。
-
 * res.json()
 
     `res.json([body])` 这个方法和将一个对象或者一个数组作为参数传递给res.send()方法的效果相同。不过，你可以使用这个方法来转换其他的值到json，例如null，undefined。(虽然这些都是技术上无效的JSON)。
@@ -818,11 +778,65 @@ var app = express();
 
 express 里面的 res.send() res.sendFile() res.download() res.json() res.jsonp() 都属于发送响应。都不能在res.end()之后调用（原生node也不可以end了之后再write）。任何一个响应后都不可以再调用别的响应。响应里面包含了res.end()，虽然可以再次调用res.end()，但是这时res.end()返回的已经是false了，没有任何效果（第一次调用res.end()的时候返回的是true）。
 
+* res.redirect()
+
+    `res.redirect([status,] path)`
+
+    重定向请求。
+
+    重定向来源于指定path的URL，以及指定的HTTP status codestatus。如果你没有指定status，status code默认为"302 Found"。
+
+    ``` javascript
+    res.redirect('/foo/bar'); // 重定向可以相对于主机名的根目录。
+    res.redirect('../login'); 重定向可以相对于当前URL。
+    res.redirect('http://example.com'); // 重定向也可以是完整的URL，来重定向到不同的站点。
+    res.redirect(301, 'http://example.com');
+    ```
+
+    重定向可以相对于当前URL。
+
+    从http://example.com/blog/admin/（注意尾部斜杠），以下内容将重定向到URL http://example.com/blog/admin/post/new。
+
+    重定向到post/new的http://example.com/blog/admin（没有尾随斜线），会重定向到http://example.com/blog/post/new。
+
+    如果您发现上述行为令人困惑，请将路径段视为目录（带有尾部斜杠）和文件，它将开始有意义。
+
+    ``` javascript
+    res.redirect('post/new');
+    ```
+
+    重定向到请求头的 referer，当没有 referer 请求头的情况下，默认为‘/’
+
+    ``` javascript
+    res.redirect('back');
+    ```
+
+* res.location()
+
+    `res.location(path)`
+
+    设置响应的HTTP头部 Location 为指定的path参数。
+
+    ``` javascript
+    res.location('/foo/bar');
+    res.location('http://example.com');
+    res.location('back');
+    ```
+
+    当path参数为back时，其具有特殊的意义，其指定URL为请求对象的 Referer 头部指定的URL。如果请求中没有指定，那么其即为"/"。
+
+    Express传递指定的URL字符串作为回复给浏览器响应中的 Location 头部的值，不检测和操作，除了back这个参数。浏览器会将用户重定向到 location 设置的url或者 Referer 的url（back参数的情况）
+
+    要设置对应的状态码才会重定向，res.redirect 会自动设置状态码和 Location 头部，以及res.end()。
+
+* res.end()
+
+    `res.end([data] [, encoding])` 结束本响应的过程。这个方法实际上来自Node核心模块
+
+    终结响应处理流程。
+
 * res.cookie()
 * res.clearCookie()
-
-
-
 
 * res.format()
 
@@ -877,24 +891,6 @@ express 里面的 res.send() res.sendFile() res.download() res.json() res.jsonp(
         last:'http://api.example.com/user?page=5'
     });
     ```
-
-* res.location()
-
-    `res.location(path)`
-
-    设置响应的HTTP头部 Location 为指定的path参数。
-
-    ``` javascript
-    res.location('/foo/bar');
-    res.location('http://example.com');
-    res.location('back');
-    ```
-
-    当path参数为back时，其具有特殊的意义，其指定URL为请求对象的 Referer 头部指定的URL。如果请求中没有指定，那么其即为"/"。
-
-    Express传递指定的URL字符串作为回复给浏览器响应中的 Location 头部的值，不检测和操作，除了back这个参数。浏览器会将用户重定向到 location 设置的url或者 Referer 的url（back参数的情况）
-
-    要设置对应的状态码才会重定向，res.redirect 会自动设置状态码和 Location 头部，以及res.end()。
 
 * res.vary()
 
