@@ -7,11 +7,11 @@ var fs = require("fs");
 var m2 = require("./module2"); //require默认是用当前文件（模块）所在目录出发
 var path = require("path");
 
-console.log(__filename); // 当前模块的文件名称 -- 解析后的绝对路径。就是当前文件（模块）所在的地址(目录加文件名)
-console.log(__dirname); // 当前模块的文件夹名称 -- 解析后的绝对路径。 就是当前文件（模块）所在的目录
-console.log(path.dirname(__filename)); // path.dirname() 方法返回一个 path 的目录名
+console.log(__filename); // 当前模块的文件路径-- 解析后的绝对路径。就是当前文件（模块）所在的地址(目录加文件名)
+console.log(__dirname); // 当前模块的目录路径 -- 解析后的绝对路径。 就是当前文件（模块）所在的目录
+console.log(path.dirname(__filename)); // path.dirname() 方法返回一个 path 的目录路径
 console.log(path.dirname(__filename) === __dirname); // true   __dirname 就是 path.dirname(__filename)
-console.log(path.dirname(__dirname)); // path.dirname() 方法返回一个 路径 所在的目录名
+console.log(path.dirname(__dirname)); // path.dirname() 方法返回一个 路径 所在的目录路径
 
 console.log(m2);
 

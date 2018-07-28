@@ -23,7 +23,7 @@ app.use("/use/", function (req, res, next) {
 });
 
 /**
- * express 使用路由功能时，路径匹配的时候会忽略最后面的斜杠，无论是浏览器请求的路径，还是路由方法path里面写的路径。
+ * express 使用路由功能时，路径匹配的时候会忽略最后面的斜杠，无论是浏览器请求的路径，还是路由方法path里面写的路径。就是当成是只能是目录路径来处理
  *
  * 比如 /a/b/c/d/e 和 /a/b/c/d/e/
  *
@@ -38,7 +38,17 @@ app.use("/use/", function (req, res, next) {
  * 但是跳转的时候，最后有无 "/" , 还是挺重要的；一个路径以"/"结尾视为指向目录(directory)，否则视为指向文件(file)。
  */
 
-
+/* 其实 path.resolve 也是一样，路径末尾是否有 "/" 都一样 */
+console.log(__filename); // 当前模块的文件路径
+console.log(__dirname); // 当前模块的所在目录
+console.log(__dirname + "/"); // 当前模块的所在目录
+console.log(path.resolve(__filename, "./express_API.md"));
+console.log(path.resolve(__dirname, "./express_API.md"));
+console.log(path.resolve(__dirname + "/", "./express_API.md"));
+console.log(path.resolve(__dirname + "/", "./express_API.md", "./day3.md"));
+console.log(path.resolve(path.dirname(__filename), path.dirname("./express_API.md"), "./day3.md"));
+// path.resolve() 给定的路径的序列是从右往左被处理的，后面每个 path 被依次解析，直到构造完成一个绝对路径。
+// path.resolve() 会把每个参数里面的路径都当成是目录路径来处理，但由于是从右往左被处理，所以最后的一个路径的每个部分都会保留，所以文件路径放在最后是没有问题的；但是只要不是最后的一个参数，都要转化为目录路径，就是除去文件名部分。
 
 
 
@@ -91,8 +101,15 @@ app.get("/redirect/a/b/c/d/e", function (req, res, next) {
 // http://localhost:3000/redirect/a/b/c/d/e
 // http://localhost:3000/redirect/a/b/c/d/e/
 
-// console.log(path.resolve("/a/b/c/d/e/","../../haha"));
-// console.log(path.resolve("/a/b/c/d/e/","./../../haha"));
+// back重定向
+app.get("/redirect/back/a/b/c/d/e", function (req, res, next) {
+    res.locals.before = req.originalUrl;
+    app.locals.before = req.originalUrl;
+    res.redirect("back");
+});
+// http://localhost:3000/redirect/back/a/b/c/d/e
+// http://localhost:3000/redirect/back/a/b/c/d/e/
+
 
 app.use("/", function (req, res, next) {
     res.locals.after = req.originalUrl;
