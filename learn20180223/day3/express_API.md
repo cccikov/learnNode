@@ -19,7 +19,7 @@ var app = express();
 
 * app.locals
 
-    app.locals对象是一个javascript对象，它的属性就是程序本地的变量。就是应用程序设置的值，通过`app.set` 设定的应用程序设置。
+    app.locals对象是一个javascript对象，它的属性就是程序本地的变量。包含应用程序设置的值，通过`app.set` 设定的应用程序设置。
 
     ``` javascript
     app.locals.title
@@ -551,7 +551,7 @@ var app = express();
 
 * res.locals
 
-    一个对象，其包含了本次请求的响应中的变量和因此它的变量只提供给本次请求响应的周期内视图渲染里使用(如果有视图的话)。 其他方面，其和app.locals是一样的。
+    一个对象，其包含了本次请求的响应中的变量，同时在本次请求响应的周期内它的变量也可以提供模板引擎用于渲染视图使用，同时它的变量也可以提供给本次请求响应的周期内视图渲染里使用(如果有视图的话)。 其他方面，其和app.locals是一样的。
 
     这个参数在导出请求级别的信息是很有效的，这些信息比如请求路径，已认证的用户，用户设置等等。
 
@@ -784,7 +784,7 @@ express 里面的 res.send() res.sendFile() res.download() res.json() res.jsonp(
 
     重定向请求。
 
-    重定向来源于指定path的URL，以及指定的HTTP status codestatus。如果你没有指定status，status code默认为"302 Found"。
+    重定向来源于指定 `path` 的URL，以及指定的HTTP status code `status`。如果你没有指定 `status`，status code默认为"302 Found"。
 
     ``` javascript
     res.redirect('/foo/bar'); // 重定向可以相对于主机名的根目录。
