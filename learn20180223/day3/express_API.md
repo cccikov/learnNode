@@ -354,7 +354,7 @@ var app = express();
 
     这个属性持有express程序实例的一个引用，其可以作为中间件使用。
 
-    就是通过 `express()` 的应用
+    就是通过执行函数 `express()` 后返回的应用
 
 * req.originalUrl
 
@@ -551,7 +551,7 @@ var app = express();
 
 * res.locals
 
-    一个对象，其包含了本次请求的响应中的变量，同时在本次请求响应的周期内它的变量也可以提供模板引擎用于渲染视图使用，同时它的变量也可以提供给本次请求响应的周期内视图渲染里使用(如果有视图的话)。 其他方面，其和app.locals是一样的。
+    一个对象，其包含了本次请求的响应中的变量，同时在本次请求响应的周期内它的变量也可以提供模板引擎用于渲染视图使用。 其他方面，其和app.locals是一样的。
 
     这个参数在导出请求级别的信息是很有效的，这些信息比如请求路径，已认证的用户，用户设置等等。
 
@@ -836,7 +836,55 @@ express 里面的 res.send() res.sendFile() res.download() res.json() res.jsonp(
     终结响应处理流程。
 
 * res.cookie()
+
+    `res.cookie(name, value [,options])` 设置name和value的cookie，value参数可以是一串字符或者是转化为json字符串的对象。
+
+    options是一个对象，其可以有下列的属性。
+
+    属性  类型  描述
+    domain  String  设置cookie的域名。默认是你本app的域名。
+    expires Date    cookie的过期时间，GMT格式。如果没有指定或者设置为0，则产生新的cookie。
+    httpOnly    Boolean 这个cookie只能被web服务器获取的标示。
+    maxAge  String  是设置过去时间的方便选项，其为过期时间到当前时间的毫秒值。
+    path    String  cookie的路径。默认值是/。
+    secure  Boolean 标示这个cookie只用被HTTPS协议使用。
+    signed  Boolean 指示这个cookie应该是签名的。
+
+    res.cookie()所作的都是基于提供的options参数来设置Set-Cookie头部。没有指定任何的options，那么默认值在RFC6265中指定。
+
+    使用实例：
+    
+    ``` javascript
+    res.cookie('name', 'tobi', {'domain':'.example.com', 'path':'/admin', 'secure':true});
+    res.cookie('remenberme', '1', {'expires':new Date(Date.now() + 90000), 'httpOnly':true});
+    ```
+    maxAge 是一个方便设置过期时间的方便的选项，其以当前时间开始的毫秒数来计算。下面的示例和上面的第二条功效一样。
+
+    ``` javascript
+    res.cookie('rememberme', '1', {'maxAge':90000}, "httpOnly":true);
+    ```
+
+    你可以设置传递一个对象作为value的参数。然后其将被序列化为Json字符串，被bodyParser()中间件解析。
+
+    ``` javascript
+    res.cookie('cart', {'items':[1, 2, 3]});
+    res.cookie('cart', {'items':[1, 2, 3]}, {'maxAge':90000});
+    ```
+
+    当我们使用cookie-parser中间件的时候，这个方法也支持签名的cookie。简单地，在设置options时包含signed选项为true。然后res.cookie()将使用传递给cookieParser(secret)的密钥来签名这个值。
+
+    ``` javascript
+    res.cookie('name', 'tobi', {'signed':true});
+    ```
+
 * res.clearCookie()
+
+    `res.clearCookie(name [,options])`根据指定的name清除对应的cookie。更多关于options对象可以查阅res.cookie()。
+
+    ``` javascript
+    res.cookie('name', 'tobi', {'path':'/admin'});
+    res.clearCookie('name', {'path':'admin'});
+    ```
 
 * res.format()
 
