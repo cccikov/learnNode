@@ -37,11 +37,11 @@ app.get("/journey", function (req, res, next) {
             destination_cookie.push(destination);
             res.cookie("dest", destination_cookie, {
                 maxAge: 24 * 60 * 60 * 1000
-            });
+            }); // cookie 可以直接存放数组
         }
         res.send("你查询的目的地是" + destination);
     } else {
-        if (destination_cookie) {
+        if (destination_cookie.length > 0) {
             res.send("猜你喜欢：" + destination_cookie);
         } else {
             res.send("你之前未查询过任何地点");
