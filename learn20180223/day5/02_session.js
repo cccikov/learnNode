@@ -78,7 +78,7 @@ app.get('/', function (req, res, next) {
 
 app.locals.nickname = ["小红", "小明", "小刚", "小赵", "小陈"]; // 总昵称
 
-app.get("/index", function (req, res, next) {
+app.get("/login", function (req, res, next) {
     var id = req.sessionID;
     console.log(req.sessionID, req.session.id);
 
@@ -93,7 +93,16 @@ app.get("/index", function (req, res, next) {
 
     res.send("这是客户端: " + req.session.nickname);
 });
-// http://localhost:3000/index
+// http://localhost:3000/login
 // 用不同的客户端(不同的浏览器，不同的设备都可以)访问上面的地址，就会发现，没个客户端都只会对应自己的session。
+
+app.get("/me", function (req, res, next) {
+    if (req.session.nickname) {
+        res.send("你好，" + req.session.nickname);
+    }else{
+        res.send("<a href='/login'>登录</a>");
+    }
+});
+// http://localhost:3000/me
 
 app.listen(3000);
