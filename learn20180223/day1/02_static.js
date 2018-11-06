@@ -44,7 +44,7 @@ let server = http.createServer(function (req, res) {
         } else {
             if (isOrigin) {
                 res.writeHead(200, {
-                    "content-type": "text/plain;charset=utf8"// 不加;charset=utf8 css js中文会乱码
+                    "content-type": "text/plain;charset=utf8"// 由于设置的内容类型是text/plain，所以会以纯文本的形式输出  不加;charset=utf8 css js中文会乱码
                 });
             } else {
                 let extname = path.extname(file_pathname);
