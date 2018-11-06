@@ -17,11 +17,14 @@ var server = http.createServer(function(req, res) {
             data = JSON.stringify(data);
             res.end(data); // 服务器 回应 的数据格式只能是 字符串 或者 二进制数据（fs读的数据），二进制数据在浏览器解释好像也是字符串
         } else if (method == "post") {
+            console.log(req.headers)
             var data = ""
             req.addListener("data", function(chunk) {
                 data += chunk; // chunk 是一个二进制数据
             });
             req.addListener("end", function() {
+                console.log(data);
+                console.log(typeof data);
                 data = querystring.parse(data);
                 data = JSON.stringify(data);
                 res.end(data);
@@ -31,7 +34,11 @@ var server = http.createServer(function(req, res) {
         }
     } else if (pathname == "/jquery.js") { // 路由控制，请求jq的时候就找/public/jquery-1.11.3.min.js
         static(req, res, "../public/jquery-1.11.3.min.js");
-    } else {
+    } else if (pathname == "/axios.min.js") { // 路由控制，axios.min.js
+        static(req, res, "../public/axios.min.js");
+    } else if (pathname == "/axios.min.map") { // 路由控制，axios.min.map 返回空
+        res.end("")
+    }else {
         if (pathname == "/") { // "/" 访问 默认的页面
             urlObj.pathname = "/07_ajax.html";
             req.url = url.format(urlObj);

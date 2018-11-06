@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>post和get请求</title>
-    <script src="jquery.js"></script>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="axios.min.js"></script>
     <script>
         $(function () {
 
@@ -152,6 +153,14 @@
             // jq 的 ajax post 方式3 data直接写在url上面，但是没有data，由于是post请求，所以请求时没有附带任何数据的
             $("#jq-post3").click(function () {
                 $.ajax({
+                     data: {
+                        name: "ccc",
+                        age: 18,
+                        gender: "male",
+                        type: "ajax",
+                        by: "data-obj",
+                        time: new Date().getTime()
+                    },
                     url: "getData?type=ajax&by=url&name=ccc&age=18&gender=male&time=" + (new Date()
                         .getTime()),
                     type: "post",
@@ -219,6 +228,40 @@
             });
 
 
+
+
+            ///////////
+            // axios //
+            ///////////
+
+
+            $("#axios-get").on("click",function(){
+                axios({
+                    method: 'get',
+                    url: 'getData?haha=meme',
+                    params:{
+                        name:"ccc"
+                    }
+                }).then(response => {
+                    console.log(response);
+                })
+            });
+
+            $("#axios-post").on("click",function(){
+                axios({
+                    method: 'post',
+                    url: 'getData',
+                    // params:{
+                    //     name:"ccc"
+                    // },
+                    data: {
+                        firstName: 'Fred'
+                    },
+                }).then(response => {
+                    console.log(response);
+                })
+            });
+
         });
     </script>
 </head>
@@ -235,6 +278,9 @@
     <hr>
     <button id="javascript-get1">javascript-get1</button>
     <button id="javascript-post1">javascript-post1</button>
+    <hr>
+    <button id="axios-get">axios-get</button>
+    <button id="axios-post">axios-post</button>
 </body>
 
 </html>
