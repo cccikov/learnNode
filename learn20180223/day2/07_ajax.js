@@ -4,6 +4,8 @@ var url = require("url");
 var static = require("./static");
 var querystring = require("querystring");
 
+var reg = /.+\/[^;]+/; // 匹配content-type的正则
+
 // 创建服务器
 var server = http.createServer(function(req, res) {
     var urlObj = url.parse(req.url);
@@ -17,17 +19,19 @@ var server = http.createServer(function(req, res) {
             data = JSON.stringify(data);
             res.end(data); // 服务器 回应 的数据格式只能是 字符串 或者 二进制数据（fs读的数据），二进制数据在浏览器解释好像也是字符串
         } else if (method == "post") {
-            console.log(req.headers)
+            var contentType = req.headers["content-type"].match(reg)[0];
             var data = ""
             req.addListener("data", function(chunk) {
                 data += chunk; // chunk 是一个二进制数据
             });
             req.addListener("end", function() {
-                console.log(data);
-                console.log(typeof data);
-                data = querystring.parse(data);
-                data = JSON.stringify(data);
-                res.end(data);
+                if(contentType == "application/json"){ // 如果请求头是json的直接返回
+                    res.end(data);
+                }else{
+                    data = querystring.parse(data);
+                    data = JSON.stringify(data);
+                    res.end(data);
+                }
             });
         } else {
             res.end("什么鬼嘛，post get 都不是");
