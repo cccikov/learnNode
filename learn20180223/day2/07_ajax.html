@@ -176,6 +176,33 @@
                 });
             });
 
+            // jq 的 ajax post 方式3 data直接写在url上面，但是没有data，由于是post请求，所以请求时没有附带任何数据的
+            $("#jq-post4").click(function () {
+                $.ajax({
+                     data: JSON.stringify({
+                        name: "ccc",
+                        age: 18,
+                        gender: "male",
+                        type: "ajax",
+                        by: "data-obj",
+                        time: new Date().getTime()
+                    }), // 由于jq设置了processData:false 和 contentType:"application/json;charset=UTF-8"后，会自动对data调用JSON.parse，所以我们要转化为JSON字符串
+                    contentType:"application/json;charset=UTF-8",
+                    processData:false,
+                    url: "getData",
+                    type: "post",
+                    success: function (result, textStatus, jqXHR) {
+                        console.log(result, textStatus, jqXHR);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(this);
+                        console.log(errorThrown);
+                    },
+                    async: false, // 异步
+                    dataType: "json" //将返回的字符串解释为json格式，ajax返回的只能是字符串，返回的json字符串一定要是名和值都用双引号括住
+                });
+            });
+
 
 
             ////////////
@@ -283,12 +310,21 @@
     <button id="jq-post1">jq-post1</button>
     <button id="jq-post2">jq-post2</button>
     <button id="jq-post3">jq-post3</button>
+    <button id="jq-post4">jq-post4-json</button>
     <hr>
     <button id="javascript-get1">javascript-get1</button>
     <button id="javascript-post1">javascript-post1</button>
     <hr>
     <button id="axios-get">axios-get</button>
     <button id="axios-post">axios-post</button>
+
+    <p>jq ajax 比原生请求头多了一项 x-requested-with:XMLHttpRequest</p>
+    <p>
+        x-requested-with XMLHttpRequest是Ajax 异步请求方式<br>
+        使用 request.getHeader("x-requested-with");<br>
+        为 null，则为传统同步请求；<br>
+        为 XMLHttpRequest，则为 Ajax 异步请求。
+    </p>
 </body>
 
 </html>
