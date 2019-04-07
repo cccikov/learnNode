@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <!-- 直接本地打开就可以，因为不是ajax，所以不用服务器环境  但是静态文件上传文件要加上 enctype 属性-->
+    <!-- 这个form提交直接本地打开就可以，因为不是ajax而是表单提交，所以不用服务器环境。 但是涉及文件上传文件要加上 enctype 属性-->
     <form action="/upload" enctype="multipart/form-data" method="post">
         <p>
             名字：
