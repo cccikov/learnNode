@@ -38,6 +38,8 @@ http.createServer(function (req, res) {
         static(req, res, path.resolve(__dirname, "../public/axios.min.js"));
     } else if (pathname == "/axios.min.map") { // 路由控制，axios.min.map 返回空
         res.end("")
+    }else if (pathname == "/jquery.js") { // 路由控制，请求jq的时候就找/public/jquery-1.11.3.min.js
+        static(req, res, path.resolve(__dirname, "../public/jquery-1.11.3.min.js"));
     } else {
         if (req.url == "/") { // "/" 访问 默认的页面
             static(req, res, path.resolve(__dirname, "14_ajax_uploadfile.html"));

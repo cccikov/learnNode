@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>文件上传1</title>
     <script type="text/javascript" src="/axios.min.js"></script>
+    <script type="text/javascript" src="jquery.js"></script>
 </head>
 
 <body>
@@ -45,6 +46,7 @@
     <p><button onclick="fn2()">axios 提交 formData</button></p>
     <p><button onclick="fn3()">原生ajax 提交 formData</button></p>
     <p><button onclick="fn4()">原生ajax 提交普通form格式</button></p>
+    <p><button onclick="jq()">jq 提交 formData</button></p>
     <script type="text/javascript">
         function fn() {
             axios({
@@ -140,6 +142,26 @@
 
          * content-type 为 multipart/form-data; boundary=----xxxx （加了正确boundary）的时候；请求数据chrome显示是以Form Data（表单数据），Firefox显示还是以payload（载荷）的形式发送出去
          */
+
+
+
+        function jq() {
+            let formData = new FormData();
+            formData.append('test', "test");
+            formData.append('name', document.getElementsByName("name")[0].value);
+            formData.append('age', document.getElementsByName("age")[0].value);
+            Object.values(document.getElementsByName("file")[0].files).forEach(val => {
+                formData.append('file', val)
+            });
+
+            $.ajax({
+                method: "post",
+                url: "/upload",
+                processData: false,  // 不处理数据 jq 会自动将data转化为查询字符串
+                contentType: false,   // 不设置内容类型 不设置content-type 浏览器会自动加（也会自动加边界）
+                data: formData
+            });
+        }
     </script>
 </body>
 
