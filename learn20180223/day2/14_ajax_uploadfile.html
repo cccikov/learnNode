@@ -36,7 +36,7 @@
         <p>
             文件：
             <label>
-                <input type="file" name="file">
+                <input type="file" name="file" multiple>
             </label>
         </p>
         <p><button>提交</button></p>
@@ -62,7 +62,9 @@
             formData.append('test', "test");
             formData.append('name', document.getElementsByName("name")[0].value);
             formData.append('age', document.getElementsByName("age")[0].value);
-            formData.append('file', document.getElementsByName("file")[0].files[0]);
+            Object.values(document.getElementsByName("file")[0].files).forEach(val => {
+                formData.append('file', val)
+            });
 
             axios({
                 url: "/upload",
@@ -71,6 +73,10 @@
                 headers: {
                     "Content-Type": "multipart/form-data;" // 上传的内容为formData axios 设置了content-type也会被忽略
                 }
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.error(err);
             });
 
         }
@@ -132,7 +138,7 @@
          * content-type 为 multipart/form-data （没有加boundary，或者加的boundary不正确）的时候；请求数据以payload（载荷）的形式发送出去
                 上传的格式是formData的时候，会发现，浏览器加的boundary会加在上传的数据（payload）中
 
-         * content-type 为 multipart/form-data; boundary=----xxxx （加了正确boundary）的时候；请求数据以Form Data（表单数据）的形式发送出去
+         * content-type 为 multipart/form-data; boundary=----xxxx （加了正确boundary）的时候；请求数据chrome显示是以Form Data（表单数据），Firefox显示还是以payload（载荷）的形式发送出去
          */
     </script>
 </body>
