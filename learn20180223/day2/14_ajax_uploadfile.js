@@ -8,23 +8,29 @@ var url = require("url");
 http.createServer(function (req, res) {
     var urlObj = url.parse(req.url);
     var pathname = urlObj.pathname;
-    console.log("请求地址： " + pathname);
+    // console.log("请求地址： " + pathname);
     if (pathname == '/upload' && req.method.toLowerCase() == 'post') {
-        console.log("进来了")
+        // console.log("进来了")
         // parse a file upload
         var form = new formidable.IncomingForm();
         form.uploadDir = "./";
         form.multiples = true; // 多文件上传
 
         form.parse(req, function (err, fields, files) {
-            console.log(err, fields, files)
+            // console.log(err, fields, files)
             res.writeHead(200, {
-                'content-type': 'text/plain'
+                'content-type': 'application/json'
             });
-            res.write(util.inspect({
+            console.log(util.inspect({
                 fields: fields,
                 files: files
-            }, false, 3)); // 递归3层
+            }, false, 3)); // 递归3层。注意，这个方法返回的字符不是JSON格式的字符串
+            res.write(
+                JSON.stringify({
+                    fields: fields,
+                    files: files
+                })
+            ); // 返回的数据只能是buffer 或者 字符串，就算是json格式的，也只能返回JSON字符串
             res.end();
         });
 
