@@ -296,3 +296,7 @@ var router = express.Router([options]);
 * router.param()
 * router.route()
 * router.use()
+
+### express 接受上传文件的中间件
+
+`multer` [multer](https://www.npmjs.com/package/multer)
