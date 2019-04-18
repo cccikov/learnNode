@@ -3,19 +3,39 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>res</title>
+    <title>直接查看或者下载</title>
 </head>
 
 <body>
     <a href="./12_res_01.html" download="haha.png">html下载</a>
+    <a href="/express/12_res_01.html" download="haha.png">html下载</a>
 
     <br>
     <a href="/download/12_res_01.html">下载当前文件</a>
     <a href="/file/12_res_01.html">node下载文件</a>
+    <button onclick="download_by_a('/express/12_res_01.html')">通过a标签</button>
+    <button onclick="download_by_a('/download/12_res_01.html')">下载当前文件 通过a标签</button>
+    <button onclick="download_by_a('/file/12_res_01.html')">node下载文件 通过a标签</button>
 
+    <button onclick="download_by_open('/express/12_res_01.html')">通过a标签</button>
+    <button onclick="download_by_open('/download/12_res_01.html')">下载当前文件 通过window.open标签</button>
+    <button onclick="download_by_open('/file/12_res_01.html')">node下载文件 通过window.open标签</button>
     <br>
     <a href="/express/12_res_01.html">express sendFile</a>
     <a href="/node/12_res_01.html">node readFile send</a>
+
+    <script>
+        function download_by_a(url) {
+            var a = document.createElement("a");
+            a.download = "file" + url; // 保存名字
+            a.href = url;
+            a.click();
+        }
+
+        function download_by_open(url) {
+            window.open(url, "_self");
+        }
+    </script>
 </body>
 
 </html>
