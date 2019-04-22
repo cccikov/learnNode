@@ -47,6 +47,7 @@
     <p><button onclick="fn3()">原生ajax 提交 formData</button></p>
     <p><button onclick="fn4()">原生ajax 提交普通form格式</button></p>
     <p><button onclick="jq()">jq 提交 formData</button></p>
+    <p><button onclick="fn5()">上传百分比</button></p>
     <script type="text/javascript">
         function fn() {
             axios({
@@ -161,6 +162,82 @@
                 contentType: false,   // 不设置内容类型 不设置content-type 浏览器会自动加（也会自动加边界）
                 data: formData
             });
+        }
+
+        function fn5() {
+            let formData = new FormData();
+            formData.append('test', "test");
+            formData.append('name', document.getElementsByName("name")[0].value);
+            formData.append('age', document.getElementsByName("age")[0].value);
+            formData.append('file', document.getElementsByName("file")[0].files[0]);
+
+            var xhr = new XMLHttpRequest();
+            /**
+             * XMLHttpRequestUpload对象
+             * 事件监听器一定要在 send 之前添加，因为send的时候就触发响应事件了。
+             * 由于触发事件的动作是同步行为（里面的监听器还是异步的,只是触发的动作是同步的），所以要在之前就要添加事件监听器
+             */
+            xhr.upload.addEventListener("loadstart", function (e) {
+                console.log("loadstart", e);
+            });
+            xhr.upload.addEventListener("progress", function (e) {
+                console.log("progress", e);
+            });
+            xhr.upload.addEventListener("abort", function (e) {
+                console.log("abort", e);
+            });
+            xhr.upload.addEventListener("error", function (e) {
+                console.log("error", e);
+            });
+            xhr.upload.addEventListener("load", function (e) {
+                console.log("load", e);
+            });
+            xhr.upload.addEventListener("timeout", function (e) {
+                console.log("timeout", e);
+            });
+            xhr.upload.addEventListener("loadend", function (e) {
+                console.log("loadend", e);
+            });
+
+
+            xhr.open("post", "upload", true);
+            xhr.send(formData); // 发送formdata
+
+
+            /**
+             * 以前事件是响应的时候触发，是一个异步动作。
+             */
+            xhr.addEventListener("loadstart", function (e) {
+                console.log("loadstart", e);
+            });
+            xhr.addEventListener("progress", function (e) {
+                console.log("progress", e);
+            });
+            xhr.addEventListener("abort", function (e) {
+                console.log("abort", e);
+            });
+            xhr.addEventListener("error", function (e) {
+                console.log("error", e);
+            });
+            xhr.addEventListener("load", function (e) {
+                console.log("load", e);
+            });
+            xhr.addEventListener("timeout", function (e) {
+                console.log("timeout", e);
+            });
+            xhr.addEventListener("loadend", function (e) {
+                console.log("loadend", e);
+            });
+            xhr.addEventListener("readystatechange", function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseText);
+                }
+            });
+
+            console.log("---------------")
+            console.log(xhr, xhr.upload)
+            console.log("---------------")
+
         }
     </script>
 </body>
