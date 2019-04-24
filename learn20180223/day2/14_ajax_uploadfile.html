@@ -48,6 +48,7 @@
     <p><button onclick="fn4()">原生ajax 提交普通form格式</button></p>
     <p><button onclick="jq()">jq 提交 formData</button></p>
     <p><button onclick="fn5()">上传百分比</button></p>
+    <p><button onclick="fn6()">axios 提交 formData 前端修改名字</button></p>
     <script type="text/javascript">
         function fn() {
             axios({
@@ -238,6 +239,32 @@
             console.log(xhr, xhr.upload)
             console.log("---------------")
 
+        }
+
+
+
+
+
+
+
+
+
+        // 原生上传formdata 改名字
+        function fn6() {
+            let formData = new FormData();
+            formData.append('test', "test");
+            formData.append('name', document.getElementsByName("name")[0].value);
+            formData.append('age', document.getElementsByName("age")[0].value);
+            formData.append('file', document.getElementsByName("file")[0].files[0], "修改名字.txt");
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("post", "upload", true);
+            xhr.send(formData); // 发送formdata
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseText);
+                }
+            }
         }
     </script>
 </body>

@@ -1,6 +1,7 @@
 var formidable = require('formidable'),
     http = require('http'),
     util = require('util'),
+    fs = require('fs'),
     path = require('path');
 var static = require("./static");
 var url = require("url");
@@ -18,6 +19,18 @@ http.createServer(function (req, res) {
 
         form.parse(req, function (err, fields, files) {
             // console.log(err, fields, files)
+
+            /**
+             * 改名
+             */
+            console.log(Object.values(files));
+            Object.values(files).forEach(val=>{
+                rename(val);
+            });
+
+            /**
+             * 相应
+             */
             res.writeHead(200, {
                 'content-type': 'application/json'
             });
@@ -38,7 +51,7 @@ http.createServer(function (req, res) {
         static(req, res, path.resolve(__dirname, "../public/axios.min.js"));
     } else if (pathname == "/axios.min.map") { // 路由控制，axios.min.map 返回空
         res.end("")
-    }else if (pathname == "/jquery.js") { // 路由控制，请求jq的时候就找/public/jquery-1.11.3.min.js
+    } else if (pathname == "/jquery.js") { // 路由控制，请求jq的时候就找/public/jquery-1.11.3.min.js
         static(req, res, path.resolve(__dirname, "../public/jquery-1.11.3.min.js"));
     } else {
         if (req.url == "/") { // "/" 访问 默认的页面
@@ -49,3 +62,32 @@ http.createServer(function (req, res) {
     }
 
 }).listen(3000);
+
+
+
+function rename(file) {
+    var oldPath = __dirname + "/" + file.path;
+    var extname = path.extname(file.name);
+    var basename = path.basename(file.name, extname);
+    var dir = "/pic"
+    var time = new Date().getTime();
+    var newPath = __dirname + dir + "/" + basename + "_" + time + extname;
+
+    fs.access(__dirname + dir, function (err) {
+        if (!!err && err.code == 'ENOENT') { // 无此文件或目录
+            fs.mkdir(__dirname + dir, function () { // 新建一个新的文件夹
+                handler(oldPath, newPath);
+            });
+            return;
+        };
+        handler(oldPath, newPath);
+    });
+
+    function handler(oldPath, newPath) {
+        fs.rename(oldPath, newPath, function (err) {
+            if (err) {
+                console.error(err);
+            }
+        });
+    }
+}
