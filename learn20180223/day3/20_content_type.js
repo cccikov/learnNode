@@ -1,6 +1,8 @@
 var express = require("express");
 var app = express();
 var path = require("path");
+var fs = require("fs");
+var path = require("path");
 
 /**
  * 研究content-type的作用
@@ -14,6 +16,34 @@ var path = require("path");
 
 app.get("/axios.min.js", function (req, res, next) {
     res.sendFile(path.resolve(__dirname, "../public/axios.min.js")); // express 会自动设置 Content-Type: application/javascript; charset=UTF-8
+});
+
+app.get("/jquery.min.js", function (req, res, next) {
+    res.sendFile(path.resolve(__dirname, "../public/jquery-1.11.3.min.js")); // express 会自动设置 Content-Type: application/javascript; charset=UTF-8
+});
+
+app.get("/json",function(req,res,next){
+    res.set("content-type", "application/json"); // content-type
+    res.send({
+        name:"ccc"
+    });
+});
+
+app.get("/json/str",function(req,res,next){
+    res.set("content-type", "text/plain"); // content-type
+    res.send({
+        name:"ccc"
+    });
+});
+
+app.get("/text/:path", function (req, res, next) {
+    fs.readFile(path.resolve(__dirname, req.params.path), function (err, data) {
+        if (err) {
+            throw err;
+        }
+        res.set("content-type", "text/plain"); // content-type
+        res.send(data);
+    });
 });
 
 app.use(express.static(__dirname, {
