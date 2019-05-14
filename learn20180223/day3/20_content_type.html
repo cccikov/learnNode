@@ -6,14 +6,354 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>20_content_type</title>
+    <style>
+        .section {
+            padding: 12px;
+            box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.3);
+        }
+    </style>
     <script src="axios.min.js"></script>
     <script src="jquery.min.js"></script>
+    <script>
+
+        /**
+         * 获取json格式
+         */
+        function getJson() {
+            axios({
+                method: "get",
+                url: "/json",
+            }).then(res => {
+                console.log(res.data);
+            }).catch(err => {
+                console.error(err);
+            });
+        }
+
+        /**
+         * 获取json格式字符串
+         */
+        function getJsonStr() {
+            axios({
+                method: "get",
+                url: "/json/str",
+            }).then(res => {
+                console.log(res.data);
+            }).catch(err => {
+                console.error(err);
+            });
+        }
+
+
+        axios({
+            method: "post",
+            url: "/data",
+            data: {
+                name: "ccc",
+                age: 18,
+                gender: "male"
+            }
+        })
+
+        axios({
+            method: "get",
+            url: "/data",
+            params: {
+                name: "ccc",
+                age: 18,
+                gender: "male"
+            }
+        })
+
+
+
+
+
+
+
+
+
+        /**
+         * jq get
+         */
+        function jqGet() {
+            $.ajax({
+                method: "get",
+                url: "/data",
+                data: {
+                    name: "ccc",
+                    age: 18,
+                    gender: "male"
+                },
+                success(data) {
+                    console.log(data);
+                }
+            })
+        }
+
+        /**
+         * jq post
+         */
+        function jqPost() {
+            $.ajax({
+                method: "post",
+                url: "/data",
+                data: {
+                    name: "ccc",
+                    age: 18,
+                    gender: "male"
+                },
+                success(data) {
+                    console.log(data);
+                }
+            })
+        }
+
+        /**
+         * jq get 模拟 jq
+         */
+        function jqGet_axios() {
+            $.ajax({
+                method: "get",
+                url: "/data",
+                data: {
+                    name: "ccc",
+                    age: 18,
+                    gender: "male"
+                },
+                // processData: false,  // 不处理数据 jq 会自动将data转化为查询字符串
+                contentType: "text/plain",
+                success(data) {
+                    console.log(data);
+                }
+            })
+        }
+
+        /**
+         * jq post 模拟 jq
+         */
+        function jqPost_axios() {
+            $.ajax({
+                method: "post",
+                url: "/data",
+                data: JSON.stringify({
+                    name: "ccc",
+                    age: 18,
+                    gender: "male"
+                }), // 由于http传输都是传输字符串的，但是一般来说，框架会自动处理。但是一旦关闭了框架的处理，就要我们手动处理
+                processData: false,  // 不处理数据 jq 会自动将data转化为查询字符串
+                contentType: "application/json",
+                success(data) {
+                    console.log(data);
+                }
+            })
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**
+         * axios get
+         */
+        function axiosGet() {
+            axios({
+                method: "get",
+                url: "/data",
+                params: {
+                    name: "ccc",
+                    age: 18,
+                    gender: "male"
+                },
+            }).then(res => {
+                console.log(res.data);
+            })
+        }
+
+        /**
+         * axios post
+         */
+        function axiosPost() {
+            axios({
+                method: "post",
+                url: "/data",
+                data: {
+                    name: "ccc",
+                    age: 18,
+                    gender: "male"
+                },
+            }).then(res => {
+                console.log(res.data);
+            })
+        }
+
+
+
+        /**
+         * axios get 模拟 jq
+         */
+        function axiosGet_jq() {
+            axios({
+                method: "get",
+                url: "/data",
+                params: {
+                    name: "ccc",
+                    age: 18,
+                    gender: "male"
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            }).then(res => {
+                console.log(res.data);
+            })
+        }
+
+        /**
+         * axios post
+         */
+        /* 方式1 使用 修改 transformRequest 请求数据 */
+        function axiosPost_jq1() {
+            axios({
+                method: "post",
+                url: "/data",
+                data: {
+                    name: "ccc",
+                    age: 18,
+                    gender: "male"
+                },
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                transformRequest: [function (data) {
+                    var str = Object.keys(data).map(key => {
+                        return [key + "=" + data[key]];
+                    }).join("&");
+                    console.log(str);
+                    return str;
+                }],
+            }).then(res => {
+                console.log(res.data);
+            })
+        }
+        /* 方式2 data直接传查询字符串 */
+        function axiosPost_jq2() {
+            axios({
+                method: "post",
+                url: "/data",
+                data: "name=ccc&age=18&gender=male",
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            }).then(res => {
+                console.log(res.data);
+            })
+        }
+
+        /* 方式3 利用 formData */
+        function axiosPost_jq3() {
+            var formData = new FormData();
+            var data = {
+                name: "ccc",
+                age: 18,
+                gender: "male"
+            };
+            Object.keys(data).forEach(key => {
+                formData.append(key, data[key])
+            });
+            axios({
+                method: "post",
+                url: "/data",
+                data: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            }).then(res => {
+                console.log(res.data);
+            })
+        }
+
+
+    </script>
 </head>
 
 <body>
     <h5>20_content_type</h5>
+    <div class="section">
+        <p>
+            <a href="./text/20_content_type.html" target="_blank">纯文本查看</a>
+        </p>
+        <p>
+            <a href="javascript:getJson()">获取json格式</a>
+        </p>
+        <p>
+            <a href="javascript:getJsonStr()">获取json字符串格式</a>
+        </p>
+    </div>
+
     <p>
-        <a href="./text/20_content_type.html" target="_blank">20_content_type.html</a>
+        <a href="javascript:jqGet()">jqGet</a>
+    </p>
+    <p>
+        <a href="javascript:jqPost()">jqPost</a>
+    </p>
+    <p>
+        <a href="javascript:jqGet_axios()">jqGet 模拟 axios</a>
+    </p>
+    <p>
+        <a href="javascript:jqPost_axios()">jqPost 模拟 axios</a>
+    </p>
+    <p>
+        <a href="javascript:axiosGet()">axiosGet</a>
+    </p>
+    <p>
+        <a href="javascript:axiosPost()">axiosPost</a>
+    </p>
+    <p>
+        <a href="javascript:axiosGet_jq()">axiosGet 模拟jq</a>
+    </p>
+    <p>
+        <a href="javascript:axiosPost_jq1()">axiosPost 模拟jq</a>
+    </p>
+    <p>
+        <a href="javascript:axiosPost_jq2()">axiosPost 模拟jq 方式2</a>
+    </p>
+    <p>
+        <a href="javascript:axiosPost_jq3()">axiosPost 模拟jq 方式3</a>
+    </p>
+    <p>
+        由于http传输都是传输字符串的，如果是form表单形式的话就是查询字符串，如果是json形式就是json字符串，但是一般来说，框架会自动处理。但是一旦关闭了框架的处理，就要我们手动处理。
     </p>
 </body>
 

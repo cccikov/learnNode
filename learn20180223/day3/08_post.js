@@ -11,10 +11,10 @@ app.use(express.static("./", {
 }));
 
 // 根据请求头Content-Type采用不同的中间件，可以全部都写，因为会将控制权交给下一个中间件
-app.use(bodyParser.json()); // for parsing application/json 但是好像angular的post请求是这个
+app.use(bodyParser.json()); // for parsing application/json ; content-type 为 application/json 的时候
 app.use(bodyParser.urlencoded({
     extended: true
-})); // for parsing application/x-www-form-urlencoded post请求默认是"Content-Type":"application/x-www-form-urlencoded"
+})); // for parsing application/x-www-form-urlencoded form表单形式的请求，jq的默认形式是"Content-Type":"application/x-www-form-urlencoded"
 
 app.post("/me/postdata", function(req, res) {
     console.log(req.body);
