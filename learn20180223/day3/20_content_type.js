@@ -5,6 +5,11 @@ var fs = require("fs");
 var path = require("path");
 var bodyParser = require('body-parser');
 
+var multer = require('multer')
+var upload = multer({
+    dest: 'uploads/'
+});
+
 /**
  * 研究content-type的作用
  *
@@ -25,6 +30,15 @@ app.use(bodyParser.urlencoded({
  * post 请求
  */
 app.post("/data", function (req, res, next) {
+    res.send({
+        body: req.body,
+        "content-type": req.headers["content-type"], // 如果没有的话就不发去客户端
+        "x-requested-with": req.headers["x-requested-with"],
+        method: req.method,
+        protocol: req.protocol,
+    });
+});
+app.post("/multer/data", upload.none(), function (req, res, next) { // upload.none() 纯文本的formdata 就是没有上传文件的
     res.send({
         body: req.body,
         "content-type": req.headers["content-type"], // 如果没有的话就不发去客户端

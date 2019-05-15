@@ -293,11 +293,12 @@
             });
             axios({
                 method: "post",
-                url: "/data",
+                url: "/multer/data",
                 data: formData,
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    // 'Content-Type': 'application/x-www-form-urlencoded' // 设了也会被axios忽略
+                    // / 发送 formdata 格式的时候不要手动设置 Content-type 因为只设置multipart/form-data是不太正确的，还要设置boundary，比较复杂，不设置的话，浏览器会自动设置一个正确的content-type
                 },
             }).then(res => {
                 console.log(res.data);
