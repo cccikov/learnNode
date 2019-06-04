@@ -10,13 +10,60 @@
 </head>
 
 <body>
-    <input type="file" name="fileinput" id="fileinput">
-    <button onclick="fn()">button</button>
-    <script>
+    <p>
+        <span>上传单个文件</span>
+        <input type="file" name="file" id="file">
+    </p>
+    <p>
+        <span>上传多个文件</span>
+        <input type="file" name="files" id="files" multiple>
+    </p>
+    <p>
+        <span>上传多个文件</span>
+        <input type="file" name="pictures" id="pictures" multiple>
+    </p>
+    <button onclick="single()">单个文件</button>
+    <button onclick="multiple()">多个文件</button>
+    <button onclick="mix()">混合文件</button>
+    <button onclick="any()">任意上传</button>
+    <button onclick="none()">纯文本域</button>
 
-        function fn() {
-            var formData = new FormData();
-            var data = {
+    <script>
+        /**
+         * 单个文件
+         */
+        function single() {
+            upload("/single", "file");
+        }
+
+        /**
+         * 多个文件
+         */
+        function multiple() {
+            upload("/multiple", "files");
+        }
+
+        /**
+         * 混合文件
+         */
+        function mix() {
+            upload_mix("/mix");
+        }
+
+        /**
+         * 任意上传
+         */
+        function any() {
+            upload_mix("/any");
+        }
+
+        /**
+         * 无文件上传
+         */
+        function none() {
+            // formData
+            let formData = new FormData();
+            let data = {
                 name: "ccc",
                 age: 18,
                 gender: "male",
@@ -24,23 +71,89 @@
             Object.keys(data).forEach(key => {
                 formData.append(key, data[key])
             });
-            if(fileinput.files.length>0){
-                formData.append("theFile", fileinput.files[0])
-            }
+
+            // ajax
             axios({
                 method: "post",
-                url: "/file",
+                url: "/none",
                 data: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    // 'Content-Type': 'application/x-www-form-urlencoded' // 设了也会被axios忽略
-                    // / 发送 formdata 格式的时候不要手动设置 Content-type 因为只设置multipart/form-data是不太正确的，还要设置boundary，比较复杂，不设置的话，浏览器会自动设置一个正确的content-type
-                },
             }).then(res => {
                 console.log(res.data);
-            })
+            }).catch(err => {
+                console.error(err);
+            });
         }
 
+        /**
+         * 上传文件
+         */
+        function upload(url, name) {
+            // formData
+            let formData = new FormData();
+            let data = {
+                name: "ccc",
+                age: 18,
+                gender: "male",
+            };
+            Object.keys(data).forEach(key => {
+                formData.append(key, data[key])
+            });
+            let files = document.getElementById(name).files;
+            if (files.length > 0) {
+                Array.from(files).forEach(file => {
+                    formData.append("single", file);
+                });
+            }
+
+            // ajax
+            axios({
+                method: "post",
+                url,
+                data: formData,
+            }).then(res => {
+                console.log(res.data);
+            }).catch(err => {
+                console.error(err);
+            });
+        }
+
+        /**
+       * mix 单双混合
+       */
+        function upload_mix(url) {
+            // formData
+            let formData = new FormData();
+            let data = {
+                name: "ccc",
+                age: 18,
+                gender: "male",
+            };
+            Object.keys(data).forEach(key => {
+                formData.append(key, data[key])
+            });
+
+            // 文件部分
+            let inputs = document.querySelectorAll("input[type=file]");
+            Array.from(inputs).forEach(input => {
+                let files = input.files;
+                if (files.length > 0) {
+                    Array.from(files).forEach(file => {
+                        formData.append(input.name, file);
+                    });
+                }
+            });
+
+            // ajax
+            axios({
+                method: "post",
+                url,
+                data: formData,
+            }).then(res => {
+                console.log(res.data);
+            }).catch(err => {
+                console.error(err);
+            });
+        }
     </script>
 </body>
 
