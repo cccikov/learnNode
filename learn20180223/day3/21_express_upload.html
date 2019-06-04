@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>21_express_upload</title>
+    <script src="axios.min.js"></script>
+</head>
+
+<body>
+    <input type="file" name="fileinput" id="fileinput">
+    <button onclick="fn()">button</button>
+    <script>
+
+        function fn() {
+            var formData = new FormData();
+            var data = {
+                name: "ccc",
+                age: 18,
+                gender: "male",
+            };
+            Object.keys(data).forEach(key => {
+                formData.append(key, data[key])
+            });
+            if(fileinput.files.length>0){
+                formData.append("theFile", fileinput.files[0])
+            }
+            axios({
+                method: "post",
+                url: "/file",
+                data: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    // 'Content-Type': 'application/x-www-form-urlencoded' // 设了也会被axios忽略
+                    // / 发送 formdata 格式的时候不要手动设置 Content-type 因为只设置multipart/form-data是不太正确的，还要设置boundary，比较复杂，不设置的话，浏览器会自动设置一个正确的content-type
+                },
+            }).then(res => {
+                console.log(res.data);
+            })
+        }
+
+    </script>
+</body>
+
+</html>
