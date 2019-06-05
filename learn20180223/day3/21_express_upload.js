@@ -82,13 +82,15 @@ app.post("/none", upload.none(), (req, res, next) => {
  */
 app.post("/file", (req, res, next) => {
     // 在中间件里面调用中间件函数。
-    let middleware;
-    let ran = Math.random();
+    let middleware; // 中间件
+    let ran = Math.random(); // 随机数
 
     if (ran < 0.25) {
         middleware = upload.single('single'); // 中间件，中间件的本质是一个函数
+        req.middleware = "single";
     } else if (ran >= 0.25 && ran < 0.5) {
         middleware = upload.array('files'); // 中间件，中间件的本质是一个函数
+        req.middleware = "array";
     } else if (ran >= 0.5 && ran < 0.75) {
         middleware = upload.fields([{
             name: "file",
@@ -98,13 +100,16 @@ app.post("/file", (req, res, next) => {
         }, {
             name: "pictures"
         }]); // 中间件，中间件的本质是一个函数
+        req.middleware = "fields";
     } else {
         middleware = upload.any(); // 中间件，中间件的本质是一个函数
+        req.middleware = "any";
     }
     middleware(req, res, next); // 调用中间件，由于中间件函数执行时，会传入req, res, next；所以传入req, res, next来调用
 
 }, function (req, res, next) {
     res.send({
+        middleware: req.middleware,
         file: req.file,
         files: req.files,
         body: req.body,

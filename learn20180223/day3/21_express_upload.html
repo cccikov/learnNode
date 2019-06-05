@@ -27,6 +27,7 @@
     <button onclick="mix()">混合文件</button>
     <button onclick="any()">任意上传</button>
     <button onclick="none()">纯文本域</button>
+    <button onclick="file()">随机</button>
 
     <script>
         /**
@@ -56,6 +57,14 @@
         function any() {
             upload_mix("/any");
         }
+
+        /**
+         * 随机
+         */
+        function file() {
+            upload_mix("/file");
+        }
+
 
         /**
          * 无文件上传
