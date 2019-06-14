@@ -3,8 +3,28 @@ var app = express();
 var path = require("path");
 
 var multer = require('multer')
+
+var storage = multer.diskStorage({
+
+    // destination - 存储在哪个文件夹。可以是函数，可以是字符串
+    destination: function (req, file, cb) {
+        cb(null, "uploads");
+    },
+    // destination: "uploads",
+
+    // 存储文件名
+    filename: function (req, file, cb) {
+        var nameToArr = file.originalname.split(".");
+        nameToArr[0] += '-' + Date.now();
+        var name = nameToArr.join(".");
+        cb(null, name);
+    }
+});
+
 var upload = multer({
-    dest: 'uploads/'
+    /* dest or storage 二选一 */
+    // dest: 'uploads/',
+    storage: storage
 });
 
 /**
