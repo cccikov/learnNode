@@ -8,7 +8,7 @@ var storage = multer.diskStorage({
 
     // destination - 存储在哪个文件夹。可以是函数，可以是字符串
     destination: function (req, file, cb) {
-        cb(null, "uploads");
+        cb(null, path.resolve(__dirname, "./uploads"));
     },
     // destination: "uploads",
 
