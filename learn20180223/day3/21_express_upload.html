@@ -110,7 +110,7 @@
             let files = document.getElementById(name).files;
             if (files.length > 0) {
                 Array.from(files).forEach(file => {
-                    formData.append("single", file);
+                    formData.append(name, file);
                 });
             }
 
@@ -127,8 +127,9 @@
         }
 
         /**
-       * mix 单双混合
-       */
+         * mix 单双混合
+         * 可以上传 多个 file_input , 就是有多个表单项是对应文件的，比如上面的 file，files，pictures
+         */
         function upload_mix(url) {
             // formData
             let formData = new FormData();

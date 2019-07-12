@@ -34,7 +34,7 @@ var upload = multer({
  *
  * fieldname--Field name 由表单指定的 name
  */
-app.post("/single", upload.single('single'), (req, res, next) => {
+app.post("/single", upload.single('file'), (req, res, next) => {
     res.send({
         file: req.file,
         body: req.body,
@@ -113,7 +113,7 @@ app.post("/file", (req, res, next) => {
         req.middleware = "array";
     } else if (ran >= 0.5 && ran < 0.75) {
         middleware = upload.fields([{
-            name: "file",
+            name: "file", // file项只能是一个文件
             maxCount: 1
         }, {
             name: "files"
