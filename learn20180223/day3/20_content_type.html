@@ -149,6 +149,31 @@
             })
         }
 
+        /**
+         * jq post 模拟 jq 上传formData
+         */
+        function jqPost_axios_formData() {
+            var formData = new FormData();
+            var data = {
+                name: "ccc",
+                age: 18,
+                gender: "male"
+            };
+            Object.keys(data).forEach(key => {
+                formData.append(key, data[key])
+            });
+            $.ajax({
+                method: "post",
+                url: "/multer/data",
+                data: formData, // 由于http传输都是传输字符串的，但是一般来说，框架会自动处理。但是一旦关闭了框架的处理，就要我们手动处理
+                processData: false,  // 不处理数据 jq 会自动将data转化为查询字符串
+                contentType: false,  // 不设置内容类型 不设置content-type 浏览器会自动加（也会自动加边界）
+                success(data) {
+                    console.log(data);
+                }
+            })
+        }
+
 
 
 
@@ -334,6 +359,9 @@
     </p>
     <p>
         <a href="javascript:jqPost_axios()">jqPost 模拟 axios</a>
+    </p>
+    <p>
+        <a href="javascript:jqPost_axios_formData()">jqPost 模拟 axios 上传formData</a>
     </p>
     <p>
         <a href="javascript:axiosGet()">axiosGet</a>
