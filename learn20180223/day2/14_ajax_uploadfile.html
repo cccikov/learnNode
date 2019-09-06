@@ -159,7 +159,7 @@
             $.ajax({
                 method: "post",
                 url: "/upload",
-                processData: false,  // 不处理数据 jq 会自动将data转化为查询字符串
+                processData: false,  // 不处理数据， jq会自动将对象转化为查询字符串
                 contentType: false,   // 不设置内容类型 不设置content-type 浏览器会自动加（也会自动加边界）
                 data: formData
             });
