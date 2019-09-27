@@ -145,9 +145,19 @@
             // 文件部分
             let inputs = document.querySelectorAll("input[type=file]");
             Array.from(inputs).forEach(input => {
-                let files = input.files;
+                // input 表单的dom对象 ， 所有type属性(attribute)为file的 <input> 元素都有一个files属性(property),用来存储用户所选择的文件，即FileList 对象
+                let files = input.files; // 获取input的File对象列表   FileList 对象: https://developer.mozilla.org/zh-CN/docs/Web/API/FileList
                 if (files.length > 0) {
                     Array.from(files).forEach(file => {
+                        /**
+                         * 每个 File 对象包含了下列信息:
+                         *
+                         * name: 文件名.
+                         * lastModified: UNIX timestamp 形式的最后修改时间.
+                         * lastModifiedDate:  Date 形式的最后修改时间.
+                         * size: 文件的字节大小.
+                         * type: DOMString 文件的 MIME 类型.
+                         */
                         formData.append(input.name, file);
                     });
                 }
