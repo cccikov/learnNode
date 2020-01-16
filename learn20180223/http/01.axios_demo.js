@@ -1,5 +1,5 @@
-var express = require("express");
-var app = express();
+const express = require("express");
+const app = express();
 
 /* get 请求 */
 app.get("/get", function (req, res) {
