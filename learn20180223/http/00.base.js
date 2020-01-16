@@ -10,6 +10,9 @@ data_router.get("/", function (req, res) {
     res.send(req.query);
 });
 data_router.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 data_router.post("/", function (req, res) {
     res.send({
         "body": req.body,
