@@ -1,3 +1,8 @@
+/**
+ * 参考例子
+ * https://www.cnblogs.com/hanguidong/p/9307391.html 《nodejs入门教程之http的get和request简介及应用》
+ *
+ */
 const express = require("express");
 const app = express();
 const http = require('http')
@@ -5,49 +10,53 @@ const querystring = require("querystring")
 
 /* get 请求 */
 app.get("/get", function (req, res) {
-    let _res = res;
+    let server_res = res; // response <http.ServerResponse>
 
     /* get 请求 */
     let params = querystring.stringify({
         name: "ccc",
         age: 28,
         by: "http.request",
-        mehtod: "get"
+        method: "get"
     });
-    const http_req = http.request({
+    const client_req = http.request({
+        protocol: "http:",
         host: '127.0.0.1',
         port: 3000,
         path: "/data" + "?" + params,
         method: 'GET'
-    }, http_res => {
-        console.log(`statusCode: ${http_res.statusCode}`)
+    }, client_res => { // response <http.IncomingMessage>
+        console.log(`statusCode: ${client_res.statusCode}`)
         let data = "";
-        http_res.on('data', chunk => {
+        client_res.on('data', chunk => {
             data += chunk;
             console.log(process.stdout.write(chunk))
-            _res.send(data);
+        });
+        client_res.on('end', chunk => {
+            server_res.send(data);
         })
     })
-    http_req.on('error', error => {
-        _res.send(error.message);
+    client_req.on('error', error => {
+        server_res.send(error.message);
     })
-    http_req.end()
+    client_req.end()
     /* get 请求完毕 */
 });
 
 
 /* post formData 请求 */
 app.get("/formData", function (req, res) {
-    let _res = res;
+    let server_res = res;
 
     const data = querystring.stringify({
         name: "ccc",
         age: 28,
         by: "http.request",
         method: "post"
-    });// 和 JSON 区别
+    }); // 和 JSON 区别
 
-    const http_req = http.request({
+    const client_req = http.request({
+        protocol: "http:",
         host: '127.0.0.1',
         port: 3000,
         path: "/data",
@@ -56,27 +65,29 @@ app.get("/formData", function (req, res) {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Content-Length': Buffer.byteLength(data)
         }
-    }, http_res => {
-        console.log(`statusCode: ${http_res.statusCode}`)
+    }, client_res => {
+        console.log(`statusCode: ${client_res.statusCode}`)
         let data = "";
-        http_res.on('data', chunk => {
+        client_res.on('data', chunk => {
             data += chunk;
             console.log(process.stdout.write(chunk))
-            _res.send(data);
+        })
+        client_res.on('end', chunk => {
+            server_res.send(data);
         })
     })
-    http_req.on('error', error => {
-        _res.send(error.message);
+    client_req.on('error', error => {
+        server_res.send(error.message);
     })
-    http_req.write(data)
-    http_req.end()
+    client_req.write(data)
+    client_req.end()
 
 });
 
 
 /* post json 请求 */
 app.get("/json", function (req, res) {
-    let _res = res;
+    let server_res = res;
 
     const data = JSON.stringify({
         name: "ccc",
@@ -85,7 +96,8 @@ app.get("/json", function (req, res) {
         method: "post"
     })
 
-    const http_req = http.request({
+    const client_req = http.request({
+        protocol: "http:",
         host: '127.0.0.1',
         port: 3000,
         path: "/data",
@@ -94,20 +106,22 @@ app.get("/json", function (req, res) {
             'Content-Type': 'application/json',
             'Content-Length': data.length
         }
-    }, http_res => {
-        console.log(`statusCode: ${http_res.statusCode}`)
+    }, client_res => {
+        console.log(`statusCode: ${client_res.statusCode}`)
         let data = "";
-        http_res.on('data', chunk => {
+        client_res.on('data', chunk => {
             data += chunk;
             console.log(process.stdout.write(chunk))
-            _res.send(data);
+        })
+        client_res.on('end', chunk => {
+            server_res.send(data);
         })
     })
-    http_req.on('error', error => {
-        _res.send(error.message);
+    client_req.on('error', error => {
+        server_res.send(error.message);
     })
-    http_req.write(data)
-    http_req.end()
+    client_req.write(data)
+    client_req.end()
 
 });
 
