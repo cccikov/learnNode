@@ -30,6 +30,7 @@ app.get("/get", function (req, res) {
             data += chunk;
         });
         client_res.on('end', () => {
+            process.stdout.write('\x07');
             server_res.send(data);
         });
     }).on('error', (e) => {
