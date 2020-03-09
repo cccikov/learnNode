@@ -166,7 +166,7 @@ var app = express();
 * app.use()
 
     ``` javascript
-    app.use（[path，] function [，function ...]）
+    app.use（[path，] callback [，callback ...]）
     ```
 
     `app.use` 会匹配任何以 `path`参数值 加上"/"作为开头的路径；如果path未指定，则默认为“/”。不是精确匹配
@@ -194,6 +194,8 @@ var app = express();
 
     * 而对于 `app.use` ，请求的路径开头字符串符合 `path`加"/" 就可以了
     `app.use('/apple', ...)` 将匹配 `"/apple"`，`"/apple/images"`，`"/ apple/images/news"`等。
+
+    所以callback可以更好地使用router（express.Router）对象也可以app（express.app）对象，虽然app.get，callback也是可以使用router对象和app对象，但是由于app.get路径是全匹配，局限性就好大了。
 
 * app.route()
 
@@ -364,6 +366,10 @@ var app = express();
 
     ```
     req.originalUrl = req.baseUrl + req.url
+    ```
+
+    ```
+    app.use(express.static("./")); // express.static 是根据 req.url 作为静态资源的请求路径的，所以只需要改动req.url就能改变请求的静态资源
     ```
 
 * req.baseUrl
@@ -853,7 +859,7 @@ express 里面的 res.send() res.sendFile() res.download() res.json() res.jsonp(
     res.cookie()所作的都是基于提供的options参数来设置Set-Cookie头部。没有指定任何的options，那么默认值在RFC6265中指定。
 
     使用实例：
-    
+
     ``` javascript
     res.cookie('name', 'tobi', {'domain':'.example.com', 'path':'/admin', 'secure':true});
     res.cookie('remenberme', '1', {'expires':new Date(Date.now() + 90000), 'httpOnly':true});

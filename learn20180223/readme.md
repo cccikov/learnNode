@@ -75,7 +75,7 @@ learn20180223
 ├── day3
 │   ├── 01_express.js
 │   ├── 02_express_router.js
-│   ├── 03_express_static.js
+│   ├── 03_express_static.js express静态资源
 │   ├── 04_express_template.js
 │   ├── 05_middleware.js
 │   ├── 06_middleware2.js
@@ -100,6 +100,8 @@ learn20180223
 │   ├── 20_content_type.js
 │   ├── 21_express_upload.html
 │   ├── 21_express_upload.js
+│   ├── 22_express_static.js 静态资源别名，不影响路径
+│   ├── 23_express_static.js 静态资源别名，不影响路径
 │   ├── day3.md
 │   ├── express_API.md
 │   ├── multer zh-cn.md
