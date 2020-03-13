@@ -45,11 +45,15 @@ console.log(__dirname + "/"); // 当前模块的所在目录
 console.log(path.resolve(__filename, "./express_API.md"));
 console.log(path.resolve(__dirname, "./express_API.md"));
 console.log(path.resolve(__dirname + "/", "./express_API.md"));
+console.log(path.join(__dirname, "./", "express_API.md"));
+console.log(path.join(__dirname, "./", "express_API.md") ===  path.resolve(__dirname + "/", "./express_API.md"));
 console.log(path.resolve(__dirname + "/", "./express_API.md", "./day3.md"));
 console.log(path.resolve(path.dirname(__filename), path.dirname("./express_API.md"), "./day3.md"));
 // path.resolve() 给定的路径的序列是从右往左被处理的，后面每个 path 被依次解析，直到构造完成一个绝对路径。
 // path.resolve() 会把每个参数里面的路径都当成是目录路径来处理，但由于是从右往左被处理，所以最后的一个路径的每个部分都会保留，所以文件路径放在最后是没有问题的；但是只要不是最后的一个参数，都要转化为目录路径，就是除去文件名部分。
 
+
+// path.join(path1，path2，path3.......) 将路径片段使用特定的分隔符（window：\）连接起来形成路径，并规范化生成的路径。若任意一个路径片段类型错误，会报错。
 
 
 
@@ -115,7 +119,7 @@ app.get("/redirect/back/a/b/c/d/e", function (req, res, next) {
 /**
  * redirect 重定向
  */
-app.get("/location/first",function(req,res,next){
+app.get("/location/first", function (req, res, next) {
     res.locals.before = req.originalUrl;
     app.locals.before = req.originalUrl;
     res.status(302); // 要设置状态码
