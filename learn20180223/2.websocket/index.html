@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>websocket</title>
+    <script src="./socket.io.js"></script>
+    <script>
+        var socket = io('http://localhost:3000');
+        socket.on('news', function (data) {
+            console.log(data);
+            socket.emit('my other event',
+                {
+                    my: 'data'
+                }
+            );
+        });
+    </script>
+</head>
+
+<body>
+    <p>Lorem, ipsum dolor.</p>
+</body>
+
+</html>
