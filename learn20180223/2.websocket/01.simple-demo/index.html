@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>websocket</title>
-    <script src="./socket.io.js"></script>
+    <!-- node 服务 require("socket.io")(http) 会自动返回对应的 socket.io-client js 文件 -->
+    <script src="/socket.io/socket.io.js"></script>
     <script>
-        var socket = io('http://localhost:3000');
+        var socket = io('http://localhost:3000'); // default window.location
         socket.on('news', function (data) {
             console.log(data);
             socket.emit('my other event',
