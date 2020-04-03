@@ -8,7 +8,7 @@ app.use(express.static("./"));
 
 io.on('connection', function (socket) {
 
-    console.log("链接了 connection")
+    console.log("增加链接 connection")
 
     socket.emit('server msg', {
         hello: 'world',
@@ -27,15 +27,24 @@ io.on('connection', function (socket) {
 
     socket.on('server close', function () {
         console.log("客户端要求我们关闭服务端");
-        io.close()
+        socket.disconnect(); // 服务端是没有 socket.close 但是有 server.close 方法
     });
 
     socket.on('disconnect', function (arg) {
-        // 不管是那边主动都会触发
-        console.log("连接关闭了",arg);
+        // 不管是哪边主动都会触发
+        console.log("连接关闭了", arg);
+        if (arg == "server namespace disconnect") {
+            io.close(_ => {
+                console.log("服务关闭成功");
+            })
+        }
     });
 
 });
+
+// setTimeout(() => {
+//     io.close()
+// }, 10000);
 
 http.listen(3000, arg => {
     console.log("server running on 3000");

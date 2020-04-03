@@ -11,11 +11,18 @@
 
         let socket;
 
+        function isSocket() {
+            if (socket) {
+                return true;
+            } else {
+                console.warn("socket 还没建立");
+                return false;
+            }
+        }
+
         function socketStart() {
             if (socket) {
                 return
-            } else {
-                console.warn("socket 还没建立，自动建立连接")
             }
 
             socket = io('http://localhost:3000'); // default window.location
@@ -25,13 +32,14 @@
             });
 
             socket.on('disconnect', data => {
-                // 不管是那边主动都会触发
-                console.log("连接关闭");
+                // 不管是哪边主动都会触发
+                console.log("连接关闭",data);
+                socket = null;
             });
         }
 
         function socketSend(data) {
-            socketStart();
+            if (!isSocket()) return
 
             console.log("客户端发送消息", data)
             socket.emit('client msg', data);
@@ -40,19 +48,16 @@
         function clientClose() {
             if (socket) {
                 socket.close();
-                socket = null;
             } else {
                 console.warn("已经关闭了")
             }
         }
 
         function serverClose() {
-            if (socket) {
-                console.log("通知服务端关闭服务端")
-                socket.emit('server close');
-            } else {
-                console.warn("socket 还没建立")
-            }
+            if (!isSocket()) return
+
+            console.log("通知服务端关闭服务端")
+            socket.emit('server close');
         }
     </script>
 </head>
