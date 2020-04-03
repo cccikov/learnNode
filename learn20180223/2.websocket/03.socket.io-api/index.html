@@ -49,10 +49,19 @@
                 console.log(data)
             });
 
+            socket.on('connect', () => {
+                console.log("连接上了")
+            });
+
             socket.on('disconnect', data => {
                 // 不管是哪边主动都会触发
                 console.log("连接关闭", data);
                 // socket = null; // 不需要，因为socket.connected判断，以及有socket.connect()/socket.open() 方式，不需要重新执行 io()
+            });
+
+            socket.on('error', data => {
+                console.log(data)
+                clientClose();
             });
         }
 
@@ -73,6 +82,7 @@
         function clientClose() {
             if (socket) {
                 socket.disconnect() // 等价于 socket.close();
+                console.log("客户端主动关闭")
             } else {
                 console.warn("已经关闭了")
             }

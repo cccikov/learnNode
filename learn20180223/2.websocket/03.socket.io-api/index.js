@@ -8,11 +8,12 @@ app.use(express.static("./"));
 
 io.on('connection', function (socket) {
 
-    console.log("增加链接 connection")
+    console.log("增加链接 connection", socket.id)
 
     socket.emit('server msg', {
         hello: 'world',
-        date: new Date()
+        date: new Date(),
+        id: socket.id
     });
 
     socket.on('client msg', function (data) {
@@ -33,7 +34,8 @@ io.on('connection', function (socket) {
 
     socket.on('disconnect', function (arg) {
         // 不管是哪边主动都会触发
-        console.log("连接关闭了", arg);
+        console.log("连接关闭了", arg, socket.id);
+        socket.disconnect();
         if (arg == "server namespace disconnect") {
             console.log("即将关闭 服务")
             // server.close
