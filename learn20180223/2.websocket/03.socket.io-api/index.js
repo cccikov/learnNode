@@ -35,7 +35,8 @@ io.on('connection', function (socket) {
         // 不管是哪边主动都会触发
         console.log("连接关闭了", arg);
         if (arg == "server namespace disconnect") {
-            server.close
+            console.log("即将关闭 服务")
+            // server.close
             io.close(_ => {
                 console.log("服务关闭成功");
             })
@@ -46,5 +47,5 @@ io.on('connection', function (socket) {
 
 
 http.listen(3000, arg => {
-    console.log("server running on 3000");
+    console.log("server running on 3000", "http://localhost:3000");
 });
