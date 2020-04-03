@@ -27,13 +27,15 @@ io.on('connection', function (socket) {
 
     socket.on('server close', function () {
         console.log("客户端要求我们关闭服务端");
-        socket.disconnect(); // 服务端是没有 socket.close 但是有 server.close 方法
+        socket.disconnect(); // 断开 命名空间 ，客户端可手动重连
+        // 服务端是没有 socket.close 但是有 server.close 方法
     });
 
     socket.on('disconnect', function (arg) {
         // 不管是哪边主动都会触发
         console.log("连接关闭了", arg);
         if (arg == "server namespace disconnect") {
+            server.close
             io.close(_ => {
                 console.log("服务关闭成功");
             })
@@ -42,9 +44,6 @@ io.on('connection', function (socket) {
 
 });
 
-// setTimeout(() => {
-//     io.close()
-// }, 10000);
 
 http.listen(3000, arg => {
     console.log("server running on 3000");
