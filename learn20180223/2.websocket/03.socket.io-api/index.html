@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>websocket</title>
+    <!-- node 服务 require("socket.io")(http) 会自动返回对应的 socket.io-client js 文件 -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        let socket;
+
+        function socketStart() {
+            if (socket) {
+                return
+            } else {
+                console.warn("socket 还没建立，自动建立连接")
+            }
+
+            socket = io('http://localhost:3000'); // default window.location
+
+            socket.on('server msg', data => {
+                console.log(data)
+            });
+
+            socket.on('disconnect', data => {
+                // 不管是那边主动都会触发
+                console.log("连接关闭");
+            });
+        }
+
+        function socketSend(data) {
+            socketStart();
+
+            console.log("客户端发送消息", data)
+            socket.emit('client msg', data);
+        }
+
+        function clientClose() {
+            if (socket) {
+                socket.close();
+                socket = null;
+            } else {
+                console.warn("已经关闭了")
+            }
+        }
+
+        function serverClose() {
+            if (socket) {
+                console.log("通知服务端关闭服务端")
+                socket.emit('server close');
+            } else {
+                console.warn("socket 还没建立")
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <p><a href="javascript:void(0)" onclick="socketStart()">客户端启动websocket</a></p>
+    <p><a href="javascript:void(0)" onclick="socketSend({name:'ccc',age:18,date:Date.now()})">客户端发送消息</a></p>
+    <p><a href="javascript:void(0)" onclick="clientClose()">关闭客户端</a></p>
+    <p><a href="javascript:void(0)" onclick="serverClose()">关闭服务端</a></p>
+
+</body>
+
+</html>

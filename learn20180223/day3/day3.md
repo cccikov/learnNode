@@ -18,6 +18,10 @@ Express 是一个自身功能极简，完全是由路由和中间件构成一个
 
 如果当前中间件没有终结请求-响应循环，则必须调用 next() 方法将控制权交给下一个中间件，否则请求就会挂起。
 
+> Since router and app implement the middleware interface, you can use them as you would any other middleware function.
+
+> 由于路由器和应用程序实现了中间件接口，因此您可以像使用任何其他中间件功能一样使用它们。
+
 
 
 ### 中间件流程顺序问题

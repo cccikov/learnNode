@@ -2,7 +2,7 @@
 
 ## 详细
 
-### 唯一中间件 express.static()
+### 唯一自带中间件 express.static()
 
 ``` javascript
 express.static(root, [options])
