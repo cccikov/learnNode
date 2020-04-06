@@ -4,19 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>websocket</title>
+    <title>websocket demo</title>
 </head>
 
 <body>
     <button onclick="send('hi')">send</button>
     <script>
-        var userId = "User:" + parseInt(Math.random() * 10000);
-        var url = "ws://localhost:3000";
-        var socket = new WebSocket(url + "?userId=" + userId);
+        var socket = new WebSocket("ws://localhost:3000");
+
         socket.onopen = function (event) {
             console.log("opened");
             socket.send('hello world');
         }
+
         socket.onmessage = function (res) {
             console.log(res.data);
         }
