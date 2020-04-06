@@ -17,3 +17,4 @@ app.get("/close", function (req, res) {
 });
 
 server.listen(3000);
+require('open')('http://localhost:3000'); // 自动打开浏览器

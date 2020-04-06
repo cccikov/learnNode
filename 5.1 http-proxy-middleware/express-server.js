@@ -1,3 +1,7 @@
+/**
+ * 来源 https://gitee.com/cccikov/company-admin-pc.git node-server\server.js
+ */
+
 var express = require("express");
 var app = express();
 const path = require("path")
