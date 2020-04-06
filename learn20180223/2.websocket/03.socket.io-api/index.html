@@ -43,26 +43,80 @@
                 }
             }
 
-            socket = io('http://localhost:3000'); // default window.location
+            socket = io('http://localhost:3000',{
+                reconnectionAttempts:10
+            }); // default window.location
+
+            console.log(socket)
+            console.log(socket.io) // Manager 对象实例
 
             socket.on('server msg', data => {
                 console.log(data)
             });
 
-            socket.on('connect', () => {
+            socket.on('connect', data => {
+                console.log("connect", data)
                 console.log("连接上了")
             });
 
             socket.on('disconnect', data => {
+                console.log("disconnect", data)
+
                 // 不管是哪边主动都会触发
                 console.log("连接关闭", data);
                 // socket = null; // 不需要，因为socket.connected判断，以及有socket.connect()/socket.open() 方式，不需要重新执行 io()
             });
 
             socket.on('error', data => {
-                console.log(data)
+                console.log("error", data)
                 clientClose();
             });
+
+
+            /* 以下应该是 Manager 的事件 */
+
+            socket.on('connect_error', data => {
+                console.log("connect_error", data)
+                clientClose();
+            });
+
+            socket.on('connect_timeout', data => {
+                console.log("connect_timeout", data)
+            });
+
+            socket.on('reconnect', data => {
+                console.log("reconnect", data)
+            });
+
+            socket.on('reconnect_attempt', data => {
+                console.log("reconnect_attempt", data)
+            });
+
+            socket.on('reconnecting', data => {
+                console.log("reconnecting", data)
+            });
+
+            socket.on('reconnect_error', data => {
+                console.log("reconnect_error", data)
+            });
+
+            socket.on('reconnect_error', data => {
+                console.log("reconnect_error", data)
+            });
+
+            socket.on('reconnect_failed', data => {
+                console.log("reconnect_failed", data)
+            });
+
+            socket.on('ping', data => {
+                console.log("ping", data)
+            });
+
+            socket.on('pong', data => {
+                console.log("pong", data)
+            });
+
+
         }
 
 
