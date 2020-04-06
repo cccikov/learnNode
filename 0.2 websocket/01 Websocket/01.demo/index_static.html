@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>websocket demo</title>
+</head>
+
+<body>
+    <button onclick="send('hi')">send</button>
+    <script>
+        var socket = new WebSocket("ws://echo.websocket.org"); // 直接起个静态服务也行，好像不存在跨域问题，可能是因为请求路径不是http、https协议
+
+        socket.onopen = function (event) {
+            console.log("opened");
+            socket.send('hello world');
+        }
+
+        socket.onmessage = function (res) {
+            console.log(res.data);
+        }
+
+        function send(str){
+            socket.send(str)
+        }
+    </script>
+</body>
+
+</html>
