@@ -89,11 +89,32 @@ module 学习
         │                                            href                                             │
         └─────────────────────────────────────────────────────────────────────────────────────────────┘
     ```
+    来源：[nodejs文档](https://nodejs.org/dist/latest-v12.x/docs/api/url.html#url_url_strings_and_url_objects)
 
 * querystring
     用于解析与格式化 URL 查询字符串，即url的search里面的query部分（"?"+query = search）
     querystring.parse()
     querystring.stringify()
+
+
+    QueryString模块和Url模块之间的关系
+    ```
+
+                            url.parse(string).query
+                                            |
+            url.parse(string).pathname      |
+                        |                   |
+                        |                   |
+                        ------ -------------------
+    http://localhost:8888/start?foo=bar&hello=world
+                                    ---       -----
+                                    |          |
+                                    |          |
+                querystring(string)["foo"]    |
+                                                |
+                            querystring(string)["hello"]
+    ```
+    来源：[菜鸟教程](https://www.runoob.com/nodejs/nodejs-router.html)
 
 * path
     用于路径的处理
