@@ -26,15 +26,15 @@
     // ...
 
     app.use('/api', createProxyMiddleware({
-        target: 'http://www.example.org', 
-        changeOrigin: true 
+        target: 'http://www.example.org',
+        changeOrigin: true
     }));
 
     // or
 
     let apiProxy = createProxyMiddleware({
-        target: 'http://www.example.org', 
-        changeOrigin: true 
+        target: 'http://www.example.org',
+        changeOrigin: true
     })
     app.use('/api', apiProxy);
 
@@ -42,8 +42,8 @@
     // or
 
     let apiProxy = createProxyMiddleware('/api' ,{
-        target: 'http://www.example.org', 
-        changeOrigin: true 
+        target: 'http://www.example.org',
+        changeOrigin: true
     })
     app.use('/api', apiProxy);
 
@@ -56,7 +56,7 @@
     `gulp` 无法通过 `app.use` 直接使用中间件，所以是采用最全的写法，使用 `createProxyMiddleware` 的时候，需要传入代理路径和options选项；然后在`browser-sync` 初始化时，在选项 `server` 的 `middleware` 属性中引用
 
     [http-proxy-middleware官方例子](https://github.com/chimurai/http-proxy-middleware/blob/master/examples/browser-sync/index.js)
-    
+
     ``` javascript
     // 中间件使用方式 createProxyMiddleware([context,] config)
 
@@ -67,7 +67,7 @@
     })
     ```
 
-    
+
     在 `browser-sync` 初始化时引用中间件
     ``` javascript
     let browserSync = require('browser-sync').create();
@@ -85,13 +85,13 @@
     由于 webpack 是在一个js配置文件，所以无法直接执行代理方法，通过配置方式去指定，代理路径:对应的options选项，让webpack内部处理
 
     [webpack官方文档](https://webpack.js.org/configuration/dev-server/#devserverproxy)
-    
+
     ``` javascript
     // 使用方式 {[context]:config} [context]--为代理路径字符串，config--为options选项
 
     proxy: {
         "/api": {
-            target: 'http://www.example.org', 
+            target: 'http://www.example.org',
             changeOrigin: true,
         }
     }
@@ -99,3 +99,5 @@
 
     例子见任意一个webpack项目
 
+
+ps：一般不直接代理 "/" 根路径，因为代理了根路径后，其他的代理将会没用，都会进入这个根路径代理
