@@ -100,3 +100,4 @@ app.use(express.static(__dirname, {
 })); // 以当前文件夹作为静态资源根目录
 
 app.listen(3000);
+require('open')('http://localhost:3000');

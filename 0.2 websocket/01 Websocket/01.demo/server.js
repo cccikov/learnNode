@@ -4,11 +4,14 @@ const {
     createProxyMiddleware: proxy
 } = require('http-proxy-middleware');
 
-const wsProxy = proxy('/', {
-    target: 'http://echo.websocket.org',
+const wsProxy = proxy('/websocket', {
+    target: 'ws://echo.websocket.org',
     changeOrigin: true,
     ws: true, // enable websocket proxy
     logLevel: 'debug',
+    pathRewrite: {
+        '^/websocket': '', //重写,
+    },
 });
 
 const app = express();

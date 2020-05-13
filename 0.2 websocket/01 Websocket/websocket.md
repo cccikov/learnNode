@@ -38,6 +38,15 @@ var websocket = new WebSocket(url [, protocols])
 
 ### 属性 property
 
+```
+binaryType
+bufferedAmount
+extensions
+protocol
+readyState
+url
+```
+
 * `binaryType`
 
     ``` javascript
@@ -209,6 +218,13 @@ var websocket = new WebSocket(url [, protocols])
 ### 事件 Event
 
 可采用 DOM0级`on-event` / `on<...>` 写法和 DOM2级`addEventListener()`
+
+```
+close
+error
+message
+open
+```
 
 * `close`
 

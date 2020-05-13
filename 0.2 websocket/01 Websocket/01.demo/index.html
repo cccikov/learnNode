@@ -10,7 +10,7 @@
 <body>
     <button onclick="send('hi')">send</button>
     <script>
-        var socket = new WebSocket("ws://localhost:3000");
+        var socket = new WebSocket("ws://localhost:3000/websocket");
 
         socket.onopen = function (event) {
             console.log("opened");

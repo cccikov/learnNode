@@ -40,5 +40,6 @@ app.post("/me/postdata", function(req, res) {
 // 这里也是3个中间件，也是要考虑顺序的
 
 app.listen(3000, "127.0.0.1");
+require('open')('http://localhost:3000');
 
 // 就算是post请求，请求url上面还是可以加查询字符串的
