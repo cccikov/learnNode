@@ -10,7 +10,7 @@ const wsProxy = proxy('/websocket', {
     ws: true, // enable websocket proxy
     logLevel: 'debug',
     pathRewrite: {
-        '^/websocket': '', //重写,
+        '^/websocket': '', // 重写, 记得一定要重写啊，不然真的向 ws://echo.websocket.org/websocket 请求的
     },
 });
 
