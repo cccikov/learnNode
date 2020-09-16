@@ -81,6 +81,7 @@ var server = http.createServer(function (req, res) {
 
 }).listen(3000);
 
+require('open')('http://localhost:3000');
 
 
 

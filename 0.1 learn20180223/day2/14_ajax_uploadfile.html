@@ -66,6 +66,7 @@
             formData.append('test', "test");
             formData.append('name', document.getElementsByName("name")[0].value);
             formData.append('age', document.getElementsByName("age")[0].value);
+            /* 上传多个文件 */
             Object.values(document.getElementsByName("file")[0].files).forEach(val => {
                 formData.append('file', val)
             });
@@ -92,7 +93,7 @@
             formData.append('test', "test");
             formData.append('name', document.getElementsByName("name")[0].value);
             formData.append('age', document.getElementsByName("age")[0].value);
-            formData.append('file', document.getElementsByName("file")[0].files[0]);
+            formData.append('file', document.getElementsByName("file")[0].files[0]); // 选择多个文件时，只上传一个
 
 
             var xhr = new XMLHttpRequest();

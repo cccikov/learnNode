@@ -52,3 +52,5 @@ var server = http.createServer(function(req, res) {
     // 有时候会忘记res.end(); 但是直接在createServer最后直接写一个res.end();因为有些操作是异步的
 
 }).listen(3000);
+
+require('open')('http://localhost:3000');
