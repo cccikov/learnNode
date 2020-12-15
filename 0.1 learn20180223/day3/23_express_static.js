@@ -1,5 +1,8 @@
 /**
  * express 静态服务器能力
+ *
+ * 打算用于解决，类似vue history 模式 打包后，本质上只有单文件，无论什么路径都是跳去index.html，由vue-router处理路由问题
+ * connect-history-api-fallback
  */
 
 var express = require("express");

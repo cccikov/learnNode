@@ -4,6 +4,7 @@
 
 // 命令行 npx nodetree threejs
 // nodetree [-ad] [-L <level>] [--noreport] [--version] [--help] [--prune] [<directory> ...]
+// nodetree -L 3 -d
 
 var nodetree = require('nodetree');
 console.log("当前Node.js进程执行时的工作目录:", process.cwd()) // 当前Node.js进程执行时的工作目录

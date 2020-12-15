@@ -99,6 +99,8 @@ app.post("/none", upload.none(), (req, res, next) => {
 
 /**
  * 随机使用某个上传中间件 （）
+ *
+ * if 调用中间件
  */
 app.post("/file", (req, res, next) => {
     // 在中间件里面调用中间件函数。
