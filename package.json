@@ -29,7 +29,7 @@
     "nodejs-websocket": "^1.7.2",
     "nodetree": "0.0.3",
     "open": "^7.0.3",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {}
